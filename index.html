@@ -7,6 +7,10 @@
 <meta name="description" content="Telegram-бот онлайн-запису для барбершопів, нейл-студій, СТО та масажних кабінетів. Запис 24/7, нагадування, передоплата, панель власника. Налаштуємо все за вас.">
 <meta property="og:title" content="Zapys — онлайн-запис клієнтів у Telegram">
 <meta property="og:description" content="Клієнти записуються самі, 24/7. Нагадування, передоплата, відгуки та розклад — в одному боті.">
+<meta property="og:image" content="https://zapys-ua.github.io/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zapys-ua.github.io/">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{--bg:#0e1116;--card:#171c24;--line:#262d38;--text:#eef1f5;--mute:#9aa4b2;--acc:#2aabee;--acc2:#7ee0a1;--warn:#ffcf66}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -82,9 +86,9 @@ footer{padding:26px 0 40px;color:var(--mute);font-size:13px;text-align:center;bo
   <p class="sub">Бот приймає записи, нагадує про візит, бере передоплату і збирає відгуки. Вам не треба відповідати в директ о 23:00. Усе налаштуємо за вас за 1 день.</p>
   <div class="cta">
     <a class="btn btn-main" href="https://t.me/zapysua_demo_bot" target="_blank" rel="noopener">Спробувати демо за 30 секунд</a>
-    <a class="btn btn-ghost" href="#price">Ціни</a>
+    <a class="btn btn-ghost" href="book/?v=nails">Сторінка запису без Telegram</a>
   </div>
-  <p class="note">Без застосунків і реєстрацій: клієнту достатньо Telegram.</p>
+  <p class="note">Працює в Telegram і як звичайне посилання — для Instagram, Google Maps та Viber.</p>
 </div>
 
 <section>
@@ -113,6 +117,17 @@ footer{padding:26px 0 40px;color:var(--mute);font-size:13px;text-align:center;bo
 </section>
 
 <section>
+  <h2>Один розклад — три способи записатися</h2>
+  <p class="lead">Не всі ваші клієнти користуються Telegram. Тому запис працює всюди, а розклад у вас один.</p>
+  <div class="grid">
+    <div class="card"><div class="ic">🤖</div><h3>Бот у Telegram</h3><p>Запис, нагадування, відгуки і повторні візити в одному чаті.</p></div>
+    <div class="card"><div class="ic">📱</div><h3>Застосунок усередині Telegram</h3><p>Кнопка «Запис» відкриває зручний календар прямо в боті — нічого встановлювати не треба.</p></div>
+    <div class="card"><div class="ic">🌐</div><h3>Сторінка запису за посиланням</h3><p>Для шапки Instagram, Google Maps, Viber чи QR-коду на ресепшн. Клієнту не потрібен Telegram.</p></div>
+  </div>
+  <p style="margin-top:18px"><a class="btn btn-main" href="book/?v=nails">Відкрити сторінку запису</a></p>
+</section>
+
+<section>
   <h2>Подивіться на прикладі своєї сфери</h2>
   <p class="lead">Запишіться як клієнт, а потім натисніть «👑 Очима власника» — побачите, що отримує бізнес.</p>
   <div class="grid">
@@ -135,6 +150,19 @@ footer{padding:26px 0 40px;color:var(--mute);font-size:13px;text-align:center;bo
   </div>
 </section>
 
+<section id="calc">
+  <h2>Скільки ви втрачаєте щомісяця?</h2>
+  <p class="lead">Підставте свої цифри. Розрахунок простий: неявки та пропущені звернення, помножені на середній чек.</p>
+  <div class="card form" style="max-width:560px">
+    <label>Середній чек, грн<input id="c-check" type="number" inputmode="numeric" min="0" value="600"></label>
+    <label>Скільки клієнтів на тиждень не приходять без попередження<input id="c-noshow" type="number" inputmode="numeric" min="0" value="2"></label>
+    <label>Скільки людей на тиждень пишуть, але не записуються, бо ви не встигли відповісти<input id="c-missed" type="number" inputmode="numeric" min="0" value="3"></label>
+    <div class="sum" id="c-out"></div>
+    <p class="note" id="c-note" style="margin-top:0"></p>
+    <a class="btn btn-main" href="#zayavka">Залишити заявку</a>
+  </div>
+</section>
+
 <section id="price">
   <h2>Ціни</h2>
   <p class="lead">Без відсотків із записів і без прихованих платежів.</p>
@@ -142,7 +170,7 @@ footer{padding:26px 0 40px;color:var(--mute);font-size:13px;text-align:center;bo
     <div class="card">
       <h3>Запуск</h3>
       <div class="sum">3 900 грн <small>один раз</small></div>
-      <ul><li>Налаштування під ваш бізнес</li><li>Ваші послуги, ціни, майстри, графік</li><li>QR-код і посилання для Instagram</li><li>Допомога з першими записами</li></ul>
+      <ul><li>Налаштування під ваш бізнес</li><li>Ваші послуги, ціни, майстри, графік</li><li>Сторінка запису без Telegram</li><li>QR-код і посилання для Instagram</li><li>Допомога з першими записами</li></ul>
     </div>
     <div class="card best">
       <h3>Підтримка</h3>
@@ -153,8 +181,14 @@ footer{padding:26px 0 40px;color:var(--mute);font-size:13px;text-align:center;bo
 </section>
 
 <section>
+  <h2>Партнерська програма</h2>
+  <p class="lead">Працюєте з майстрами, салонами чи СТО? Рекомендуйте Zapys і отримуйте 30% від запуску та 20% від підтримки протягом року.</p>
+  <a class="btn btn-ghost" href="partners/">Умови та реєстрація партнера</a>
+</section>
+
+<section>
   <h2>Часті запитання</h2>
-  <details><summary>Клієнтам потрібно щось встановлювати?</summary><p>Ні. Бот працює у звичайному Telegram: клієнт відкриває посилання і записується.</p></details>
+  <details><summary>Клієнтам потрібно щось встановлювати?</summary><p>Ні. Бот працює у звичайному Telegram, а для тих, хто ним не користується, є сторінка запису за посиланням — вона відкривається в будь-якому браузері.</p></details>
   <details><summary>А якщо клієнт запишеться телефоном чи в директ?</summary><p>Додайте його через «Запис вручну» в панелі власника — це кілька секунд. Увесь розклад буде в одному місці, і бот не дасть записати іншого на цей час.</p></details>
   <details><summary>Чим це краще за великі сервіси запису?</summary><p>Великі сервіси дають багато функцій, але їх треба вивчати й налаштовувати самому. Ми робимо все за вас, а клієнтам не потрібен окремий застосунок чи реєстрація.</p></details>
   <details><summary>Що з моєю базою клієнтів?</summary><p>База ваша. На запит ми вивантажимо всі записи й контакти у таблицю.</p></details>
@@ -191,9 +225,19 @@ footer{padding:26px 0 40px;color:var(--mute);font-size:13px;text-align:center;bo
   </div>
 </section>
 
-<footer>Zapys · онлайн-запис у Telegram · Дніпро, Україна</footer>
+<footer>Zapys · онлайн-запис у Telegram · Дніпро, Україна · <a href="partners/" style="text-decoration:underline">Партнерам</a></footer>
 </div>
 <script>
+var P = new URLSearchParams(location.search).get("p") || "";
+try { if (P) localStorage.setItem("zp_p", P); else P = localStorage.getItem("zp_p") || ""; } catch (e) {}
+function calc() {
+  var v = function (id) { return Math.max(0, +document.getElementById(id).value || 0); };
+  var loss = Math.round((v("c-noshow") + v("c-missed")) * v("c-check") * 4.3);
+  document.getElementById("c-out").innerHTML = loss.toLocaleString("uk-UA") + " грн <small>на місяць</small>";
+  document.getElementById("c-note").textContent = loss > 0 ? "Якщо онлайн-запис і нагадування повернуть хоча б третину — це близько " + Math.round(loss / 3).toLocaleString("uk-UA") + " грн на місяць. Підтримка коштує 490 грн." : "";
+}
+["c-check", "c-noshow", "c-missed"].forEach(function (id) { document.getElementById(id).addEventListener("input", calc); });
+calc();
 var LEAD_URL = "https://ykhvfjbolifnpstftpzk.supabase.co/functions/v1/zapys-lead";
 var form = document.getElementById("lead"), msg = document.getElementById("lead-msg");
 form.addEventListener("submit", function (e) {
@@ -201,7 +245,7 @@ form.addEventListener("submit", function (e) {
   var d = Object.fromEntries(new FormData(form).entries());
   if (!d.contact || d.contact.trim().length < 5) { msg.textContent = "Вкажіть, будь ласка, телефон або Telegram."; form.contact.focus(); return; }
   var btn = form.querySelector("button"); btn.disabled = true; msg.textContent = "Надсилаємо…";
-  d.source = "site";
+  d.source = "site"; d.partner = P;
   fetch(LEAD_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function () { form.reset(); msg.textContent = "Дякуємо! Заявку отримано — зв'яжемося з вами протягом дня."; })

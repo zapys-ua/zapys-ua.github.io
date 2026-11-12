@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Онлайн-запис</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:var(--tg-theme-secondary-bg-color,#f2f4f7);--card:var(--tg-theme-bg-color,#fff);--text:var(--tg-theme-text-color,#131820);--mute:var(--tg-theme-hint-color,#6c7685);--acc:var(--tg-theme-button-color,#2aabee);--acct:var(--tg-theme-button-text-color,#fff);--line:rgba(125,135,150,.3)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:16px 14px 40px}
+header{text-align:center;padding:10px 0 14px}
+.em{font-size:40px;line-height:1.1}
+h1{font-size:24px;letter-spacing:-.3px;margin:4px 0}
+header p{color:var(--mute);font-size:14px}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
+.card h2{font-size:15px;margin-bottom:10px}
+.card h2 span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--acc);color:var(--acct);font-size:12px;margin-right:7px}
+.note{font-size:13px;color:var(--mute);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px;background:var(--card)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.scroll{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+button,.btn{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--text);border-radius:12px;padding:10px 12px;text-decoration:none;display:inline-block;text-align:center}
+button.on{background:var(--acc);color:var(--acct);border-color:var(--acc)}
+.svc{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;margin-bottom:8px}
+.svc:last-child{margin-bottom:0}
+.svc small{display:block;color:var(--mute);font-size:12px}
+.svc.on small{color:inherit;opacity:.85}
+.svc b{white-space:nowrap}
+.day{min-width:58px;flex:0 0 auto;padding:8px 6px}
+.day small{display:block;font-size:11px;opacity:.75}
+.day b{font-size:17px}
+.times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+label{display:block;font-size:13px;color:var(--mute);margin-bottom:10px}
+input{font:inherit;font-size:16px;width:100%;margin-top:5px;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}
+input:focus{outline:2px solid var(--acc);outline-offset:1px}
+.main{width:100%;background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700;padding:14px;font-size:16px}
+.main:disabled{opacity:.6}
+.sum{font-size:14px;margin-bottom:14px}
+.sum div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line)}
+.sum div span{color:var(--mute)}
+.sum div b{text-align:right}
+.hint{font-size:13px;color:var(--mute);margin:10px 0}
+.err{color:#d6453d;font-size:14px;margin-top:10px}
+.ok{text-align:center}
+.ok .em{font-size:52px}
+.ok h2{font-size:20px;margin:6px 0 12px}
+.cta{text-align:center}
+.cta p{color:var(--mute);font-size:14px;margin:6px 0 12px}
+.cta .btn{margin:4px}
+.cta .fill{background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700}
+footer{text-align:center;font-size:12px;color:var(--mute);margin-top:14px}
+footer a{color:inherit}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.load{text-align:center;padding:60px 0;color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><p class="load">Завантаження…</p></div>
+<script>
+var API = 'https://ykhvfjbolifnpstftpzk.supabase.co/functions/v1/zapys-api', SITE = 'https://zapys-ua.github.io/';
+var q = new URLSearchParams(location.search), app = document.getElementById('app');
+var T = window.Telegram && Telegram.WebApp && Telegram.WebApp.initData ? Telegram.WebApp : null;
+function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k) || ''; localStorage.setItem(k, v); } catch (e) {} return ''; }
+// ?d=<key> opens a personalised preview; ?b=<business>&v=<variant> opens a regular page
+var S = { b: q.get('d') ? 'leads' : (q.get('b') || 'demo'), v: q.get('d') || q.get('v') || '', p: q.get('p') || ls('zp_p'),
+  c: null, svc: null, m: '*', needM: false, days: null, loading: false, day: null, start: null,
+  name: ls('zp_name'), phone: ls('zp_phone'), busy: false, err: '', done: null };
+if (T) { T.ready(); T.expand(); }
+
+function api(a, extra) {
+  var body = { a: a, b: S.b, v: S.v, tg: T ? T.initData : '' };
+  for (var k in (extra || {})) body[k] = extra[k];
+  return fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'server'); return j; }); });
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function money(n) { return Number(n).toLocaleString('uk-UA') + ' ' + S.c.currency; }
+function fm(m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + m % 60).slice(-2); }
+var WD = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'], MON = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
+function dp(iso) { var p = iso.split('-').map(Number); return { w: WD[new Date(Date.UTC(p[0], p[1] - 1, p[2])).getUTCDay()], d: p[2], m: MON[p[1] - 1] }; }
+function dlong(iso) { var x = dp(iso); return x.w + ', ' + x.d + ' ' + x.m; }
+function svc() { return S.c.services.filter(function (s) { return s.id === S.svc; })[0]; }
+function mname(id) { var m = S.c.masters.filter(function (x) { return x.id === id; })[0]; return m ? m.name : ''; }
+function go(id) { setTimeout(function () { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); }
+function row(k, v) { return '<div><span>' + k + '</span><b>' + v + '</b></div>'; }
+
+function render() {
+  var c = S.c, h = '', n = 1, sv = S.svc ? svc() : null;
+  h += '<header><div class="em">' + esc(c.emoji) + '</div><h1>' + esc(c.title) + '</h1>' + (c.about ? '<p>' + esc(c.about) + '</p>' : '') +
+    '<p>' + (c.address ? '📍 ' + esc(c.address) + ' · ' : '') + '🕐 ' + esc(c.hours) + '</p></header>';
+  if (c.prepared) h += '<div class="note">🧪 Це демо-сторінка запису, яку ми підготували для «' + esc(c.title) + '». Записи тут тестові — спробуйте, як це побачать ваші клієнти.</div>';
+  else if (c.demo) h += '<div class="note">🧪 Це демо онлайн-запису. Запишіться як клієнт — записи тестові й ні до чого не зобов\'язують.</div>';
+  if (c.variants.length > 1 && !S.done) h += '<div class="card"><h2>Сфера бізнесу</h2><div class="chips">' + c.variants.map(function (v) {
+    return '<button data-a="var" data-v="' + esc(v.key) + '"' + (v.key === c.variant ? ' class="on"' : '') + '>' + esc(v.label) + '</button>'; }).join('') + '</div></div>';
+
+  if (S.done) {
+    var d = S.done;
+    h += '<div class="card ok"><div class="em">🎉</div><h2>Ви записані!</h2><div class="sum">' + row('Послуга', esc(d.name)) + row('Дата', dlong(d.day)) +
+      row('Час', fm(d.start) + '–' + fm(d.start + d.min)) + (d.master ? row('Майстер', esc(d.master)) : '') + row('Вартість', money(d.price)) + '</div>' +
+      '<p class="hint">' + (T ? 'Підтвердження надіслано вам у чат. Нагадаємо за 2 години до візиту.' :
+        (c.demo ? 'У реальному бізнесі власник у цю ж мить отримує сповіщення про запис у Telegram.' : 'Власник уже отримав сповіщення про ваш запис.')) + '</p>' +
+      (T ? '<button class="main" data-a="close">Готово</button>' : '<button class="main" data-a="again">Записатися ще раз</button>') + '</div>';
+  } else {
+    h += '<div class="card"><h2><span>' + (n++) + '</span>Оберіть послугу</h2>' + c.services.map(function (s) {
+      return '<button class="svc' + (s.id === S.svc ? ' on' : '') + '" data-a="svc" data-v="' + esc(s.id) + '"><div>' + esc(s.emoji) + ' ' + esc(s.name) +
+        '<small>' + s.min + ' хв</small></div><b>' + money(s.price) + '</b></button>'; }).join('') + '</div>';
+    if (sv && sv.masters.length > 1) {
+      h += '<div class="card" id="st-m"><h2><span>' + (n++) + '</span>Оберіть майстра</h2><div class="chips">' +
+        '<button data-a="m" data-v="*"' + (!S.needM && S.m === '*' ? ' class="on"' : '') + '>🎲 Будь-який</button>' +
+        sv.masters.map(function (id) { return '<button data-a="m" data-v="' + esc(id) + '"' + (S.m === id ? ' class="on"' : '') + '>' + esc(mname(id)) + '</button>'; }).join('') + '</div></div>';
+    }
+    if (sv && !S.needM) {
+      h += '<div class="card" id="st-d"><h2><span>' + (n++) + '</span>Оберіть день і час</h2>';
+      if (S.loading) h += '<p class="hint">Шукаємо вільний час…</p>';
+      else if (!S.days || !S.days.length) h += '<p class="hint">Найближчим часом вільних вікон немає 😔 Спробуйте іншу послугу або майстра.</p>';
+      else {
+        h += '<div class="chips scroll">' + S.days.map(function (x) { var p = dp(x.d);
+          return '<button class="day' + (x.d === S.day ? ' on' : '') + '" data-a="day" data-v="' + x.d + '"><small>' + p.w + '</small><b>' + p.d + '</b></button>'; }).join('') + '</div>';
+        var cur = S.days.filter(function (x) { return x.d === S.day; })[0];
+        h += '<p class="hint" style="margin-bottom:0">' + dlong(S.day) + '</p><div class="times" id="st-t">' + (cur ? cur.s : []).map(function (s) {
+          return '<button data-a="time" data-v="' + s + '"' + (s === S.start ? ' class="on"' : '') + '>' + fm(s) + '</button>'; }).join('') + '</div>';
+      }
+      if (S.err && S.start == null) h += '<p class="err">' + esc(S.err) + '</p>';
+      h += '</div>';
+    }
+    if (sv && S.start != null) {
+      h += '<div class="card" id="st-f"><h2><span>' + (n++) + '</span>Ваші контакти</h2><div class="sum">' + row('Послуга', esc(sv.name)) + row('Коли', dlong(S.day) + ', ' + fm(S.start)) +
+        (sv.masters.length > 1 ? row('Майстер', S.m === '*' ? 'будь-який вільний' : esc(mname(S.m))) : '') + row('Вартість', money(sv.price)) + '</div>' +
+        '<label>Ваше ім\'я<input id="nm" autocomplete="given-name" maxlength="60" value="' + esc(S.name) + '" placeholder="Олена"></label>' +
+        '<label>Телефон<input id="ph" type="tel" autocomplete="tel" maxlength="20" value="' + esc(S.phone) + '" placeholder="+380 67 123 45 67"></label>' +
+        '<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+        (c.prepay ? '<p class="hint">💳 Після запису потрібна передоплата ' + money(c.prepay) + '.</p>' : '') +
+        '<button class="main" data-a="book"' + (S.busy ? ' disabled' : '') + '>' + (S.busy ? 'Записуємо…' : 'Записатися') + '</button>' +
+        (S.err ? '<p class="err">' + esc(S.err) + '</p>' : '') + '</div>';
+    }
+  }
+  if (c.demo) {
+    var st = c.niche || (S.b === 'demo' ? c.variant : '');
+    h += '<div class="card cta"><b>Хочете такий онлайн-запис для свого бізнесу?</b><p>Бот у Telegram і ця сторінка для Instagram, Google Maps та Viber. Налаштуємо все за вас за 1 день.</p>' +
+      '<a class="btn fill" data-a="ext" target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '#zayavka">Залишити заявку</a>' +
+      (c.bot ? '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/' + esc(c.bot) + (st ? '?start=' + encodeURIComponent(st) : '') + '">Спробувати бота в Telegram</a>' : '') + '</div>';
+  }
+  h += '<footer>Працює на <a data-a="ext" target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '">Zapys</a> — онлайн-запис для вашого бізнесу</footer>';
+  app.innerHTML = h;
+}
+
+function slots() {
+  S.loading = true; S.days = null; S.day = null; S.start = null; render();
+  api('slots', { svc: S.svc, m: S.m }).then(function (r) { S.days = r.days; S.day = r.days.length ? r.days[0].d : null; })
+    .catch(function () { S.days = []; }).then(function () { S.loading = false; render(); go('st-d'); });
+}
+function submit() {
+  var nm = S.name.trim(), digits = S.phone.replace(/[^0-9]/g, ''), hp = document.getElementById('hp');
+  if (nm.length < 2) { S.err = 'Вкажіть, будь ласка, ім\'я.'; return render(); }
+  if (digits.length < 9) { S.err = 'Вкажіть номер телефону, наприклад +380671234567.'; return render(); }
+  var sv = svc(), honey = hp ? hp.value : '';
+  S.busy = true; S.err = ''; render();
+  api('book', { svc: S.svc, m: S.m, day: S.day, start: S.start, name: nm, phone: S.phone, website: honey }).then(function (r) {
+    ls('zp_name', nm); ls('zp_phone', S.phone);
+    S.busy = false; S.done = { name: sv.name, min: sv.min, price: sv.price, day: S.day, start: S.start, master: r.master };
+    if (T && T.HapticFeedback) T.HapticFeedback.notificationOccurred('success');
+    render(); window.scrollTo(0, 0);
+  }).catch(function (e) {
+    S.busy = false;
+    if (e.message === 'busy') { S.err = 'Цей час щойно зайняли. Оберіть, будь ласка, інший.'; var keep = S.err; slots(); S.err = keep; return; }
+    S.err = e.message === 'limit' ? 'Забагато записів за короткий час. Спробуйте трохи пізніше.' :
+      e.message === 'contact' ? 'Перевірте, будь ласка, ім\'я та номер телефону.' : 'Не вдалося записатися. Спробуйте ще раз.';
+    render();
+  });
+}
+function load() {
+  api('cfg').then(function (c) {
+    S.c = c; if (c.variant) S.v = c.variant;
+    if (c.me) { S.name = S.name || c.me.name; S.phone = S.phone || c.me.phone; }
+    document.title = 'Онлайн-запис · ' + c.title;
+    render();
+  }).catch(function (e) {
+    app.innerHTML = '<div class="card" style="text-align:center;margin-top:40px">' + (e.message === 'not found' ? 'Сторінку запису не знайдено.' : 'Не вдалося завантажити сторінку. Спробуйте оновити її.') + '</div>';
+  });
+}
+app.addEventListener('click', function (e) {
+  var el = e.target.closest('[data-a]'); if (!el) return;
+  var a = el.dataset.a, v = el.dataset.v;
+  if (a === 'ext' || a === 'tgl') { if (T) { e.preventDefault(); if (a === 'tgl') T.openTelegramLink(el.href); else T.openLink(el.href); } return; }
+  S.err = '';
+  if (a === 'var') { S.v = v; S.svc = null; S.days = null; S.start = null; S.needM = false; app.innerHTML = '<p class="load">Завантаження…</p>'; load(); }
+  else if (a === 'svc') { S.svc = v; S.m = '*'; S.days = null; S.day = null; S.start = null; S.needM = svc().masters.length > 1; if (S.needM) { render(); go('st-m'); } else slots(); }
+  else if (a === 'm') { S.m = v; S.needM = false; slots(); }
+  else if (a === 'day') { S.day = v; S.start = null; render(); }
+  else if (a === 'time') { S.start = Number(v); render(); go('st-f'); }
+  else if (a === 'book') submit();
+  else if (a === 'close') { if (T) T.close(); }
+  else if (a === 'again') { S.done = null; S.svc = null; S.days = null; S.start = null; S.needM = false; render(); window.scrollTo(0, 0); }
+});
+app.addEventListener('input', function (e) { if (e.target.id === 'nm') S.name = e.target.value; if (e.target.id === 'ph') S.phone = e.target.value; });
+load();
+</script>
+</body>
+</html>
