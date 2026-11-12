@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zapys — онлайн-запис клієнтів у Telegram</title>
+<meta name="description" content="Telegram-бот онлайн-запису для барбершопів, нейл-студій, СТО та масажних кабінетів. Запис 24/7, нагадування, передоплата, панель власника. Налаштуємо все за вас.">
+<meta property="og:title" content="Zapys — онлайн-запис клієнтів у Telegram">
+<meta property="og:description" content="Клієнти записуються самі, 24/7. Нагадування, передоплата, відгуки та розклад — в одному боті.">
+<style>
+:root{--bg:#0e1116;--card:#171c24;--line:#262d38;--text:#eef1f5;--mute:#9aa4b2;--acc:#2aabee;--acc2:#7ee0a1;--warn:#ffcf66}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-weight:800;font-size:20px;letter-spacing:.2px}
+.logo span{color:var(--acc)}
+.btn{display:inline-block;padding:14px 22px;border-radius:14px;font-weight:700;font-size:16px;text-align:center;transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn-main{background:var(--acc);color:#04121c}
+.btn-ghost{border:1px solid var(--line);color:var(--text)}
+.btn-sm{padding:9px 14px;font-size:14px;border-radius:10px}
+.hero{padding:44px 0 36px}
+.tag{display:inline-block;font-size:13px;color:var(--acc2);border:1px solid #2c5b40;background:#12261b;padding:5px 11px;border-radius:99px;margin-bottom:18px}
+h1{font-size:clamp(30px,6.4vw,54px);line-height:1.1;font-weight:800;letter-spacing:-.5px;margin-bottom:16px}
+h1 em{font-style:normal;color:var(--acc)}
+.sub{font-size:clamp(16px,2.6vw,20px);color:var(--mute);max-width:640px;margin-bottom:26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.note{font-size:13px;color:var(--mute);margin-top:12px}
+section{padding:42px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(24px,4.4vw,34px);line-height:1.2;margin-bottom:10px;letter-spacing:-.3px}
+.lead{color:var(--mute);margin-bottom:24px;max-width:680px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card .ic{font-size:26px;margin-bottom:8px}
+.card h3{font-size:17px;margin-bottom:6px}
+.card p{color:var(--mute);font-size:15px}
+.pain{border-left:3px solid var(--warn)}
+.niche{display:flex;flex-direction:column;gap:10px}
+.niche .btn{margin-top:auto}
+.steps{counter-reset:s;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.steps .card::before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--acc);color:#04121c;font-weight:800;margin-bottom:10px}
+.price{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.price .card.best{border-color:var(--acc)}
+.sum{font-size:30px;font-weight:800;margin:6px 0}
+.sum small{font-size:15px;color:var(--mute);font-weight:500}
+ul{list-style:none;margin-top:10px}
+li{padding:5px 0 5px 24px;position:relative;color:#cfd6df;font-size:15px}
+li::before{content:"✓";position:absolute;left:0;color:var(--acc2);font-weight:800}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";float:right;color:var(--acc);font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--mute);margin-top:10px;font-size:15px}
+.form{display:grid;gap:14px;max-width:520px}
+.form label{display:grid;gap:6px;font-size:14px;color:var(--mute)}
+.form input,.form select{font:inherit;font-size:16px;color:var(--text);background:#0e1116;border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%}
+.form input:focus,.form select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.form button{border:0;cursor:pointer;font-family:inherit}
+.form button:disabled{opacity:.6}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.final{text-align:center}
+.final .cta{justify-content:center}
+footer{padding:26px 0 40px;color:var(--mute);font-size:13px;text-align:center;border-top:1px solid var(--line)}
+@media(max-width:520px){.cta .btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">Za<span>pys</span></div>
+  <a class="btn btn-ghost btn-sm" href="https://t.me/zapysua_demo_bot" target="_blank" rel="noopener">Демо в Telegram</a>
+</header>
+
+<div class="hero">
+  <div class="tag">Для майстрів, студій та СТО</div>
+  <h1>Клієнти записуються самі — <em>24/7, прямо в Telegram</em></h1>
+  <p class="sub">Бот приймає записи, нагадує про візит, бере передоплату і збирає відгуки. Вам не треба відповідати в директ о 23:00. Усе налаштуємо за вас за 1 день.</p>
+  <div class="cta">
+    <a class="btn btn-main" href="https://t.me/zapysua_demo_bot" target="_blank" rel="noopener">Спробувати демо за 30 секунд</a>
+    <a class="btn btn-ghost" href="#price">Ціни</a>
+  </div>
+  <p class="note">Без застосунків і реєстрацій: клієнту достатньо Telegram.</p>
+</div>
+
+<section>
+  <h2>Знайомо?</h2>
+  <p class="lead">Запис через директ і дзвінки з'їдає час і клієнтів.</p>
+  <div class="grid">
+    <div class="card pain"><h3>«Напишу пізніше» — і не написав</h3><p>Клієнт хотів записатися ввечері, ви відповіли вранці. Він уже в іншого майстра.</p></div>
+    <div class="card pain"><h3>Не прийшов і не попередив</h3><p>Порожнє вікно — втрачені гроші. Нагадування і передоплата допомагають зменшити такі випадки.</p></div>
+    <div class="card pain"><h3>Розклад у голові та нотатках</h3><p>Подвійні записи, плутанина з часом, клієнти, про яких забули.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Що робить бот</h2>
+  <p class="lead">Один бот замість адміністратора на вечірній зміні.</p>
+  <div class="grid">
+    <div class="card"><div class="ic">📅</div><h3>Запис за 3 кліки</h3><p>Послуга, майстер, день і час. Зайняті вікна не показуються, подвійний запис неможливий.</p></div>
+    <div class="card"><div class="ic">🔔</div><h3>Нагадування</h3><p>За 2 години до візиту клієнт отримує нагадування і може скасувати, щоб звільнити час.</p></div>
+    <div class="card"><div class="ic">💳</div><h3>Передоплата</h3><p>Кнопка оплати одразу після запису. У панелі видно, хто вже вніс передоплату.</p></div>
+    <div class="card"><div class="ic">🔁</div><h3>«Пора знову до нас»</h3><p>Через 3–4 тижні бот сам запрошує клієнта на повторний візит.</p></div>
+    <div class="card"><div class="ic">⭐</div><h3>Відгуки</h3><p>Після візиту бот просить оцінку. Задоволених веде на Google Maps, про незадоволених тихо повідомляє вам.</p></div>
+    <div class="card"><div class="ic">🎁</div><h3>Подарункові сертифікати</h3><p>Клієнти купують сертифікат прямо в боті й пересилають його як листівку. Ви гасите його одним натиском.</p></div>
+    <div class="card"><div class="ic">⏳</div><h3>Лист очікування</h3><p>Немає вільного часу? Клієнт залишає запит, і бот сам напише йому, щойно хтось скасує запис.</p></div>
+    <div class="card"><div class="ic">👑</div><h3>Панель власника</h3><p>Розклад на день і тиждень, закриття часу, запис вручну, розсилка по клієнтах, статистика і тижневий звіт.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Подивіться на прикладі своєї сфери</h2>
+  <p class="lead">Запишіться як клієнт, а потім натисніть «👑 Очима власника» — побачите, що отримує бізнес.</p>
+  <div class="grid">
+    <div class="card niche"><div class="ic">💈</div><h3>Барбершоп</h3><p>Кілька майстрів, стрижки, бороди.</p><a class="btn btn-ghost btn-sm" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Відкрити демо</a></div>
+    <div class="card niche"><div class="ic">💅</div><h3>Манікюр і краса</h3><p>Передоплата, корекція через 3 тижні.</p><a class="btn btn-ghost btn-sm" href="https://t.me/zapysua_demo_bot?start=nails" target="_blank" rel="noopener">Відкрити демо</a></div>
+    <div class="card niche"><div class="ic">🔧</div><h3>СТО</h3><p>Запис на діагностику, нагадування про ТО.</p><a class="btn btn-ghost btn-sm" href="https://t.me/zapysua_demo_bot?start=sto" target="_blank" rel="noopener">Відкрити демо</a></div>
+    <div class="card niche"><div class="ic">💆</div><h3>Масаж</h3><p>Сеанси за розкладом, повторні візити.</p><a class="btn btn-ghost btn-sm" href="https://t.me/zapysua_demo_bot?start=massage" target="_blank" rel="noopener">Відкрити демо</a></div>
+    <div class="card niche"><div class="ic">🦷</div><h3>Стоматологія</h3><p>Запис до лікаря, нагадування про гігієну.</p><a class="btn btn-ghost btn-sm" href="https://t.me/zapysua_demo_bot?start=dental" target="_blank" rel="noopener">Відкрити демо</a></div>
+    <div class="card niche"><div class="ic">🐶</div><h3>Грумінг</h3><p>Стрижка і купання улюбленців.</p><a class="btn btn-ghost btn-sm" href="https://t.me/zapysua_demo_bot?start=groom" target="_blank" rel="noopener">Відкрити демо</a></div>
+  </div>
+</section>
+
+<section>
+  <h2>Як ми запускаємо</h2>
+  <p class="lead">Вам не потрібно нічого налаштовувати самостійно.</p>
+  <div class="steps">
+    <div class="card"><h3>Ви надсилаєте дані</h3><p>Послуги, ціни, графік і майстрів — можна просто фото прайсу.</p></div>
+    <div class="card"><h3>Ми налаштовуємо бота</h3><p>Під вашу назву і стиль. Зазвичай це займає один день.</p></div>
+    <div class="card"><h3>Ви ставите посилання</h3><p>У шапку Instagram, на Google Maps і QR-код на ресепшн. Записи починають надходити.</p></div>
+  </div>
+</section>
+
+<section id="price">
+  <h2>Ціни</h2>
+  <p class="lead">Без відсотків із записів і без прихованих платежів.</p>
+  <div class="price">
+    <div class="card">
+      <h3>Запуск</h3>
+      <div class="sum">3 900 грн <small>один раз</small></div>
+      <ul><li>Налаштування під ваш бізнес</li><li>Ваші послуги, ціни, майстри, графік</li><li>QR-код і посилання для Instagram</li><li>Допомога з першими записами</li></ul>
+    </div>
+    <div class="card best">
+      <h3>Підтримка</h3>
+      <div class="sum">490 грн <small>на місяць</small></div>
+      <ul><li>Бот працює 24/7</li><li>Нагадування, відгуки, повторні візити</li><li>Зміни прайсу і графіку за запитом</li><li>Перший місяць безкоштовно</li></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Часті запитання</h2>
+  <details><summary>Клієнтам потрібно щось встановлювати?</summary><p>Ні. Бот працює у звичайному Telegram: клієнт відкриває посилання і записується.</p></details>
+  <details><summary>А якщо клієнт запишеться телефоном чи в директ?</summary><p>Додайте його через «Запис вручну» в панелі власника — це кілька секунд. Увесь розклад буде в одному місці, і бот не дасть записати іншого на цей час.</p></details>
+  <details><summary>Чим це краще за великі сервіси запису?</summary><p>Великі сервіси дають багато функцій, але їх треба вивчати й налаштовувати самому. Ми робимо все за вас, а клієнтам не потрібен окремий застосунок чи реєстрація.</p></details>
+  <details><summary>Що з моєю базою клієнтів?</summary><p>База ваша. На запит ми вивантажимо всі записи й контакти у таблицю.</p></details>
+  <details><summary>Можна змінити ціни чи графік?</summary><p>Так, у будь-який момент — напишіть нам, і ми оновимо бота того ж дня.</p></details>
+</section>
+
+<section id="zayavka">
+  <h2>Хочу такого бота</h2>
+  <p class="lead">Залиште контакт — напишемо вам у Telegram або зателефонуємо протягом дня і покажемо, як бот виглядатиме саме для вас.</p>
+  <form id="lead" class="card form" novalidate>
+    <label>Ваше ім'я<input name="name" autocomplete="name" maxlength="80" placeholder="Олена"></label>
+    <label>Назва бізнесу<input name="business" maxlength="120" placeholder="Студія манікюру «Lak»"></label>
+    <label>Сфера
+      <select name="niche">
+        <option>Краса: манікюр, брови, косметологія</option>
+        <option>Барбершоп / перукарня</option>
+        <option>СТО / шиномонтаж</option>
+        <option>Масаж / здоров'я</option>
+        <option>Інше</option>
+      </select>
+    </label>
+    <label>Телефон або Telegram *<input name="contact" required maxlength="80" inputmode="text" placeholder="+380… або @нік"></label>
+    <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn btn-main" type="submit">Надіслати заявку</button>
+    <p class="note" id="lead-msg" role="status"></p>
+  </form>
+</section>
+
+<section class="final">
+  <h2>Спочатку хочете подивитися?</h2>
+  <p class="lead" style="margin-left:auto;margin-right:auto">Демо безкоштовне і ні до чого не зобов'язує.</p>
+  <div class="cta">
+    <a class="btn btn-main" href="https://t.me/zapysua_demo_bot" target="_blank" rel="noopener">Відкрити демо в Telegram</a>
+  </div>
+</section>
+
+<footer>Zapys · онлайн-запис у Telegram · Дніпро, Україна</footer>
+</div>
+<script>
+var LEAD_URL = "https://ykhvfjbolifnpstftpzk.supabase.co/functions/v1/zapys-lead";
+var form = document.getElementById("lead"), msg = document.getElementById("lead-msg");
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  var d = Object.fromEntries(new FormData(form).entries());
+  if (!d.contact || d.contact.trim().length < 5) { msg.textContent = "Вкажіть, будь ласка, телефон або Telegram."; form.contact.focus(); return; }
+  var btn = form.querySelector("button"); btn.disabled = true; msg.textContent = "Надсилаємо…";
+  d.source = "site";
+  fetch(LEAD_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function () { form.reset(); msg.textContent = "Дякуємо! Заявку отримано — зв'яжемося з вами протягом дня."; })
+    .catch(function () { msg.textContent = "Не вдалося надіслати. Спробуйте ще раз трохи пізніше."; })
+    .finally(function () { btn.disabled = false; });
+});
+</script>
+</body>
+</html>
