@@ -141,7 +141,7 @@ function render() {
     var st = c.niche || (S.b === 'demo' ? c.variant : '');
     h += '<div class="card cta"><b>Хочете такий онлайн-запис для свого бізнесу?</b><p>Бот у Telegram і ця сторінка для Instagram, Google Maps та Viber. Налаштуємо все за вас за 1 день.</p>' +
       '<a class="btn fill" data-a="ext" target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '#zayavka">Залишити заявку</a>' +
-      (c.bot ? '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/' + esc(c.bot) + (st ? '?start=' + encodeURIComponent(st) : '') + '">Спробувати бота в Telegram</a>' : '') + '</div>';
+      '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/avenue_studio_ua">Написати нам у Telegram</a>' + (c.bot ? '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/' + esc(c.bot) + (st ? '?start=' + encodeURIComponent(st) : '') + '">Спробувати бота в Telegram</a>' : '') + '</div>';
   }
   h += '<footer>Працює на <a data-a="ext" target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '">Zapys</a> — онлайн-запис для вашого бізнесу</footer>';
   app.innerHTML = h;
