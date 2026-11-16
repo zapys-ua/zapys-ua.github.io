@@ -58,3 +58,21 @@ if (next.length) {
   console.log("\nДальше:");
   for (const t of next) console.log(`  ${t.id}  ${t.text}`);
 }
+
+// Бэклог: строки «- [ ] **Б7** Текст. Источник: ... ICE 8/6/7», лучшие по произведению I×C×E.
+const backlog = [];
+for (const line of text.split(/\r?\n/)) {
+  const item = line.match(/^- \[ \] \*\*(Б\d+)\*\* (.+?)\s*ICE (\d+)\/(\d+)\/(\d+)\s*$/);
+  if (item) {
+    backlog.push({
+      id: item[1],
+      text: item[2].split(" Источник:")[0],
+      score: Number(item[3]) * Number(item[4]) * Number(item[5]),
+    });
+  }
+}
+if (backlog.length) {
+  backlog.sort((a, b) => b.score - a.score);
+  console.log(`\nБэклог: ${backlog.length} идей, лучшие по ICE:`);
+  for (const b of backlog.slice(0, 3)) console.log(`  ${b.id}  ${b.score}  ${b.text}`);
+}
