@@ -58,8 +58,13 @@
 | 2026-11-16 | `webapp-testing` | anthropics/skills через davila7/claude-code-templates `12b74cb`, Apache 2.0 | Скриншоты 390/1440 и проход страниц Playwright |
 | 2026-11-16 | `web-interface-check` | vercel-labs/web-interface-guidelines `434b7f9`, MIT, адаптирован | Проверка вёрстки перед PR |
 | 2026-11-16 | `.claude/settings.json` | свой | Статус дорожной карты в начале сессии, запрет деплоя в production |
+| 2026-11-16 | Хук `secret-scanner` | davila7/claude-code-templates `12b74cb`, MIT, найденный секрет не показывается модели | Репозиторий публичный: коммит с токеном бота или ключом Supabase блокируется |
+| 2026-11-16 | `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS=100000` | claude-code-templates, настройка | Сессия, брошенная на час, сжимается до истечения кэша: меньше расход лимита |
 
 Пересмотр всех строк выше: 30 ноября 2026.
+
+Моды на ноутбук Олега (ставит сам, в проект не кладём): `prompt-cache-control` показывает, когда кэш
+остынет и пора `/compact` или `/clear`. Код прочитан, в сеть не ходит.
 
 ### Каталоги, откуда брать дальше
 
