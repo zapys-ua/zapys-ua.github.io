@@ -28,6 +28,8 @@
 |---|---|---|
 | `zapys-mode`, `verify-zapys`, `unslop`, `principle-*` | `.claude/skills/` в репозитории | Основа, грузятся по AGENTS.md |
 | `frontend-design` (Anthropic) | скилл аккаунта | Загрузить перед любой UI-задачей |
+| `web-interface-check`, `page-cro`, `form-cro`, `webapp-testing` | `.claude/skills/` в репозитории | Перед PR с интерфейсом и текстом |
+| `supabase-postgres-best-practices`, `telegram-bot-builder` | `.claude/skills/` в репозитории | Схема базы и правки бота |
 | `persona-review`, `expert-council` | `.claude/skills/` в репозитории | Перед каждым PR с интерфейсом, текстом, ценами; совет целиком по воскресеньям |
 | impeccable (pbakaus), ui-ux-pro-max | сторонние | Кандидаты на первую UI-задачу: агент проверяет и ставит сам по правилам ниже |
 | Mobbin | коннектор в чате | Референсы экранов, в код не копируем |
@@ -50,7 +52,33 @@
 
 | Добавлено | Что | Источник и коммит | Зачем |
 |---|---|---|---|
-| | | | |
+| 2026-11-16 | `supabase-postgres-best-practices` | supabase/agent-skills через davila7/claude-code-templates `12b74cb`, MIT | Схема и RLS для 0.4, 0.5 |
+| 2026-11-16 | `telegram-bot-builder` | davila7/claude-code-templates `12b74cb`, MIT | Справочник Bot API для правок бота |
+| 2026-11-16 | `page-cro`, `form-cro` | davila7/claude-code-templates `12b74cb`, MIT | Конверсия главной, цен, формы заявки (1.1, 1.4, 0.3) |
+| 2026-11-16 | `webapp-testing` | anthropics/skills через davila7/claude-code-templates `12b74cb`, Apache 2.0 | Скриншоты 390/1440 и проход страниц Playwright |
+| 2026-11-16 | `web-interface-check` | vercel-labs/web-interface-guidelines `434b7f9`, MIT, адаптирован | Проверка вёрстки перед PR |
+| 2026-11-16 | `.claude/settings.json` | свой | Статус дорожной карты в начале сессии, запрет деплоя в production |
+
+Пересмотр всех строк выше: 30 ноября 2026.
+
+### Каталоги, откуда брать дальше
+
+- **claude-code-templates** ([aitmpl.com](https://www.aitmpl.com),
+  [GitHub](https://github.com/davila7/claude-code-templates), MIT): около 3200 скиллов, 420 агентов,
+  350 команд. Бери файлы вручную с указанием коммита. Установщик `npx claude-code-templates`
+  не используем: он ставит компоненты глобально и отправляет статистику (выключается
+  `CCT_NO_TRACKING=true`). Его проверка настроек (`--health-check`) прогнана 16 ноября: находит
+  только отсутствие настроек, пользы мало. Кандидаты на потом: `pricing-strategy` (1.4),
+  `referral-program` (4.x, партнёрка), `accessibility-auditor`, `cc-skill-security-review`.
+- **prompts.chat** ([сайт](https://prompts.chat), [GitHub](https://github.com/f/prompts.chat)):
+  около 3000 промптов, лицензия CC0, можно в коммерческих целях. Плагин и MCP-сервер не ставим:
+  они тянут в работу непроверенный пользовательский текст, а промпты в основном общие. Используем
+  как справочник: нашёл промпт под задачу, прочитал, переписал под Zapys.
+- **Ansphare** ([сайт](https://ansphare.com), [лицензия](https://ansphare.com/license)): 300+
+  дизайн-систем в формате DESIGN.md, 1200+ промптов анимаций, генератор DESIGN.md по адресу
+  сайта. По лицензии результат можно использовать в коммерческих проектах без указания авторства.
+  Часть скиллов платная и требует входа: не покупаем. Для задачи 1.9 берём формат DESIGN.md как
+  образец для `docs/brand.md`, промпты анимаций как DesignBookmark: идея, переписанная под vanilla JS.
 
 ## Референсы для дизайна
 

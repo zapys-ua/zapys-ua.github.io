@@ -41,13 +41,15 @@ description: "Инженерная работа в проектах Zapys и Ave
 проверка через `verify-zapys` на тестовом бизнесе → PR с инструкцией по деплою. Webhook Telegram
 доставляет повторы, поэтому обработчик должен быть идемпотентным: **principle-make-operations-idempotent**.
 Вход из Telegram — внешние данные: разбор и проверка на границе, **principle-boundary-discipline**.
+Справочник Bot API: **telegram-bot-builder**.
 
 **Правка сайта.** Что изменится для посетителя → правка → открыть страницу и посмотреть глазами →
 PR. Сайт продаёт продукт, поэтому решения по тексту и верстке — **principle-experience-first**,
-а чистка формулировок — скилл **unslop**.
+а чистка формулировок — скилл **unslop**. Конверсия: **page-cro**, формы: **form-cro**, вёрстка:
+**web-interface-check**, скриншоты 390 и 1440 px: **webapp-testing**.
 
 **Новая функция.** Сначала форма данных и типы: **principle-foundational-thinking**,
-**principle-model-the-domain**. Если функция пересекает границу модуля — скилл **architect**.
+**principle-model-the-domain**. Схема в Postgres и RLS: **supabase-postgres-best-practices**. Если функция пересекает границу модуля — скилл **architect**.
 Разбей работу на куски, каждый из которых заканчивается проверкой:
 **principle-sequence-verifiable-units**.
 

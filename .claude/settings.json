@@ -1,0 +1,36 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/roadmap.mjs\" || true"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(node scripts/roadmap.mjs)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)"
+    ],
+    "ask": [
+      "mcp__supabase__apply_migration",
+      "mcp__Supabase__apply_migration"
+    ],
+    "deny": [
+      "Bash(supabase functions deploy:*)",
+      "Bash(supabase db push:*)",
+      "Bash(git push origin main:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "mcp__supabase__deploy_edge_function",
+      "mcp__Supabase__deploy_edge_function"
+    ]
+  }
+}
