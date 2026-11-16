@@ -51,7 +51,7 @@ Generative UI в этот репозиторий не входят и здесь
 Лицензия: MIT. Снимок: `12b74cb6c9d0854dbbe9e3b501fea1f29cedecab`
 
 Включены: `supabase-postgres-best-practices` (исходно supabase/agent-skills, MIT), `telegram-bot-builder`,
-`page-cro`, `form-cro`, `webapp-testing` (исходно anthropics/skills, Apache 2.0, текст лицензии в
+`page-cro`, `form-cro`, хук `.claude/hooks/secret-scanner.py`, `webapp-testing` (исходно anthropics/skills, Apache 2.0, текст лицензии в
 `.claude/skills/webapp-testing/LICENSE.txt`). В каждый добавлен блок «Поправки Zapys».
 
 ## Vercel Web Interface Guidelines
