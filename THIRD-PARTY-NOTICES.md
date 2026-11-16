@@ -44,3 +44,20 @@
 Идея процесса, устройство проверочного скилла и набор принципов взяты из pstack и из материалов
 Merlin Builds (https://t.me/merlin_builds). Программы bb, Codex, MacWhisper, Cua и плагин
 Generative UI в этот репозиторий не входят и здесь не используются.
+
+## claude-code-templates
+
+Автор: Daniel Ávila. Источник: https://github.com/davila7/claude-code-templates
+Лицензия: MIT. Снимок: `12b74cb6c9d0854dbbe9e3b501fea1f29cedecab`
+
+Включены: `supabase-postgres-best-practices` (исходно supabase/agent-skills, MIT), `telegram-bot-builder`,
+`page-cro`, `form-cro`, `webapp-testing` (исходно anthropics/skills, Apache 2.0, текст лицензии в
+`.claude/skills/webapp-testing/LICENSE.txt`). В каждый добавлен блок «Поправки Zapys».
+
+## Vercel Web Interface Guidelines
+
+Источник: https://github.com/vercel-labs/web-interface-guidelines
+Лицензия: MIT, Copyright (c) 2025 Vercel Labs. Снимок: `434b7f91364665f2f733b310ec54809bf8f37937`
+
+Правила вошли в `.claude/skills/web-interface-check/SKILL.md` с поправками под украинский язык и
+сайт без React.
