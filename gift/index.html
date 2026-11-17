@@ -56,6 +56,12 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:14px}
 footer a{color:inherit}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .load{text-align:center;padding:60px 0;color:var(--mute)}
+.gift.draft .v{opacity:.55}
+.gift .v.pop{animation:pop .32s cubic-bezier(.2,.9,.3,1.35)}
+.gift.reveal{animation:reveal .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:translateY(8px) scale(.94);opacity:.4}to{transform:none;opacity:1}}
+@keyframes reveal{from{transform:translateY(12px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.gift .v.pop,.gift.reveal{animation:none}}
 @media print{body{background:#fff}.wrap>*:not(.gift){display:none}.gift:before,.gift:after{display:none}}
 </style>
 </head>
@@ -101,12 +107,19 @@ function header() {
   return '<header>' + logo + '<p class="kicker">' + (WINTER ? 'Новорічний подарунок' : 'Подарунковий сертифікат') + '</p><h1>' + esc(c.title) + '</h1>' +
     (S.code ? '' : '<p>Подаруйте візит, а людина сама обере послугу й зручний час.</p>') + '</header>';
 }
-function giftCard(x) {
-  return '<div class="gift"><p class="k">Подарунковий сертифікат</p><p class="t">' + esc(S.c.title) + '</p>' +
-    '<p class="v">' + money(x.amount) + '</p>' +
-    (x.recipient ? '<p class="for">Для: <b>' + esc(x.recipient) + '</b></p>' : '') +
-    (x.message ? '<p class="msg">«' + esc(x.message) + '»</p>' : '') +
-    '<div class="cut"></div><div class="code"><span>Код сертифіката</span><b>' + esc(x.code) + '</b></div></div>';
+// The certificate is shown live while the buyer fills the form (draft), then revealed with its code.
+function giftCard(x, cls) {
+  return '<div class="gift' + (cls ? ' ' + cls : '') + '"><p class="k">Подарунковий сертифікат</p><p class="t">' + esc(S.c.title) + '</p>' +
+    '<p class="v' + (S.pop ? ' pop' : '') + '">' + (x.amount ? money(x.amount) : '— ' + esc(S.c.currency)) + '</p>' +
+    '<p class="for"' + (x.recipient ? '' : ' hidden') + '>Для: <b>' + esc(x.recipient) + '</b></p>' +
+    '<p class="msg"' + (x.message ? '' : ' hidden') + '>«' + esc(x.message) + '»</p>' +
+    '<div class="cut"></div><div class="code"><span>Код сертифіката</span><b>' + esc(x.code || 'ZP-••••••') + '</b></div></div>';
+}
+function livePreview() {
+  var g = document.querySelector('.gift.draft'); if (!g) return;
+  var f = g.querySelector('.for'), m = g.querySelector('.msg'), r = S.recipient.trim(), t = S.message.trim();
+  f.hidden = !r; f.querySelector('b').textContent = r;
+  m.hidden = !t; m.textContent = '«' + t + '»';
 }
 function statusLine(st) {
   var t = st === 'paid' ? 'Активний. Запишіться онлайн і назвіть код під час візиту.' :
@@ -119,7 +132,7 @@ function render() {
   var c = S.c, h = header();
   if (S.cert) {
     var x = S.cert, url = link(x.code);
-    h += giftCard(x);
+    h += giftCard(x, S.made ? 'reveal' : '');
     if (S.made) {
       h += '<div class="card"><h2>Сертифікат створено 🎉</h2>';
       if (x.pay_url) h += '<p class="hint" style="margin-top:0">Оплатіть, і власник активує сертифікат. Код уже ваш.</p><a class="btn main" target="_blank" rel="noopener" href="' + esc(x.pay_url) + '">Оплатити ' + money(x.amount) + '</a>';
@@ -134,6 +147,7 @@ function render() {
     h += '<div class="card" style="text-align:center">Цей бізнес поки не продає сертифікати онлайн.</div>';
   } else {
     if (c.demo) h += '<div class="note">🧪 Це демо продажу сертифікатів. Створіть сертифікат як покупець: оплата не потрібна.</div>';
+    h += giftCard({ amount: S.amount, recipient: S.recipient.trim(), message: S.message.trim() }, 'draft');
     h += '<div class="card"><h2><span>1</span>Оберіть суму</h2><div class="chips">' + c.certs.map(function (a) {
       return '<button data-a="amt" data-v="' + a + '"' + (a === S.amount ? ' class="on"' : '') + '><span class="amt">' + money(a) + '</span></button>'; }).join('') + '</div></div>' +
       '<div class="card"><h2><span>2</span>Кому даруєте</h2>' +
@@ -191,14 +205,14 @@ function load() {
 app.addEventListener('click', function (e) {
   var el = e.target.closest('[data-a]'); if (!el) return;
   var a = el.dataset.a;
-  if (a === 'amt') { S.amount = Number(el.dataset.v); S.err = ''; render(); }
+  if (a === 'amt') { S.amount = Number(el.dataset.v); S.err = ''; S.pop = true; render(); S.pop = false; }
   else if (a === 'buy') buy();
   else if (a === 'share') share();
   else if (a === 'print') window.print();
 });
 app.addEventListener('input', function (e) {
   var id = e.target.id, v = e.target.value;
-  if (id === 'nm') S.name = v; else if (id === 'ph') S.phone = v; else if (id === 'rc') S.recipient = v; else if (id === 'ms') S.message = v;
+  if (id === 'nm') S.name = v; else if (id === 'ph') S.phone = v; else if (id === 'rc') { S.recipient = v; livePreview(); } else if (id === 'ms') { S.message = v; livePreview(); }
 });
 load();
 </script>
