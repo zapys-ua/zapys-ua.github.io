@@ -132,7 +132,9 @@ function render() {
       row('Вартість', money(d.price)) + '</div>' +
       '<p class="hint">' + (T ? 'Підтвердження надіслано вам у чат. Нагадаємо за 2 години до візиту.' :
         (c.demo ? 'У реальному бізнесі власник у цю ж мить отримує сповіщення про запис у Telegram.' : 'Власник уже отримав сповіщення про ваш запис.')) + '</p>' +
-      (T ? '<button class="main" data-a="close">Готово</button>' : '<button class="main" data-a="again">Записатися ще раз</button>') + '</div>';
+      (!T && d.remind ? '<p class="hint">Хочете нагадування? Натисніть кнопку, і бот напише вам у Telegram за 2 години до візиту.</p>' +
+        '<a class="btn main" data-a="tgl" target="_blank" rel="noopener" href="' + esc(d.remind) + '">🔔 Нагадати в Telegram</a>' : '') +
+      (T ? '<button class="main" data-a="close">Готово</button>' : '<button class="' + (d.remind ? '' : 'main') + '" data-a="again" style="width:100%;margin-top:8px">Записатися ще раз</button>') + '</div>';
   } else {
     h += '<div class="card"><h2><span>' + (n++) + '</span>Оберіть послугу</h2>' + c.services.map(function (s) {
       return '<button class="svc' + (s.id === S.svc ? ' on' : '') + '" data-a="svc" data-v="' + esc(s.id) + '"><div>' + esc(s.emoji) + ' ' + esc(s.name) +
@@ -207,7 +209,7 @@ function submit() {
   S.busy = true; S.err = ''; render();
   api('book', { svc: S.svc, m: S.m, day: S.day, start: S.start, name: nm, phone: S.phone, fields: fv, website: honey }).then(function (r) {
     ls('zp_name', nm); ls('zp_phone', S.phone);
-    S.busy = false; S.done = { name: sv.name, min: sv.min, price: sv.price, day: S.day, start: S.start, master: r.master, f: fv };
+    S.busy = false; S.done = { name: sv.name, min: sv.min, price: sv.price, day: S.day, start: S.start, master: r.master, f: fv, remind: /^https:\/\/t\.me\/[A-Za-z0-9_]+\?start=r_[a-z0-9]{12}$/.test(r.remind_url || '') ? r.remind_url : null };
     if (T && T.HapticFeedback) T.HapticFeedback.notificationOccurred('success');
     render(); window.scrollTo(0, 0);
   }).catch(function (e) {
