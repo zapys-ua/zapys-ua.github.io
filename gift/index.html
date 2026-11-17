@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Подарунковий сертифікат</title>
+<style>
+:root{--bg:#f2f4f7;--card:#fff;--text:#131820;--mute:#6c7685;--acc:#2aabee;--acct:#fff;--line:rgba(125,135,150,.3)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:16px 14px 40px}
+header{text-align:center;padding:10px 0 14px}
+.em{font-size:40px;line-height:1.1}
+.logo{width:64px;height:64px;border-radius:16px;object-fit:cover;display:block;margin:0 auto 6px}
+.kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+h1{font-size:24px;letter-spacing:-.3px;margin:2px 0 6px}
+h1,.card h2,.gift .t{font-family:var(--font,inherit)}
+header p{color:var(--mute);font-size:15px;max-width:420px;margin:0 auto}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
+.card h2{font-size:15px;margin-bottom:10px}
+.card h2 span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--acc);color:var(--acct);font-size:12px;margin-right:7px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button,.btn{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--text);border-radius:12px;padding:12px;text-decoration:none;display:inline-block;text-align:center}
+button.on{background:var(--acc);color:var(--acct);border-color:var(--acc)}
+.amt{font-weight:700;font-size:17px}
+label{display:block;font-size:13px;color:var(--mute);margin-bottom:10px}
+label small{font-size:12px}
+input,textarea{font:inherit;font-size:16px;width:100%;margin-top:5px;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}
+textarea{resize:vertical;min-height:72px}
+input:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.main{width:100%;background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700;padding:14px;font-size:16px;margin-top:6px}
+.main:disabled{opacity:.6}
+.hint{font-size:13px;color:var(--mute);margin:10px 0 0}
+.err{color:#d6453d;font-size:14px;margin-top:10px}
+.note{font-size:13px;color:var(--mute);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px;background:var(--card)}
+.gift{position:relative;overflow:hidden;background:var(--acc);color:var(--acct);border-radius:20px;padding:22px 20px 20px;margin-bottom:12px}
+.gift:before,.gift:after{content:"";position:absolute;width:26px;height:26px;border-radius:50%;background:var(--bg);top:50%;transform:translateY(-50%)}
+.gift:before{left:-13px}.gift:after{right:-13px}
+.gift .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.gift .t{font-size:18px;font-weight:700;margin:2px 0 14px}
+.gift .v{font-size:44px;font-weight:800;letter-spacing:-1px;line-height:1}
+.gift .for{margin-top:10px;font-size:15px}
+.gift .msg{margin-top:6px;font-size:14px;opacity:.9;font-style:italic}
+.gift .cut{border-top:2px dashed currentColor;opacity:.35;margin:18px 0 12px}
+.gift .code{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px}
+.gift .code b{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:20px;letter-spacing:.06em}
+.status{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.status .dot{flex:0 0 10px;height:10px;border-radius:50%;margin-top:5px;background:#e0a100}
+.status.paid .dot{background:#1f9d55}.status.used .dot{background:#8a94a3}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.row2 .btn{width:100%}
+.fill{background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700}
+.link{font-size:13px;color:var(--mute);word-break:break-all;margin-top:10px}
+footer{text-align:center;font-size:12px;color:var(--mute);margin-top:14px}
+footer a{color:inherit}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.load{text-align:center;padding:60px 0;color:var(--mute)}
+@media print{body{background:#fff}.wrap>*:not(.gift){display:none}.gift:before,.gift:after{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><p class="load">Завантаження…</p></div>
+<script>
+var API = 'https://ykhvfjbolifnpstftpzk.supabase.co/functions/v1/zapys-api', SITE = 'https://zapys-ua.github.io/';
+var q = new URLSearchParams(location.search), app = document.getElementById('app');
+function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k) || ''; localStorage.setItem(k, v); } catch (e) {} return ''; }
+// ?b=<business>&v=<variant> — купити; &c=<код> — переглянути сертифікат
+var S = { b: q.get('b') || 'demo', v: q.get('v') || '', code: (q.get('c') || '').toUpperCase(), p: q.get('p') || ls('zp_p'),
+  c: null, amount: null, name: ls('zp_name'), phone: ls('zp_phone'), recipient: '', message: '', busy: false, err: '', cert: null, made: false };
+var FONTS = ['Manrope', 'Montserrat', 'Rubik', 'Unbounded', 'Playfair Display', 'Inter', 'Nunito', 'Comfortaa'];
+var SYS = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
+var month = new Date().getMonth(), WINTER = month === 10 || month === 11 || month === 0;
+
+function api(a, extra) {
+  var body = { a: a, b: S.b, v: S.v };
+  for (var k in (extra || {})) body[k] = extra[k];
+  return fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'server'); return j; }); });
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function money(n) { return Number(n).toLocaleString('uk-UA') + ' ' + S.c.currency; }
+function brand(b) {
+  if (!b) return;
+  var r = document.documentElement.style, hex = /^#[0-9a-fA-F]{6}$/;
+  if (hex.test(b.color || '')) { r.setProperty('--acc', b.color); r.setProperty('--acct', hex.test(b.ink || '') ? b.ink : '#fff'); }
+  if (hex.test(b.bg || '')) r.setProperty('--bg', b.bg);
+  if (FONTS.indexOf(b.font) > -1) {
+    var l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=' + b.font.replace(/ /g, '+') + ':wght@400;700;800&display=swap';
+    document.head.appendChild(l); r.setProperty('--font', '"' + b.font + '",' + SYS);
+  }
+}
+function link(code) {
+  return location.origin + location.pathname + '?b=' + encodeURIComponent(S.b) + (S.v ? '&v=' + encodeURIComponent(S.v) : '') + '&c=' + encodeURIComponent(code);
+}
+function bookUrl() { return '../book/?b=' + encodeURIComponent(S.b) + (S.v ? '&v=' + encodeURIComponent(S.v) : ''); }
+
+function header() {
+  var c = S.c, logo = c.brand && /^https:\/\//.test(c.brand.logo_url || '') ? '<img class="logo" src="' + esc(c.brand.logo_url) + '" alt="">' : '<div class="em">' + esc(c.emoji) + '</div>';
+  return '<header>' + logo + '<p class="kicker">' + (WINTER ? 'Новорічний подарунок' : 'Подарунковий сертифікат') + '</p><h1>' + esc(c.title) + '</h1>' +
+    (S.code ? '' : '<p>Подаруйте візит, а людина сама обере послугу й зручний час.</p>') + '</header>';
+}
+function giftCard(x) {
+  return '<div class="gift"><p class="k">Подарунковий сертифікат</p><p class="t">' + esc(S.c.title) + '</p>' +
+    '<p class="v">' + money(x.amount) + '</p>' +
+    (x.recipient ? '<p class="for">Для: <b>' + esc(x.recipient) + '</b></p>' : '') +
+    (x.message ? '<p class="msg">«' + esc(x.message) + '»</p>' : '') +
+    '<div class="cut"></div><div class="code"><span>Код сертифіката</span><b>' + esc(x.code) + '</b></div></div>';
+}
+function statusLine(st) {
+  var t = st === 'paid' ? 'Активний. Запишіться онлайн і назвіть код під час візиту.' :
+    st === 'used' ? 'Сертифікат уже використано.' : 'Очікує оплати. Власник активує його, щойно побачить оплату.';
+  return '<div class="card"><div class="status ' + esc(st) + '"><span class="dot"></span><span>' + t + '</span></div>' +
+    (st !== 'used' && !(S.c.modules && S.c.modules.zapis === false) ? '<a class="btn main" href="' + bookUrl() + '">Записатися онлайн</a>' : '') + '</div>';
+}
+
+function render() {
+  var c = S.c, h = header();
+  if (S.cert) {
+    var x = S.cert, url = link(x.code);
+    h += giftCard(x);
+    if (S.made) {
+      h += '<div class="card"><h2>Сертифікат створено 🎉</h2>';
+      if (x.pay_url) h += '<p class="hint" style="margin-top:0">Оплатіть, і власник активує сертифікат. Код уже ваш.</p><a class="btn main" target="_blank" rel="noopener" href="' + esc(x.pay_url) + '">Оплатити ' + money(x.amount) + '</a>';
+      else if (c.demo) h += '<p class="hint" style="margin-top:0">Це демо, платити не треба. У справжньому бізнесі тут кнопка оплати monobank, а власник у цю мить отримує сповіщення в Telegram.</p>';
+      else h += '<p class="hint" style="margin-top:0">Власник уже отримав сповіщення і напише вам, як оплатити.</p>';
+      h += '<div class="row2"><button class="btn fill" data-a="share">Поділитися</button><button class="btn" data-a="print">Роздрукувати</button></div>' +
+        '<p class="link">' + esc(url) + '</p></div>';
+    } else h += statusLine(x.status);
+  } else if (S.code) {
+    h += '<div class="card" style="text-align:center">Сертифікат з таким кодом не знайдено.</div>';
+  } else if (!c.certs.length) {
+    h += '<div class="card" style="text-align:center">Цей бізнес поки не продає сертифікати онлайн.</div>';
+  } else {
+    if (c.demo) h += '<div class="note">🧪 Це демо продажу сертифікатів. Створіть сертифікат як покупець: оплата не потрібна.</div>';
+    h += '<div class="card"><h2><span>1</span>Оберіть суму</h2><div class="chips">' + c.certs.map(function (a) {
+      return '<button data-a="amt" data-v="' + a + '"' + (a === S.amount ? ' class="on"' : '') + '><span class="amt">' + money(a) + '</span></button>'; }).join('') + '</div></div>' +
+      '<div class="card"><h2><span>2</span>Кому даруєте</h2>' +
+      '<label>Ім\'я отримувача <small>(за бажанням)</small><input id="rc" maxlength="60" value="' + esc(S.recipient) + '" placeholder="Мама"></label>' +
+      '<label>Побажання <small>(за бажанням)</small><textarea id="ms" maxlength="160" placeholder="З Новим роком! Відпочинь і побалуй себе.">' + esc(S.message) + '</textarea></label></div>' +
+      '<div class="card"><h2><span>3</span>Ваші контакти</h2>' +
+      '<label>Ваше ім\'я<input id="nm" autocomplete="given-name" maxlength="60" value="' + esc(S.name) + '" placeholder="Олена"></label>' +
+      '<label>Телефон<input id="ph" type="tel" autocomplete="tel" maxlength="20" value="' + esc(S.phone) + '" placeholder="+380 67 123 45 67"></label>' +
+      '<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<p class="hint" style="margin-top:0">За цим номером власник зв\'яжеться, якщо з оплатою щось буде не так.</p>' +
+      '<button class="main" data-a="buy"' + (S.busy || !S.amount ? ' disabled' : '') + '>' + (S.busy ? 'Створюємо…' : S.amount ? 'Створити сертифікат на ' + money(S.amount) : 'Оберіть суму') + '</button>' +
+      (S.err ? '<p class="err">' + esc(S.err) + '</p>' : '') + '</div>';
+  }
+  h += '<footer>Працює на <a target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '">Avenue</a> — сервіс для вашого бізнесу</footer>';
+  app.innerHTML = h;
+}
+
+function buy() {
+  var nm = S.name.trim(), digits = S.phone.replace(/[^0-9]/g, ''), hp = document.getElementById('hp');
+  if (!S.amount) { S.err = 'Оберіть суму сертифіката.'; return render(); }
+  if (nm.length < 2) { S.err = 'Вкажіть, будь ласка, своє ім\'я.'; return render(); }
+  if (digits.length < 9) { S.err = 'Вкажіть номер телефону, наприклад +380671234567.'; return render(); }
+  S.busy = true; S.err = ''; render();
+  api('cert_buy', { amount: S.amount, name: nm, phone: S.phone, recipient: S.recipient.trim(), message: S.message.trim(), website: hp ? hp.value : '' }).then(function (r) {
+    ls('zp_name', nm); ls('zp_phone', S.phone);
+    S.busy = false; S.made = true;
+    S.cert = { code: r.code, amount: r.amount, status: 'new', recipient: S.recipient.trim(), message: S.message.trim(), pay_url: r.pay_url };
+    try { history.replaceState(null, '', link(r.code)); } catch (e) {}
+    render(); window.scrollTo(0, 0);
+  }).catch(function (e) {
+    S.busy = false;
+    S.err = e.message === 'limit' ? 'Забагато сертифікатів за короткий час. Спробуйте трохи пізніше.' :
+      e.message === 'contact' ? 'Перевірте, будь ласка, ім\'я та номер телефону.' : 'Не вдалося створити сертифікат. Спробуйте ще раз.';
+    render();
+  });
+}
+function share() {
+  var x = S.cert, url = link(x.code), text = 'Тобі подарунок: сертифікат на ' + money(x.amount) + ' у «' + S.c.title + '». Код ' + x.code;
+  if (navigator.share) { navigator.share({ title: 'Подарунковий сертифікат', text: text, url: url }).catch(function () {}); return; }
+  var done = function () { var b = document.querySelector('[data-a=share]'); if (b) b.textContent = 'Посилання скопійовано'; };
+  if (navigator.clipboard) navigator.clipboard.writeText(text + '\n' + url).then(done, done); else done();
+}
+
+function load() {
+  api('cfg').then(function (c) {
+    S.c = c; if (c.variant) S.v = c.variant;
+    brand(c.brand);
+    document.title = 'Подарунковий сертифікат · ' + c.title;
+    if (!S.code) return render();
+    return api('cert_view', { c: S.code }).then(function (x) { S.cert = x; render(); }).catch(function () { render(); });
+  }).catch(function (e) {
+    app.innerHTML = '<div class="card" style="text-align:center;margin-top:40px">' + (e.message === 'not found' ? 'Сторінку не знайдено.' : 'Не вдалося завантажити сторінку. Спробуйте оновити її.') + '</div>';
+  });
+}
+app.addEventListener('click', function (e) {
+  var el = e.target.closest('[data-a]'); if (!el) return;
+  var a = el.dataset.a;
+  if (a === 'amt') { S.amount = Number(el.dataset.v); S.err = ''; render(); }
+  else if (a === 'buy') buy();
+  else if (a === 'share') share();
+  else if (a === 'print') window.print();
+});
+app.addEventListener('input', function (e) {
+  var id = e.target.id, v = e.target.value;
+  if (id === 'nm') S.name = v; else if (id === 'ph') S.phone = v; else if (id === 'rc') S.recipient = v; else if (id === 'ms') S.message = v;
+});
+load();
+</script>
+</body>
+</html>
