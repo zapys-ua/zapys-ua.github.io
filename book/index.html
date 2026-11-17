@@ -222,6 +222,7 @@ function submit() {
 }
 function load() {
   api('cfg').then(function (c) {
+    if (c.modules && c.modules.zapis === false) throw new Error('not found');
     S.c = c; if (c.variant) S.v = c.variant;
     brand(c.brand);
     if (c.me) { S.name = S.name || c.me.name; S.phone = S.phone || c.me.phone; }
