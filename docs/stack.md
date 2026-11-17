@@ -87,14 +87,11 @@
 
 ## Референсы для дизайна
 
-- **DesignBookmark Motion**: https://designbookmark.com/motion. Живые анимированные компоненты
-  с кнопками «Copy for Claude» и «Copy code»; часть взята из Kokonut UI и SmoothUI.
-  Как использовать: скопировать промпт компонента и дописать к нему
-  «без React и сборки, vanilla JS, анимации через `motion` из CDN, токены и шрифты сайта Avenue».
-  Перед вставкой открыть страницу источника, проверить лицензию и записать компонент в
-  `THIRD-PARTY-NOTICES.md`. Лицензия неясна, значит берём идею, а не код.
-- 21st.dev, Magic UI, cult-ui: React-компоненты, берём идею и CSS, не зависимости.
-- Чек-лист против AI-шаблона: `docs/plans/2026-11-16-business-os.md`, раздел 4.
+Каталог источников, правила и порядок работы с ними: `docs/design-references.md`
+(Ansphare, 21st.dev, DesignBookmark Motion, Originkit, Transitions.dev, Canvas UI, GradientDeck UI,
+getdesign.md, designmd.supply, Mobbin, 60fps.design, Godly, Designeer). Magic UI и cult-ui:
+React-компоненты, берём идею и CSS, не зависимости. Чек-лист против AI-шаблона:
+`docs/plans/2026-11-16-business-os.md`, раздел 4.
 
 ## Нельзя
 
