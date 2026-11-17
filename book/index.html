@@ -13,7 +13,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 .wrap{max-width:560px;margin:0 auto;padding:16px 14px 40px}
 header{text-align:center;padding:10px 0 14px}
 .em{font-size:40px;line-height:1.1}
+.logo{width:64px;height:64px;border-radius:16px;object-fit:cover;display:block;margin:0 auto 6px}
+.fgroup{font-size:13px;font-weight:700;margin:4px 0 8px}
 h1{font-size:24px;letter-spacing:-.3px;margin:4px 0}
+h1,.card h2,.ok h2{font-family:var(--font,inherit)}
 header p{color:var(--mute);font-size:14px}
 .card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
 .card h2{font-size:15px;margin-bottom:10px}
@@ -67,7 +70,31 @@ function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k) ||
 // ?d=<key> opens a personalised preview; ?b=<business>&v=<variant> opens a regular page
 var S = { b: q.get('d') ? 'leads' : (q.get('b') || 'demo'), v: q.get('d') || q.get('v') || '', p: q.get('p') || ls('zp_p'),
   c: null, svc: null, m: '*', needM: false, days: null, loading: false, day: null, start: null,
-  name: ls('zp_name'), phone: ls('zp_phone'), busy: false, err: '', done: null };
+  name: ls('zp_name'), phone: ls('zp_phone'), f: {}, busy: false, err: '', done: null };
+var FONTS = ['Manrope', 'Montserrat', 'Rubik', 'Unbounded', 'Playfair Display', 'Inter', 'Nunito', 'Comfortaa'];
+var SYS = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
+// Brand of the business: accent colour, text on accent, page background, font. Values come from
+// the business config, which the database already checks (#rrggbb, font from the list above).
+function brand(b) {
+  var r = document.documentElement.style;
+  ['--acc', '--acct', '--bg', '--font'].forEach(function (k) { r.removeProperty(k); });
+  if (!b) return;
+  var hex = /^#[0-9a-fA-F]{6}$/;
+  if (hex.test(b.color || '')) { r.setProperty('--acc', b.color); r.setProperty('--acct', hex.test(b.ink || '') ? b.ink : '#fff'); }
+  if (hex.test(b.bg || '') && !T) r.setProperty('--bg', b.bg);
+  if (FONTS.indexOf(b.font) > -1) {
+    var id = 'font-' + b.font.replace(/ /g, '-');
+    if (!document.getElementById(id)) {
+      var l = document.createElement('link'); l.id = id; l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=' + b.font.replace(/ /g, '+') + ':wght@400;600;700&display=swap';
+      document.head.appendChild(l);
+    }
+    r.setProperty('--font', '"' + b.font + '",' + SYS);
+  }
+}
+// Words of the sphere: «майстер» for a barbershop, «бокс» for a car service.
+function V(k, def) { var p = S.c && S.c.pack; return (p && p.vocab && p.vocab[k]) || def; }
+function pfields() { return (S.c && S.c.pack && S.c.pack.fields) || []; }
 if (T) { T.ready(); T.expand(); }
 
 function api(a, extra) {
@@ -89,7 +116,8 @@ function row(k, v) { return '<div><span>' + k + '</span><b>' + v + '</b></div>';
 
 function render() {
   var c = S.c, h = '', n = 1, sv = S.svc ? svc() : null;
-  h += '<header><div class="em">' + esc(c.emoji) + '</div><h1>' + esc(c.title) + '</h1>' + (c.about ? '<p>' + esc(c.about) + '</p>' : '') +
+  var logo = c.brand && /^https:\/\//.test(c.brand.logo_url || '') ? '<img class="logo" src="' + esc(c.brand.logo_url) + '" alt="">' : '<div class="em">' + esc(c.emoji) + '</div>';
+  h += '<header>' + logo + '<h1>' + esc(c.title) + '</h1>' + (c.about ? '<p>' + esc(c.about) + '</p>' : '') +
     '<p>' + (c.address ? '📍 ' + esc(c.address) + ' · ' : '') + '🕐 ' + esc(c.hours) + '</p></header>';
   if (c.prepared) h += '<div class="note">🧪 Це демо-сторінка запису, яку ми підготували для «' + esc(c.title) + '». Записи тут тестові — спробуйте, як це побачать ваші клієнти.</div>';
   else if (c.demo) h += '<div class="note">🧪 Це демо онлайн-запису. Запишіться як клієнт — записи тестові й ні до чого не зобов\'язують.</div>';
@@ -99,7 +127,9 @@ function render() {
   if (S.done) {
     var d = S.done;
     h += '<div class="card ok"><div class="em">🎉</div><h2>Ви записані!</h2><div class="sum">' + row('Послуга', esc(d.name)) + row('Дата', dlong(d.day)) +
-      row('Час', fm(d.start) + '–' + fm(d.start + d.min)) + (d.master ? row('Майстер', esc(d.master)) : '') + row('Вартість', money(d.price)) + '</div>' +
+      row('Час', fm(d.start) + '–' + fm(d.start + d.min)) + (d.master ? row(V('resource', 'Майстер'), esc(d.master)) : '') +
+      pfields().filter(function (f) { return d.f[f.key]; }).map(function (f) { return row(esc(f.label), esc(d.f[f.key])); }).join('') +
+      row('Вартість', money(d.price)) + '</div>' +
       '<p class="hint">' + (T ? 'Підтвердження надіслано вам у чат. Нагадаємо за 2 години до візиту.' :
         (c.demo ? 'У реальному бізнесі власник у цю ж мить отримує сповіщення про запис у Telegram.' : 'Власник уже отримав сповіщення про ваш запис.')) + '</p>' +
       (T ? '<button class="main" data-a="close">Готово</button>' : '<button class="main" data-a="again">Записатися ще раз</button>') + '</div>';
@@ -108,8 +138,8 @@ function render() {
       return '<button class="svc' + (s.id === S.svc ? ' on' : '') + '" data-a="svc" data-v="' + esc(s.id) + '"><div>' + esc(s.emoji) + ' ' + esc(s.name) +
         '<small>' + s.min + ' хв</small></div><b>' + money(s.price) + '</b></button>'; }).join('') + '</div>';
     if (sv && sv.masters.length > 1) {
-      h += '<div class="card" id="st-m"><h2><span>' + (n++) + '</span>Оберіть майстра</h2><div class="chips">' +
-        '<button data-a="m" data-v="*"' + (!S.needM && S.m === '*' ? ' class="on"' : '') + '>🎲 Будь-який</button>' +
+      h += '<div class="card" id="st-m"><h2><span>' + (n++) + '</span>' + esc(V('choose_resource', 'Оберіть майстра')) + '</h2><div class="chips">' +
+        '<button data-a="m" data-v="*"' + (!S.needM && S.m === '*' ? ' class="on"' : '') + '>🎲 ' + esc(V('any_resource', 'Будь-який')) + '</button>' +
         sv.masters.map(function (id) { return '<button data-a="m" data-v="' + esc(id) + '"' + (S.m === id ? ' class="on"' : '') + '>' + esc(mname(id)) + '</button>'; }).join('') + '</div></div>';
     }
     if (sv && !S.needM) {
@@ -128,7 +158,8 @@ function render() {
     }
     if (sv && S.start != null) {
       h += '<div class="card" id="st-f"><h2><span>' + (n++) + '</span>Ваші контакти</h2><div class="sum">' + row('Послуга', esc(sv.name)) + row('Коли', dlong(S.day) + ', ' + fm(S.start)) +
-        (sv.masters.length > 1 ? row('Майстер', S.m === '*' ? 'будь-який вільний' : esc(mname(S.m))) : '') + row('Вартість', money(sv.price)) + '</div>' +
+        (sv.masters.length > 1 ? row(esc(V('resource', 'Майстер')), S.m === '*' ? 'будь-який вільний' : esc(mname(S.m))) : '') + row('Вартість', money(sv.price)) + '</div>' +
+        fieldsHtml() +
         '<label>Ваше ім\'я<input id="nm" autocomplete="given-name" maxlength="60" value="' + esc(S.name) + '" placeholder="Олена"></label>' +
         '<label>Телефон<input id="ph" type="tel" autocomplete="tel" maxlength="20" value="' + esc(S.phone) + '" placeholder="+380 67 123 45 67"></label>' +
         '<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
@@ -147,6 +178,19 @@ function render() {
   app.innerHTML = h;
 }
 
+// Fields of the sphere pack: car plate and model for a car service, wishes for a barbershop.
+function fieldsHtml() {
+  var fs = pfields(); if (!fs.length) return '';
+  var subj = S.c.pack.subject, h = '';
+  function one(f) {
+    var t = f.type === 'number' ? ' inputmode="numeric"' : f.type === 'plate' ? ' autocapitalize="characters" autocomplete="off" placeholder="AA 1234 BB"' : '';
+    return '<label>' + esc(f.label) + (f.required ? '' : ' <small>(за бажанням)</small>') +
+      '<input data-f="' + esc(f.key) + '" maxlength="' + (f.type === 'plate' ? 12 : Math.min(f.max || 120, 200)) + '"' + t + ' value="' + esc(S.f[f.key] || '') + '"></label>';
+  }
+  var sf = fs.filter(function (f) { return f.scope === 'subject'; }), vf = fs.filter(function (f) { return f.scope !== 'subject'; });
+  if (sf.length) h += '<p class="fgroup">' + esc(subj ? subj.label : V('subject', 'Клієнт')) + '</p>' + sf.map(one).join('');
+  return h + vf.map(one).join('');
+}
 function slots() {
   S.loading = true; S.days = null; S.day = null; S.start = null; render();
   api('slots', { svc: S.svc, m: S.m }).then(function (r) { S.days = r.days; S.day = r.days.length ? r.days[0].d : null; })
@@ -156,24 +200,30 @@ function submit() {
   var nm = S.name.trim(), digits = S.phone.replace(/[^0-9]/g, ''), hp = document.getElementById('hp');
   if (nm.length < 2) { S.err = 'Вкажіть, будь ласка, ім\'я.'; return render(); }
   if (digits.length < 9) { S.err = 'Вкажіть номер телефону, наприклад +380671234567.'; return render(); }
-  var sv = svc(), honey = hp ? hp.value : '';
+  var miss = pfields().filter(function (f) { return f.required && !String(S.f[f.key] || '').trim(); })[0];
+  if (miss) { S.err = 'Заповніть, будь ласка, поле «' + miss.label + '».'; return render(); }
+  var sv = svc(), honey = hp ? hp.value : '', fv = {};
+  pfields().forEach(function (f) { var x = String(S.f[f.key] || '').trim(); if (x) fv[f.key] = f.type === 'plate' ? x.toUpperCase() : x; });
   S.busy = true; S.err = ''; render();
-  api('book', { svc: S.svc, m: S.m, day: S.day, start: S.start, name: nm, phone: S.phone, website: honey }).then(function (r) {
+  api('book', { svc: S.svc, m: S.m, day: S.day, start: S.start, name: nm, phone: S.phone, fields: fv, website: honey }).then(function (r) {
     ls('zp_name', nm); ls('zp_phone', S.phone);
-    S.busy = false; S.done = { name: sv.name, min: sv.min, price: sv.price, day: S.day, start: S.start, master: r.master };
+    S.busy = false; S.done = { name: sv.name, min: sv.min, price: sv.price, day: S.day, start: S.start, master: r.master, f: fv };
     if (T && T.HapticFeedback) T.HapticFeedback.notificationOccurred('success');
     render(); window.scrollTo(0, 0);
   }).catch(function (e) {
     S.busy = false;
     if (e.message === 'busy') { S.err = 'Цей час щойно зайняли. Оберіть, будь ласка, інший.'; var keep = S.err; slots(); S.err = keep; return; }
     S.err = e.message === 'limit' ? 'Забагато записів за короткий час. Спробуйте трохи пізніше.' :
-      e.message === 'contact' ? 'Перевірте, будь ласка, ім\'я та номер телефону.' : 'Не вдалося записатися. Спробуйте ще раз.';
+      e.message === 'contact' ? 'Перевірте, будь ласка, ім\'я та номер телефону.' :
+      e.message === 'fields' ? 'Перевірте, будь ласка, заповнені поля' + (S.c.pack && S.c.pack.subject ? ' про ' + S.c.pack.subject.label.toLowerCase() : '') + '.' :
+      'Не вдалося записатися. Спробуйте ще раз.';
     render();
   });
 }
 function load() {
   api('cfg').then(function (c) {
     S.c = c; if (c.variant) S.v = c.variant;
+    brand(c.brand);
     if (c.me) { S.name = S.name || c.me.name; S.phone = S.phone || c.me.phone; }
     document.title = 'Онлайн-запис · ' + c.title;
     render();
@@ -195,7 +245,11 @@ app.addEventListener('click', function (e) {
   else if (a === 'close') { if (T) T.close(); }
   else if (a === 'again') { S.done = null; S.svc = null; S.days = null; S.start = null; S.needM = false; render(); window.scrollTo(0, 0); }
 });
-app.addEventListener('input', function (e) { if (e.target.id === 'nm') S.name = e.target.value; if (e.target.id === 'ph') S.phone = e.target.value; });
+app.addEventListener('input', function (e) {
+  if (e.target.id === 'nm') S.name = e.target.value;
+  if (e.target.id === 'ph') S.phone = e.target.value;
+  if (e.target.dataset && e.target.dataset.f) S.f[e.target.dataset.f] = e.target.value;
+});
 load();
 </script>
 </body>
