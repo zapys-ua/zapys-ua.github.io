@@ -6,17 +6,17 @@
 <meta name="robots" content="noindex">
 <title>Онлайн-запис</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="../assets/avenue.css">
 <style>
-:root{--bg:var(--tg-theme-secondary-bg-color,#f2f4f7);--card:var(--tg-theme-bg-color,#fff);--text:var(--tg-theme-text-color,#131820);--mute:var(--tg-theme-hint-color,#6c7685);--acc:var(--tg-theme-button-color,#2aabee);--acct:var(--tg-theme-button-text-color,#fff);--line:rgba(125,135,150,.3)}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased}
+:root{--bg:var(--tg-theme-secondary-bg-color,var(--av-paper));--card:var(--tg-theme-bg-color,var(--av-card));--text:var(--tg-theme-text-color,var(--av-ink));--mute:var(--tg-theme-hint-color,var(--av-mute));--acc:var(--tg-theme-button-color,var(--av-terra));--acct:var(--tg-theme-button-text-color,#fff)}
+body{background:var(--bg);color:var(--text)}
 .wrap{max-width:560px;margin:0 auto;padding:16px 14px 40px}
 header{text-align:center;padding:10px 0 14px}
 .em{font-size:40px;line-height:1.1}
 .logo{width:64px;height:64px;border-radius:16px;object-fit:cover;display:block;margin:0 auto 6px}
 .fgroup{font-size:13px;font-weight:700;margin:4px 0 8px}
 h1{font-size:24px;letter-spacing:-.3px;margin:4px 0}
-h1,.card h2,.ok h2{font-family:var(--font,inherit)}
+h1,.ok h2{font-family:var(--font-display)}.card h2{font-family:var(--font-text);font-weight:700}
 header p{color:var(--mute);font-size:14px}
 .card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
 .card h2{font-size:15px;margin-bottom:10px}
@@ -77,7 +77,7 @@ var SYS = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sa
 // the business config, which the database already checks (#rrggbb, font from the list above).
 function brand(b) {
   var r = document.documentElement.style;
-  ['--acc', '--acct', '--bg', '--font'].forEach(function (k) { r.removeProperty(k); });
+  ['--acc', '--acct', '--bg', '--font-display'].forEach(function (k) { r.removeProperty(k); });
   if (!b) return;
   var hex = /^#[0-9a-fA-F]{6}$/;
   if (hex.test(b.color || '')) { r.setProperty('--acc', b.color); r.setProperty('--acct', hex.test(b.ink || '') ? b.ink : '#fff'); }
@@ -89,7 +89,7 @@ function brand(b) {
       l.href = 'https://fonts.googleapis.com/css2?family=' + b.font.replace(/ /g, '+') + ':wght@400;600;700&display=swap';
       document.head.appendChild(l);
     }
-    r.setProperty('--font', '"' + b.font + '",' + SYS);
+    r.setProperty('--font-display', '"' + b.font + '",' + SYS);
   }
 }
 // Words of the sphere: «майстер» for a barbershop, «бокс» for a car service.
