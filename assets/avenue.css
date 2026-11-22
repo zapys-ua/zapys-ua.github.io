@@ -2,7 +2,7 @@
    Описание и правила: docs/brand.md. Страницы бизнесов (запис, сертифікати) меняют только
    --acc, --acct, --bg и --font-display через config.brand, шкалы остаются общими. */
 
-@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap");
+/* Шрифти Golos Text і Unbounded підключає кожна сторінка тегом <link> у <head>: так вони вантажаться паралельно, а не ланцюжком через @import. */
 
 :root {
   /* Палитра Avenue */

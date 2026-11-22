@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Avenue · кадри для нагород</title>
+<!-- Кадри для Dribbble (1600×1200) і превʼю посилання (1200×630) збираються з живих сторінок сайту.
+     Відкрити через локальний сервер з кореня репозиторію: /docs/awards/kit.html?shot=hero|sites|loop|booking|og
+     Знімок: node shot.mjs "<url>" 1600 out.png 0 1200 (для og: 1200 і 0 630). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1600px;height:1200px;overflow:hidden;background:#F5F0E6;font-family:"Golos Text",sans-serif;color:#17140F;position:relative}
+body.og{width:1200px;height:630px}
+body.dark{background:#17140F;color:#F5F0E6}
+.frame{position:absolute;overflow:hidden;background:#fff;box-shadow:0 60px 120px -50px rgba(23,20,15,.55),0 0 0 1px rgba(23,20,15,.08)}
+.frame iframe{border:0;display:block;transform-origin:0 0}
+.desk{border-radius:22px}
+.phone{border-radius:46px;padding:10px;background:#17140F}
+.phone .scr{border-radius:37px;overflow:hidden;width:390px;height:844px;position:relative}
+.phone iframe{width:390px;height:844px}
+.tag{position:absolute;font:600 14px/1 "Golos Text";letter-spacing:.14em;text-transform:uppercase;color:#B8431A}
+.dark .tag{color:#E8835A}
+.ttl{position:absolute;font:700 64px/1 "Unbounded";letter-spacing:-.035em}
+.logo{position:absolute;font:800 30px/1 "Unbounded";letter-spacing:-.02em}
+.logo b{color:#B8431A}
+</style>
+</head>
+<body>
+<script>
+var Q = new URLSearchParams(location.search), shot = Q.get("shot") || "hero", B = location.origin + "/";
+function frame(src, x, y, w, h, scale, cls) {
+  var f = document.createElement("div"); f.className = "frame " + (cls || "desk");
+  f.style.cssText = "left:" + x + "px;top:" + y + "px;width:" + Math.round(w * scale) + "px;height:" + Math.round(h * scale) + "px";
+  var i = document.createElement("iframe"); i.src = src; i.style.width = w + "px"; i.style.height = h + "px"; i.style.transform = "scale(" + scale + ")";
+  f.appendChild(i); document.body.appendChild(f); return f;
+}
+function phone(src, x, y, scale, rot) {
+  var p = document.createElement("div"); p.className = "frame phone";
+  p.style.cssText = "left:" + x + "px;top:" + y + "px;transform:scale(" + scale + ") rotate(" + (rot || 0) + "deg);transform-origin:0 0";
+  var s = document.createElement("div"); s.className = "scr"; var i = document.createElement("iframe"); i.src = src; s.appendChild(i); p.appendChild(s); document.body.appendChild(p); return p;
+}
+function add(html) { document.body.insertAdjacentHTML("beforeend", html); }
+
+if (shot === "hero") {
+  add('<div class="logo" style="left:80px;top:64px">avenue<b>.</b></div><div class="tag" style="right:80px;top:72px">Онлайн-запис · Дніпро</div>');
+  frame(B + "?s=barber", 80, 150, 1440, 900, 1, "desk").style.width = "1440px";
+}
+if (shot === "sites") {
+  document.body.className = "dark";
+  add('<div class="tag" style="left:80px;top:80px">Сайт у пакеті «Преміум»</div><div class="ttl" style="left:80px;top:116px;width:1100px">Три бізнеси, три характери</div>');
+  phone(B + "demo/?v=barber", 110, 290, 1, -4); phone(B + "demo/?v=sto", 605, 250, 1, 0); phone(B + "demo/?v=groom", 1090, 290, 1, 4);
+}
+if (shot === "loop") {
+  document.body.className = "dark";
+  frame(B + "#loop", 80, 80, 1440, 1040, 1, "desk");
+}
+if (shot === "booking") {
+  add('<div class="tag" style="left:80px;top:80px">Запис за три натиски</div><div class="ttl" style="left:80px;top:116px;width:700px">Клієнт обирає час. Ви спите.</div>');
+  phone(B + "book/?v=groom&embed=1", 860, 120, 1.18, 0);
+  frame(B + "demo/?v=barber#menu", 80, 330, 1440, 1100, .5, "desk");
+}
+if (shot === "og") {
+  document.body.className = "og";
+  add('<div class="logo" style="left:64px;top:56px;font-size:34px">avenue<b>.</b></div>' +
+    '<div class="ttl" style="left:64px;top:150px;width:700px;font-size:66px;line-height:.98">Клієнти записуються самі. Навіть о <span style="color:#B8431A">23:40</span>.</div>' +
+    '<div style="position:absolute;left:64px;bottom:58px;font:500 22px/1.35 Golos Text;color:#6B6358;width:620px">Бот, сайт і запис для барбершопів, салонів, СТО і грумінгу. Налаштуємо за один день.</div>');
+  phone(B + "demo/?v=barber", 830, 40, .64, 0);
+}
+</script>
+</body>
+</html>
