@@ -296,7 +296,7 @@ footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
   <div class="live">
     <span>Перевірте самі, це справжні сторінки:</span>
     <a class="btn btn-line btn-sm" data-href="book" href="book/?v=barber">Сторінка запису</a>
-    <a class="btn btn-line btn-sm" href="gift/?b=test-barber">Сертифікат</a>
+    <a class="btn btn-line btn-sm" data-href="gift" href="gift/?v=barber">Сертифікат</a>
     <a class="btn btn-line btn-sm" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Бот і Пульт власника</a>
   </div>
 </section>
@@ -551,6 +551,7 @@ function setSphere(key, animate) {
   } else sw.textContent = s.phrase;
   [].forEach.call(document.querySelectorAll('[data-href="bot"]'), function (a) { a.href = "https://t.me/zapysua_demo_bot?start=" + key; });
   [].forEach.call(document.querySelectorAll('[data-href="book"]'), function (a) { a.href = "book/?v=" + key; });
+  [].forEach.call(document.querySelectorAll('[data-href="gift"]'), function (a) { a.href = "gift/?v=" + key; });
   [].forEach.call(document.querySelectorAll("#svcs li"), function (li) { li.classList.toggle("rec", li.dataset.svc === s.rec); });
   if (!checkTouched) { $("c-check").value = s.check; calc(); }
   svc = 0; day = 0; renderPhone();

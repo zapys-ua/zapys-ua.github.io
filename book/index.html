@@ -37,7 +37,7 @@ button.on{background:var(--acc);color:var(--acct);border-color:var(--acc)}
 .day b{font-size:17px}
 .times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
 label{display:block;font-size:13px;color:var(--mute);margin-bottom:10px}
-input{font:inherit;font-size:16px;width:100%;margin-top:5px;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}
+input,select{font:inherit;font-size:16px;width:100%;margin-top:5px;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}
 input:focus{outline:2px solid var(--acc);outline-offset:1px}
 .main{width:100%;background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700;padding:14px;font-size:16px}
 .main:disabled{opacity:.6}
@@ -170,13 +170,16 @@ function render() {
         (S.err ? '<p class="err">' + esc(S.err) + '</p>' : '') + '</div>';
     }
   }
+  // Лид из демо попадает на главную в своей сфере (?s=) и с меткой партнёра (?p=).
+  var sp = S.b === 'demo' && /^(barber|nails|sto|groom|massage)$/.test(c.variant || '') ? c.variant : '';
+  var site = SITE + ((sp || S.p) ? '?' + [sp ? 's=' + sp : '', S.p ? 'p=' + encodeURIComponent(S.p) : ''].filter(Boolean).join('&') : '');
   if (c.demo) {
     var st = c.niche || (S.b === 'demo' ? c.variant : '');
     h += '<div class="card cta"><b>Хочете такий онлайн-запис для свого бізнесу?</b><p>Бот у Telegram і ця сторінка для Instagram, Google Maps та Viber. Налаштуємо все за вас за 1 день.</p>' +
-      '<a class="btn fill" data-a="ext" target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '#zayavka">Залишити заявку</a>' +
+      '<a class="btn fill" data-a="ext" target="_blank" rel="noopener" href="' + site + '#zayavka">Залишити заявку</a>' +
       '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/avenue_studio_ua">Написати нам у Telegram</a>' + (c.bot ? '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/' + esc(c.bot) + (st ? '?start=' + encodeURIComponent(st) : '') + '">Спробувати бота в Telegram</a>' : '') + '</div>';
   }
-  h += '<footer>Працює на <a data-a="ext" target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '">Zapys</a> — онлайн-запис для вашого бізнесу</footer>';
+  h += '<footer>Працює на <a data-a="ext" target="_blank" rel="noopener" href="' + site + '" translate="no">Avenue</a>: онлайн-запис для вашого бізнесу</footer>';
   app.innerHTML = h;
 }
 
@@ -186,7 +189,10 @@ function fieldsHtml() {
   var subj = S.c.pack.subject, h = '';
   function one(f) {
     var t = f.type === 'number' ? ' inputmode="numeric"' : f.type === 'plate' ? ' autocapitalize="characters" autocomplete="off" placeholder="AA 1234 BB"' : '';
-    return '<label>' + esc(f.label) + (f.required ? '' : ' <small>(за бажанням)</small>') +
+    var head = '<label>' + esc(f.label) + (f.required ? '' : ' <small>(за бажанням)</small>');
+    if (f.type === 'select') return head + '<select data-f="' + esc(f.key) + '"><option value="">' + (f.required ? 'Оберіть' : 'Не вказано') + '</option>' +
+      (f.options || []).map(function (o) { return '<option' + (S.f[f.key] === o ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select></label>';
+    return head +
       '<input data-f="' + esc(f.key) + '" maxlength="' + (f.type === 'plate' ? 12 : Math.min(f.max || 120, 200)) + '"' + t + ' value="' + esc(S.f[f.key] || '') + '"></label>';
   }
   var sf = fs.filter(function (f) { return f.scope === 'subject'; }), vf = fs.filter(function (f) { return f.scope !== 'subject'; });
