@@ -1,0 +1,77 @@
+/* Avenue: токены бренда и общая база для всех страниц сайта.
+   Описание и правила: docs/brand.md. Страницы бизнесов (запис, сертифікати) меняют только
+   --acc, --acct, --bg и --font-display через config.brand, шкалы остаются общими. */
+
+@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap");
+
+:root {
+  /* Палитра Avenue */
+  --av-paper: #F5F0E6;   /* холст: тёплая бумага, читается днём на телефоне */
+  --av-card: #FFFDF8;    /* поверхность карточек */
+  --av-ink: #17140F;     /* основной текст, кнопки второго уровня. 16,2:1 на холсте */
+  --av-mute: #6B6358;    /* вторичный текст. 5,2:1 на холсте */
+  --av-terra: #B8431A;   /* единственный акцент. 4,8:1 на холсте, белый на нём 5,45:1 */
+  --av-ok: #2F7A4F;      /* успех. 4,6:1 */
+  --av-warn: #8A5A0F;    /* внимание */
+  --av-danger: #B42318;  /* ошибка */
+
+  /* Семантика: эти имена используют страницы */
+  --bg: var(--av-paper);
+  --card: var(--av-card);
+  --text: var(--av-ink);
+  --mute: var(--av-mute);
+  --acc: var(--av-terra);
+  --acct: #FFFFFF;
+  --line: rgba(23, 20, 15, .12);
+  --ok: var(--av-ok);
+  --warn: var(--av-warn);
+  --err: var(--av-danger);
+
+  /* Шрифты: акцидентный для заголовков, текстовый с родной кириллицей */
+  --font-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --font-text: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+
+  /* Шкала текста (px при 16 базовых): 12 14 16 18 22 28 36 48 */
+  --t-xs: .75rem; --t-sm: .875rem; --t-md: 1rem; --t-lg: 1.125rem;
+  --t-xl: 1.375rem; --t-2xl: 1.75rem; --t-3xl: 2.25rem; --t-4xl: 3rem;
+
+  /* Отступы по сетке 4 px */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+
+  /* Радиусы */
+  --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-pill: 999px;
+
+  /* Движение: короткое, по делу */
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.2, .9, .3, 1.35);
+  --d-quick: 160ms; --d-base: 280ms; --d-slow: 450ms;
+
+  --w-page: 1120px;
+  --w-flow: 560px; /* страницы записи и сертификатов */
+}
+
+/* База */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-text); font-size: var(--t-md); line-height: 1.5;
+  background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -.01em; line-height: 1.15; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+
+/* Фирменная форма «квиток»: карточка с вырезами по бокам. Запись и сертификат — билет на визит.
+   Вырезы окрашиваются цветом фона страницы, поэтому работает на любом бренде. */
+.av-ticket { position: relative; overflow: hidden; border-radius: var(--r-lg); }
+.av-ticket::before, .av-ticket::after {
+  content: ""; position: absolute; top: 50%; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg); transform: translateY(-50%);
+}
+.av-ticket::before { left: -13px; }
+.av-ticket::after { right: -13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+}
