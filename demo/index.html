@@ -10,7 +10,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
-<link id="fonts" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap">
+<link id="fonts" rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap">
+<script>
+// Фото першого екрана вантажимо одразу, ще до розбору сторінки: від нього залежить LCP.
+(function () { var h = { barber: "photo-1503951914875-452162b0f3f1", sto: "photo-1619642751034-765dfdf7c58e", groom: "photo-1516734212186-a967f81ad0d7" };
+  var v = new URLSearchParams(location.search).get("v"), id = h[v] || h.barber, u = function (w) { return "https://images.unsplash.com/" + id + "?auto=format&fit=crop&w=" + w + "&q=72"; };
+  var l = document.createElement("link"); l.rel = "preload"; l.as = "image"; l.href = u(1800); l.setAttribute("imagesrcset", u(800) + " 800w," + u(1400) + " 1400w," + u(2000) + " 2000w"); l.setAttribute("imagesizes", "100vw"); l.setAttribute("fetchpriority", "high"); document.head.appendChild(l); })();
+</script>
 <script>document.documentElement.classList.add("js")</script>
 <style>
 :root{--c:#1F4D3A;--ink:#14120E;--paper:#F4F1EA;--card:#FFFDF8;--mute:#6B6358;--line:rgba(20,18,14,.12);--disp:"Playfair Display",Georgia,serif;--text:"Golos Text",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--ease:cubic-bezier(.2,.8,.2,1)}
