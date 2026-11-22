@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avenue: онлайн-запис, сертифікати і постійні клієнти для малого бізнесу</title>
-<meta name="description" content="Бот запису в Telegram, сторінка запису за посиланням, сертифікати і повернення клієнтів для барбершопів, студій, СТО та грумінгу. Налаштуємо за один день. Ціни відкриті.">
-<meta property="og:title" content="Avenue: записи, сертифікати і постійні клієнти">
-<meta property="og:description" content="Клієнти записуються самі, 24/7. Налаштуємо за вас за один день, ціни відкриті на сайті.">
+<title>Avenue: клієнти записуються самі і повертаються</title>
+<meta name="description" content="Бот запису в Telegram, сторінка запису за посиланням, сертифікати і повернення клієнтів для барбершопів, салонів, СТО і грумінгу. Налаштуємо за вас за один день, ціни відкриті.">
+<meta property="og:title" content="Avenue: клієнти записуються самі і повертаються">
+<meta property="og:description" content="Клієнти записуються 24/7, а бот кличе їх знову. Налаштуємо за вас за один день, ціни відкриті на сайті.">
 <meta property="og:image" content="https://zapys-ua.github.io/og.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zapys-ua.github.io/">
@@ -15,57 +15,123 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/avenue.css">
+<script>document.documentElement.classList.add("js")</script>
 <style>
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-.wrap{max-width:var(--w-page);margin:0 auto;padding:0 var(--s-4)}
-a{text-decoration:none}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.skip{position:absolute;left:var(--s-4);top:-60px;background:var(--text);color:var(--av-paper);padding:10px 14px;border-radius:var(--r-sm);z-index:10}
-.skip:focus{top:var(--s-2)}
+body{overflow-x:hidden}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--s-4)}
+a{text-decoration:none;color:inherit}
 h1,h2,h3{text-wrap:balance}
 p{text-wrap:pretty}
-section,[id]{scroll-margin-top:var(--s-5)}
+section,[id]{scroll-margin-top:72px}
 button,.btn,.chip,input[type=range]{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.price,.loss-n,.field output,.svcs .cost,.svc em{font-variant-numeric:tabular-nums}
+.price,.loss-n,.field output,.svcs .cost,.svc em,.ring-n,.clock{font-variant-numeric:tabular-nums}
+.skip{position:absolute;left:var(--s-4);top:-60px;background:var(--text);color:var(--av-paper);padding:10px 14px;border-radius:var(--r-sm);z-index:60}
+.skip:focus{top:var(--s-2)}
+
+/* Зерно паперу: одна SVG-текстура на всю сторінку, не реагує на кліки */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.07;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* Прогрес читання: лише там, де браузер вміє анімацію від прокрутки */
+.progress{display:none}
+@supports (animation-timeline:scroll()){
+  .progress{display:block;position:fixed;left:0;top:0;height:3px;width:100%;background:var(--acc);transform-origin:0 50%;transform:scaleX(0);z-index:55;animation:grow linear both;animation-timeline:scroll(root)}
+  @keyframes grow{to{transform:scaleX(1)}}
+}
 
 /* Кнопки */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 20px;border-radius:var(--r-md);font:600 var(--t-md)/1.2 var(--font-text);border:1.5px solid transparent;cursor:pointer;text-align:center;transition:transform var(--d-quick) var(--ease-out),background var(--d-quick)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 22px;border-radius:var(--r-pill);font:600 var(--t-md)/1.2 var(--font-text);border:1.5px solid transparent;cursor:pointer;text-align:center;transition:transform var(--d-quick) var(--ease-out),background var(--d-quick),color var(--d-quick)}
 .btn:active{transform:scale(.97)}
+.btn .arr{display:inline-block;transition:transform var(--d-base) var(--ease-out)}
+.btn:hover .arr{transform:translateX(4px)}
 .btn-acc{background:var(--acc);color:var(--acct)}
 .btn-acc:hover{background:#A33A15}
+.btn-ink{background:var(--text);color:var(--av-paper)}
+.btn-ink:hover{background:#2A251D}
 .btn-line{border-color:var(--text);color:var(--text);background:transparent}
 .btn-line:hover{background:rgba(23,20,15,.05)}
-.btn-sm{min-height:44px;padding:8px 14px;font-size:var(--t-sm);border-radius:var(--r-sm)}
+.btn-sm{min-height:44px;padding:9px 16px;font-size:var(--t-sm)}
 
 /* Шапка */
-.top{display:flex;align-items:center;justify-content:space-between;padding:var(--s-4) 0}
+.top{position:sticky;top:0;z-index:40;background:var(--bg);transition:box-shadow var(--d-base)}
+.top.scrolled{box-shadow:0 1px 0 var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);height:64px}
 .logo{font:800 22px/1 var(--font-display);letter-spacing:-.02em}
 .logo b{color:var(--acc)}
 .nav{display:none;gap:var(--s-5);font-size:var(--t-sm);color:var(--mute)}
 .nav a:hover{color:var(--text)}
 
-/* Первый экран */
+/* Перший екран */
 .hero{display:grid;gap:var(--s-7);padding:var(--s-5) 0 var(--s-7)}
-.eyebrow{font-size:var(--t-sm);color:var(--mute);margin-bottom:var(--s-3)}
-.hero h1{font-size:clamp(30px,8.6vw,60px);line-height:1.08;letter-spacing:-.025em;margin-bottom:var(--s-5)}
-.swap{color:var(--acc);display:inline-block;transition:opacity var(--d-quick),transform var(--d-quick) var(--ease-out)}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:var(--t-sm);color:var(--mute);margin-bottom:var(--s-5)}
+.pulse{position:relative;width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
+.pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--ok);animation:ping 2.4s var(--ease-out) infinite}
+@keyframes ping{0%{transform:scale(.4);opacity:.9}80%,100%{transform:scale(1.4);opacity:0}}
+.display{font:700 clamp(40px,10.2vw,92px)/.98 var(--font-display);letter-spacing:-.035em;margin-bottom:var(--s-5)}
+.ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.ln>span{display:inline-block}
+.js .ln>span{transform:translateY(105%)}
+.ready .ln>span{transform:none;transition:transform 1s var(--ease-out)}
+.ready .ln:nth-child(2)>span{transition-delay:.08s}
+.ready .ln:nth-child(3)>span{transition-delay:.16s}
+.ready .ln:nth-child(4)>span{transition-delay:.24s}
+.clock{display:inline-block;color:var(--acc);transition:opacity var(--d-quick),transform var(--d-base) var(--ease-out)}
+.clock.tick{opacity:0;transform:translateY(-.18em)}
+.lead{font-size:var(--t-lg);color:var(--mute);max-width:32em;margin-bottom:var(--s-5)}
+.lead strong{color:var(--text);font-weight:600}
+.swap{color:var(--text);font-weight:600;display:inline-block;transition:opacity var(--d-quick),transform var(--d-quick) var(--ease-out)}
 .swap.out{opacity:0;transform:translateY(.25em)}
 .chips{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-bottom:var(--s-5)}
-.chips-label{width:100%;font-size:var(--t-sm);color:var(--mute)}
-.chip{min-height:44px;padding:8px 14px;border-radius:var(--r-pill);border:1.5px solid var(--line);background:var(--card);font:500 var(--t-sm) var(--font-text);color:var(--text);cursor:pointer;transition:border-color var(--d-quick),background var(--d-quick)}
+.chip{min-height:44px;padding:8px 16px;border-radius:var(--r-pill);border:1.5px solid var(--line);background:var(--card);font:500 var(--t-sm) var(--font-text);color:var(--text);cursor:pointer;transition:border-color var(--d-quick),background var(--d-quick),color var(--d-quick)}
 .chip:hover{border-color:var(--text)}
 .chip[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:var(--av-paper)}
-.lead{font-size:var(--t-lg);color:var(--mute);max-width:34em;margin-bottom:var(--s-5)}
-.lead strong{color:var(--text);font-weight:600}
 .cta{display:flex;flex-wrap:wrap;gap:var(--s-3)}
-.note{font-size:var(--t-sm);color:var(--mute);margin-top:var(--s-3)}
+.note{font-size:var(--t-sm);color:var(--mute);margin-top:var(--s-4)}
 .note a{text-decoration:underline;text-underline-offset:3px}
 
-/* Телефон с живым примером */
+/* Потік квитків: так записи приходять власнику в Telegram */
+.stream{position:relative;align-self:center}
+.stream-head{display:flex;justify-content:space-between;align-items:center;font-size:var(--t-xs);color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--s-3)}
+.stream-head b{display:flex;align-items:center;gap:8px;color:var(--text);font-weight:600}
+.feed{position:relative;height:calc(3 * 112px);list-style:none}
+.tk{--c:#1F4D3A;position:absolute;left:0;right:0;top:0;height:100px;display:grid;grid-template-columns:44px 1fr auto;gap:4px 12px;align-items:center;padding:14px 16px 14px 14px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 40px -28px rgba(23,20,15,.5);transform:translateY(calc(var(--i) * 112px)) scale(calc(1 - var(--i) * .035));opacity:calc(1 - var(--i) * .28);transition:transform .9s var(--ease-spring),opacity .6s var(--ease-out);will-change:transform}
+.tk.new{transform:translateY(-36px) scale(.94);opacity:0}
+.tk::before,.tk::after{content:"";position:absolute;left:62px;width:14px;height:7px;background:var(--bg);border:1px solid var(--line)}
+.tk::before{top:-1px;border-top:0;border-radius:0 0 14px 14px}
+.tk::after{bottom:-1px;border-bottom:0;border-radius:14px 14px 0 0}
+.tk .m{grid-row:span 2;width:44px;height:44px;border-radius:12px;background:var(--c);color:#fff;display:grid;place-items:center;font:700 18px var(--font-display)}
+.tk b{font:700 15px/1.2 var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk p{font-size:13px;color:var(--mute);line-height:1.35;grid-column:2/-1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk time{font:700 13px var(--font-display);color:var(--acc);justify-self:end}
+.stream-cap{font-size:var(--t-xs);color:var(--mute);margin-top:var(--s-3)}
+
+/* Біжучий рядок */
+.marquee{overflow:hidden;padding:var(--s-4) 0;background:var(--av-ink);color:var(--av-paper)}
+.track{display:flex;width:max-content;animation:mq 38s linear infinite}
+.track span{font:700 clamp(22px,4vw,40px)/1 var(--font-display);letter-spacing:-.02em;padding-right:.9em;white-space:nowrap}
+.track i{display:inline-block;width:.42em;height:.42em;border-radius:50%;background:var(--acc);margin-left:.9em;vertical-align:.12em}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* Секції */
+section{padding:clamp(64px,10vw,128px) 0}
+.kicker{display:inline-block;font:600 var(--t-xs)/1 var(--font-text);letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:var(--s-4)}
+.h2{font:700 clamp(30px,6.4vw,60px)/1.02 var(--font-display);letter-spacing:-.03em;margin-bottom:var(--s-4);max-width:16em}
+.sub{color:var(--mute);font-size:var(--t-lg);max-width:34em;margin-bottom:var(--s-7)}
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease-out),transform .9s var(--ease-out)}
+.js .rv.in{opacity:1;transform:none}
+
+/* Спробуйте як клієнт */
+.try{display:grid;gap:var(--s-7);align-items:center}
+.points{list-style:none;display:grid;gap:var(--s-5);margin-bottom:var(--s-6)}
+.points li{display:grid;grid-template-columns:36px 1fr;gap:var(--s-3)}
+.points li::before{content:attr(data-n);font:700 var(--t-sm)/1.6 var(--font-display);color:var(--acc)}
+.points b{display:block;font:700 var(--t-lg)/1.3 var(--font-display);margin-bottom:4px}
+.points p{color:var(--mute)}
+.live{display:flex;flex-wrap:wrap;gap:var(--s-2)}
 .stage{display:grid;justify-items:center;gap:var(--s-3)}
-.phone{--b:#1F4D3A;width:min(320px,100%);background:var(--av-ink);border-radius:40px;padding:10px;box-shadow:0 30px 60px -30px rgba(23,20,15,.45)}
-.screen{position:relative;overflow:hidden;background:#FBF8F2;border-radius:31px;padding:18px 16px 16px;min-height:540px;color:var(--av-ink)}
+.phone{--b:#1F4D3A;width:min(330px,100%);background:var(--av-ink);border-radius:44px;padding:10px;box-shadow:0 50px 80px -40px rgba(23,20,15,.55),0 0 0 1px rgba(23,20,15,.08)}
+.screen{position:relative;overflow:hidden;background:#FBF8F2;border-radius:35px;padding:18px 16px 16px;min-height:560px;color:var(--av-ink)}
 .notch{width:90px;height:22px;border-radius:12px;background:var(--av-ink);margin:-8px auto 14px}
 .biz{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .mono{width:42px;height:42px;border-radius:12px;background:var(--b);color:#fff;display:grid;place-items:center;font:700 18px var(--font-display);transition:background var(--d-base)}
@@ -95,47 +161,67 @@ button,.btn,.chip,input[type=range]{touch-action:manipulation;-webkit-tap-highli
 .done p{font-size:13px;opacity:.9}
 .done button{margin-top:10px;background:none;border:0;color:#fff;text-decoration:underline;font:500 13px var(--font-text);cursor:pointer;padding:6px 0}
 .stage-cap{font-size:var(--t-sm);color:var(--mute);text-align:center;max-width:30em}
-.stage-cap a{color:var(--acc);font-weight:600}
 
-/* Вырезы «квитка» стоят на линии отрыва .cut, если она есть (позицию ставит скрипт) */
+/* Квиток: вирізи стоять на лінії відриву .cut, якщо вона є */
 .av-ticket::before,.av-ticket::after{top:var(--cut,50%)}
 .cut{border:0;border-top:1.5px dashed var(--line);margin:var(--s-5) 0}
 .plan.main .cut{border-color:rgba(245,240,230,.3)}
 
-/* Секции */
-section{padding:var(--s-8) 0;border-top:1px solid var(--line)}
-.h2{font-size:clamp(26px,6vw,40px);letter-spacing:-.02em;margin-bottom:var(--s-3);max-width:20em}
-.sub{color:var(--mute);font-size:var(--t-lg);max-width:36em;margin-bottom:var(--s-6)}
+/* Темні секції */
+.dark{background:var(--av-ink);color:var(--av-paper)}
+.dark .sub,.dark .mute{color:#B9B0A3}
+.dark .kicker{color:#E8835A}
+.dark .btn-line{border-color:var(--av-paper);color:var(--av-paper)}
+.dark .btn-line:hover{background:rgba(245,240,230,.08)}
 
-/* Что входит */
-.mods{list-style:none;display:grid;gap:0;counter-reset:m}
-.mods li{display:grid;grid-template-columns:40px 1fr;gap:4px var(--s-3);padding:var(--s-5) 0;border-bottom:1px solid var(--line);counter-increment:m}
-.mods li::before{content:counter(m,decimal-leading-zero);font:700 var(--t-sm)/1.6 var(--font-display);color:var(--acc);grid-row:span 3}
-.mods h3{font-size:var(--t-xl)}
-.mods p{color:var(--mute);max-width:34em}
-.tag{justify-self:start;font-size:var(--t-xs);font-weight:600;padding:3px 9px;border-radius:var(--r-pill);border:1px solid currentColor;margin-top:4px}
-.tag.ok{color:var(--ok)}
-.tag.soon{color:var(--warn)}
-.live{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-6);align-items:center}
-.live span{font-size:var(--t-sm);color:var(--mute);width:100%}
+/* Петля повернення */
+.loop{display:grid;gap:var(--s-7);align-items:center}
+.ring{position:relative;width:min(560px,100%);margin:0 auto;aspect-ratio:560/424}
+.ring svg{width:100%;height:100%;overflow:visible}
+.ring .track-c{fill:none;stroke:rgba(245,240,230,.16);stroke-width:1.5;stroke-dasharray:3 7}
+.ring .arc{fill:none;stroke:#E8835A;stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset 1s var(--ease-out)}
+.ring .nd circle{fill:var(--av-ink);stroke:rgba(245,240,230,.35);stroke-width:1.5;transition:fill var(--d-base),stroke var(--d-base)}
+.ring .nd.on circle,.ring .nd.past circle{fill:#E8835A;stroke:#E8835A}
+.ring .nd text{fill:#8E867A;font:600 17px var(--font-text);transition:fill var(--d-base)}
+.ring .nd.on text{fill:var(--av-paper)}
+.runner{transform-box:view-box;transform-origin:50% 50%;transition:transform 1s var(--ease-spring)}
+.runner rect{fill:var(--av-paper)}
+.ring-c{position:absolute;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none}
+.ring-c small{font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:#B9B0A3}
+.ring-n{font:800 clamp(56px,14vw,96px)/1 var(--font-display);letter-spacing:-.04em}
+.ring-m{font:700 var(--t-md) var(--font-display);color:#E8835A;margin-top:6px}
+.stops{display:grid;margin-bottom:var(--s-6)}
+.stop{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(245,240,230,.14);color:inherit;padding:var(--s-4) 0;cursor:pointer;font:inherit}
+.stop h3{display:flex;align-items:center;gap:var(--s-3);font:700 var(--t-xl)/1.2 var(--font-display);color:#8E867A;transition:color var(--d-base)}
+.stop h3 span{font:600 var(--t-xs) var(--font-text);color:#8E867A;min-width:2em}
+.stop .tx{display:block;color:#B9B0A3;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s var(--ease-out),opacity .4s,margin .4s;max-width:30em}
+.stop[aria-selected="true"] h3{color:var(--av-paper)}
+.stop[aria-selected="true"] .tx{max-height:12em;opacity:1;margin-top:var(--s-2)}
+.stop:focus-visible{outline:2px solid #E8835A;outline-offset:4px}
+.tag{display:inline-block;font-size:var(--t-xs);font-weight:600;padding:3px 9px;border-radius:var(--r-pill);border:1px solid currentColor;margin-top:var(--s-2)}
+.tag.ok{color:#7FC79B}
+.tag.soon{color:#E2B35E}
+.extras{display:grid;gap:var(--s-3)}
+.extra{border:1px solid rgba(245,240,230,.16);border-radius:var(--r-lg);padding:var(--s-5)}
+.extra h3{font:700 var(--t-lg) var(--font-display);margin-bottom:var(--s-2)}
+.extra p{color:#B9B0A3}
 
 /* Калькулятор */
-.calc{display:grid;gap:var(--s-6);align-items:start}
+.calc{display:grid;gap:var(--s-7);align-items:start}
 .field{display:grid;gap:var(--s-2);margin-bottom:var(--s-5)}
 .field label{display:flex;justify-content:space-between;gap:var(--s-3);font-weight:500}
 .field output{font:700 var(--t-lg) var(--font-display);white-space:nowrap}
 .field small{color:var(--mute);font-size:var(--t-sm)}
 input[type=range]{width:100%;accent-color:var(--acc);height:32px}
-.loss{background:var(--card);border:1px solid var(--line);padding:var(--s-6) var(--s-5)}
+.loss{background:var(--card);border:1px solid var(--line);padding:var(--s-7) var(--s-6)}
 .loss small{color:var(--mute);font-size:var(--t-sm)}
-.loss-n{font:800 clamp(40px,11vw,64px)/1 var(--font-display);letter-spacing:-.03em;margin:var(--s-2) 0;color:var(--acc)}
-.loss-n span{font-size:.35em;color:var(--text);letter-spacing:0}
-.loss p{color:var(--mute);margin-bottom:var(--s-4)}
+.loss-n{font:800 clamp(48px,12vw,88px)/1 var(--font-display);letter-spacing:-.04em;margin:var(--s-3) 0;color:var(--acc)}
+.loss-n span{font-size:.3em;color:var(--text);letter-spacing:0}
+.loss p{color:var(--mute);margin-bottom:var(--s-5)}
 .loss p b{color:var(--text)}
 
-/* Цены */
-.founder{display:grid;gap:var(--s-2);padding:var(--s-4) var(--s-5);border-radius:var(--r-md);background:#EFE6D6;margin-bottom:var(--s-6)}
-.founder b{font-weight:700}
+/* Ціни */
+.founder{display:grid;gap:var(--s-2);padding:var(--s-5);border-radius:var(--r-lg);background:#EFE6D6;margin-bottom:var(--s-6)}
 .seats{font:700 var(--t-sm) var(--font-display);color:var(--acc)}
 .plans{display:grid;gap:var(--s-4);align-items:stretch}
 .plan{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s-6) var(--s-5)}
@@ -153,14 +239,15 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 .ticks .pilot{color:var(--mute)}
 .plan.main{background:var(--av-ink);color:var(--av-paper);border-color:var(--av-ink)}
 .plan.main .who,.plan.main .was,.plan.main .sub-p span{color:#B9B0A3}
-.plan.main .ticks li::before{color:#E07A50}
+.plan.main .ticks li::before{color:#E8835A}
 .plan.main .ticks .pilot{color:#B9B0A3}
-.plan.main .btn-line{border-color:var(--av-paper);color:var(--av-paper)}
 .pin{align-self:flex-start;font-size:var(--t-xs);font-weight:700;padding:4px 10px;border-radius:var(--r-pill);background:var(--acc);color:#fff;margin-bottom:var(--s-3)}
+.plan .btn{min-height:48px}
 .terms{display:grid;gap:var(--s-3);margin-top:var(--s-6);color:var(--mute)}
 .terms b{color:var(--text)}
+.terms a{text-decoration:underline;text-underline-offset:3px;color:var(--text)}
 
-/* Входные услуги */
+/* Вхідні послуги */
 .svcs{list-style:none;border-top:1px solid var(--line);margin-top:var(--s-6)}
 .svcs li{display:grid;grid-template-columns:1fr auto;gap:4px var(--s-4);align-items:center;padding:var(--s-5) 0;border-bottom:1px solid var(--line)}
 .svcs h3{font-size:var(--t-lg)}
@@ -173,137 +260,224 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 .own h3{font-size:var(--t-xl);margin-bottom:var(--s-2)}
 .own p{color:var(--mute);margin-bottom:var(--s-4);max-width:34em}
 
-/* Как запускаем */
-.steps{list-style:none;display:grid;gap:var(--s-5)}
-.steps li{border-top:2px solid var(--text);padding-top:var(--s-3)}
+/* Що буде далі */
+.next{display:grid;gap:var(--s-4)}
+.nx{position:relative;display:flex;flex-direction:column;gap:var(--s-3);padding:var(--s-6) var(--s-5);border-radius:var(--r-lg);background:#221E17;border:1px solid rgba(245,240,230,.12);overflow:hidden}
+.nx .when{font:600 var(--t-xs) var(--font-text);letter-spacing:.1em;text-transform:uppercase;color:#E8835A;padding-right:88px}
+.nx h3{font:700 var(--t-2xl)/1.1 var(--font-display);letter-spacing:-.02em;padding-right:40px}
+.nx p{color:#B9B0A3;flex:1}
+.nx .btn{align-self:flex-start}
+.nx svg{position:absolute;right:-20px;top:-20px;width:120px;height:120px}
+.orbit{transform-box:view-box;transform-origin:50% 50%;animation:spin 18s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Як запускаємо */
+.steps{list-style:none;display:grid;gap:var(--s-6)}
+.steps li{position:relative;padding-top:var(--s-5)}
+.steps li::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--line)}
+.steps li::after{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:var(--text);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s var(--ease-out)}
+.no-js .steps li::after,.steps li.in::after{transform:scaleX(1)}
+.steps li:nth-child(2)::after{transition-delay:.25s}
+.steps li:nth-child(3)::after{transition-delay:.5s}
 .steps small{font:700 var(--t-sm) var(--font-display);color:var(--acc)}
-.steps h3{font-size:var(--t-lg);margin:4px 0}
+.steps h3{font:700 var(--t-xl)/1.2 var(--font-display);margin:6px 0}
 .steps p{color:var(--mute)}
 
 /* FAQ */
 .faq details{border-bottom:1px solid var(--line)}
-.faq summary{display:flex;justify-content:space-between;gap:var(--s-4);align-items:center;padding:var(--s-5) 0;cursor:pointer;font-weight:600;font-size:var(--t-lg);list-style:none}
+.faq summary{display:flex;justify-content:space-between;gap:var(--s-4);align-items:center;padding:var(--s-5) 0;cursor:pointer;font:600 var(--t-lg)/1.3 var(--font-text);list-style:none}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"";flex:none;width:12px;height:12px;border-right:2px solid var(--acc);border-bottom:2px solid var(--acc);transform:rotate(45deg) translateY(-3px);transition:transform var(--d-base) var(--ease-out)}
 .faq details[open] summary::after{transform:rotate(-135deg) translateY(-3px)}
 .faq p{color:var(--mute);padding-bottom:var(--s-5);max-width:40em}
 
 /* Заявка */
+.lead-sec .wrap{display:grid;gap:var(--s-7)}
 .form{display:grid;gap:var(--s-4);max-width:560px}
 .form label{display:grid;gap:6px;font-weight:500;font-size:var(--t-sm)}
-.form input,.form select{font:inherit;font-size:16px;color:var(--text);background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-sm);padding:12px 14px;width:100%;min-height:48px}
-.form input:focus,.form select:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
+.form input,.form select{font:inherit;font-size:16px;color:var(--av-paper);background:rgba(245,240,230,.06);border:1.5px solid rgba(245,240,230,.22);border-radius:var(--r-sm);padding:12px 14px;width:100%;min-height:52px}
+.form select option{color:var(--av-ink)}
+.form input::placeholder{color:#8E867A}
+.form input:focus,.form select:focus{outline:2px solid #E8835A;outline-offset:1px;border-color:transparent}
 .form .btn{width:100%}
 .form button:disabled{opacity:.6}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .msg{font-size:var(--t-sm);min-height:1.5em}
-.msg.ok{color:var(--ok);font-weight:600}
+.msg.ok{color:#7FC79B;font-weight:600}
 .msg a{text-decoration:underline;text-underline-offset:3px}
-.msg.err{color:var(--err)}
+.msg.err{color:#F08A7E}
 
-footer{padding:var(--s-7) 0 var(--s-8);border-top:1px solid var(--line);color:var(--mute);font-size:var(--t-sm);display:grid;gap:var(--s-3)}
-footer nav{display:flex;flex-wrap:wrap;gap:var(--s-4)}
-footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+/* Підвал з великим знаком */
+footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);overflow:hidden}
+.foot{display:grid;gap:var(--s-4);margin-bottom:var(--s-6)}
+.foot nav{display:flex;flex-wrap:wrap;gap:var(--s-4)}
+.foot a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+.giant{display:block;font:800 clamp(72px,23vw,320px)/.82 var(--font-display);letter-spacing:-.06em;color:var(--text);white-space:nowrap;margin-left:-.04em}
+.giant b{color:var(--acc);display:inline-block;animation:dot 3.2s var(--ease-spring) infinite}
+@keyframes dot{0%,70%,100%{transform:none}80%{transform:translateY(-.08em)}90%{transform:translateY(.02em)}}
 
 @media (max-width:519px){.cta .btn{width:100%}}
 @media (min-width:720px){
   .wrap{padding:0 var(--s-6)}
-  .mods{grid-template-columns:1fr 1fr;column-gap:var(--s-7)}
+  .feed{height:calc(4 * 112px)}
   .steps{grid-template-columns:repeat(3,1fr)}
   .svcs li{grid-template-columns:1fr auto auto;column-gap:var(--s-6)}
   .svcs h3,.svcs p{grid-column:1}
   .svcs .cost{grid-column:2;grid-row:1/span 2}
   .svcs .btn{grid-column:3;grid-row:1/span 2;align-self:center}
   .founder{grid-template-columns:1fr auto;align-items:center}
+  .next{grid-template-columns:repeat(3,1fr)}
+  .extras{grid-template-columns:1fr 1fr}
 }
 @media (min-width:980px){
   .nav{display:flex}
-  .hero{grid-template-columns:1fr 340px;column-gap:var(--s-8);align-items:center;padding:var(--s-7) 0 var(--s-8)}
+  .hero{grid-template-columns:1.25fr 1fr;column-gap:var(--s-8);min-height:calc(100svh - 64px);align-content:center;padding:var(--s-6) 0}
+  .try{grid-template-columns:1fr 1fr;gap:var(--s-8)}
+  .loop{grid-template-columns:1.05fr 1fr;gap:var(--s-8)}
   .calc{grid-template-columns:1fr 1fr;gap:var(--s-8)}
   .plans{grid-template-columns:1fr 1.12fr 1fr}
   .plan.main{transform:translateY(-12px)}
+  .lead-sec .wrap{grid-template-columns:1fr 1fr;gap:var(--s-8);align-items:start}
+  .foot{grid-template-columns:1fr auto;align-items:end}
+}
+@media (prefers-reduced-motion:reduce){
+  .track,.orbit,.giant b,.pulse::after{animation:none}
+  .js .rv,.js .ln>span{opacity:1;transform:none;transition:none}
+  .tk,.runner,.ring .arc,.steps li::after{transition:none}
+  .steps li::after{transform:scaleX(1)}
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">До змісту</a>
-<div class="wrap">
+<div class="progress" aria-hidden="true"></div>
 
-<header class="top">
-  <a class="logo" href="./" aria-label="Avenue, на головну" translate="no">avenue<b>.</b></a>
-  <nav class="nav" aria-label="Розділи">
-    <a href="#modules">Що входить</a><a href="#calc">Калькулятор</a><a href="#price">Ціни</a><a href="#faq">Питання</a>
-  </nav>
-  <a class="btn btn-line btn-sm" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Демо</a>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="./" aria-label="Avenue, на головну" translate="no">avenue<b>.</b></a>
+    <nav class="nav" aria-label="Розділи">
+      <a href="#try">Спробувати</a><a href="#loop">Як працює</a><a href="#calc">Калькулятор</a><a href="#price">Ціни</a><a href="#faq">Питання</a>
+    </nav>
+    <a class="btn btn-ink btn-sm" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Демо в Telegram</a>
+  </div>
 </header>
 
 <main id="main">
+<div class="wrap">
 <div class="hero">
   <div>
-    <p class="eyebrow">Avenue Studio · Дніпро · для малого бізнесу</p>
-    <h1>Записи і постійні клієнти для <span class="swap" data-text="phrase">вашого барбершопу</span></h1>
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Avenue Studio · Дніпро · запуск за один день</p>
+    <h1 class="display" aria-label="Клієнти записуються самі. Навіть о 23:40.">
+      <span class="ln" aria-hidden="true"><span>Клієнти</span></span>
+      <span class="ln" aria-hidden="true"><span>записуються</span></span>
+      <span class="ln" aria-hidden="true"><span>самі. Навіть</span></span>
+      <span class="ln" aria-hidden="true"><span>о <span class="clock" id="clock">23:40</span>.</span></span>
+    </h1>
+    <p class="lead">Бот у Telegram, сторінка запису і сертифікати для <span class="swap" data-text="phrase">вашого барбершопу</span>. А потім бот сам кличе клієнтів знову. <strong>Налаштуємо все за вас за один день.</strong></p>
     <div class="chips" role="group" aria-label="Ваша сфера">
-      <span class="chips-label">Оберіть свою сферу, сторінка підлаштується:</span>
       <button class="chip" type="button" data-s="barber" aria-pressed="true">Барбершоп</button>
       <button class="chip" type="button" data-s="nails" aria-pressed="false">Манікюр</button>
       <button class="chip" type="button" data-s="sto" aria-pressed="false">СТО, шиномонтаж</button>
       <button class="chip" type="button" data-s="groom" aria-pressed="false">Грумінг</button>
       <button class="chip" type="button" data-s="massage" aria-pressed="false">Масаж</button>
     </div>
-    <p class="lead">Клієнти записуються самі, навіть о 23:00. Ми <strong>налаштовуємо все за вас за один день</strong>: бот у Telegram, сторінку запису за посиланням і сертифікати у вашому стилі.</p>
     <div class="cta">
-      <a class="btn btn-acc" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Відкрити демо в Telegram</a>
-      <a class="btn btn-line" href="#price">Подивитися ціни</a>
+      <a class="btn btn-acc" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Відкрити демо в Telegram <span class="arr" aria-hidden="true">→</span></a>
+      <a class="btn btn-line" href="#price">Ціни від 950 грн</a>
     </div>
-    <p class="note">Демо безкоштовне. Telegram не потрібен? <a data-href="book" href="book/?v=barber">Сторінка запису за посиланням</a></p>
+    <p class="note">Демо безкоштовне. Без Telegram? <a data-href="book" href="book/?v=barber">Сторінка запису за посиланням</a></p>
   </div>
 
-  <div class="stage">
-    <div class="phone" id="phone" aria-label="Приклад сторінки запису">
-      <div class="screen">
-        <div class="notch" aria-hidden="true"></div>
-        <div class="biz"><div class="mono" data-text="mono">Б</div><div><b data-text="biz">Борода і Ко</b><small data-text="addr">Дніпро, Центр</small></div></div>
-        <p class="ph-h">Послуга</p>
-        <div id="ph-svcs"></div>
-        <p class="ph-h">День</p>
-        <div class="days" id="ph-days"></div>
-        <p class="ph-h">Вільний час</p>
-        <div class="slots" id="ph-slots"></div>
-        <button class="book" id="ph-book" type="button" disabled>Оберіть час</button>
-        <div class="done av-ticket" id="ph-done" aria-live="polite">
-          <small>Ви записані</small>
-          <b id="ph-when">Сб, 14:30</b>
-          <p id="ph-what">Нагадаємо за 2 години до візиту.</p>
-          <button type="button" id="ph-again">Спробувати ще раз</button>
-        </div>
-      </div>
-    </div>
-    <p class="stage-cap">Натисніть на вільний час, щоб записатися як ваш клієнт. Назва і ціни тут для прикладу. <a data-href="book" href="book/?v=barber">Відкрити справжню сторінку →</a></p>
+  <div class="stream" aria-hidden="true">
+    <div class="stream-head"><b><span class="pulse"></span>Пульт власника</b><span>нові записи</span></div>
+    <ol class="feed" id="feed"></ol>
+    <p class="stream-cap">Так записи приходять вам у Telegram, поки ви спите. Імена і час для прикладу.</p>
   </div>
 </div>
+</div>
 
-<section id="modules">
-  <h2 class="h2">Що отримує бізнес</h2>
-  <p class="sub">Нову програму вчити не треба. Налаштовуємо ми, а записи і звіт щопонеділка приходять вам у Telegram.</p>
-  <ol class="mods">
-    <li><h3>Запис з трьох входів</h3><p>Бот у Telegram, застосунок усередині Telegram і сторінка за посиланням для Instagram, Google Maps і Viber. Розклад один, подвійного запису не буде.</p><span class="tag ok">Працює</span></li>
-    <li><h3>Нагадування і відгуки</h3><p>За 2 години до візиту клієнт отримує нагадування і може скасувати. Після візиту бот просить оцінку: задоволених веде на Google Maps, про незадоволених пише тільки вам.</p><span class="tag ok">Працює</span></li>
-    <li><h3>Подарункові сертифікати</h3><p>Клієнт купує сертифікат онлайн і пересилає як листівку. Ви гасите його одним натиском, двічі використати не вийде.</p><span class="tag ok">Працює</span></li>
-    <li><h3>Пульт власника</h3><p>Розклад на день і тиждень, запис вручну, закриття часу, розсилка клієнтам і звіт щопонеділка.</p><span class="tag ok">Працює</span></li>
-    <li><h3>Повернення клієнтів</h3><p>Через 3–4 тижні бот сам кличе клієнта знову. Хто давно не приходив, отримує персональне запрошення зі старої бази.</p><span class="tag ok">Працює · база з грудня</span></li>
-    <li><h3>AI-менеджер</h3><p>Відповідає на питання за вашим прайсом і графіком, записує у вільне вікно, а складне передає вам.</p><span class="tag soon">Пілот з грудня</span></li>
-  </ol>
-  <div class="live">
-    <span>Перевірте самі, це справжні сторінки:</span>
-    <a class="btn btn-line btn-sm" data-href="book" href="book/?v=barber">Сторінка запису</a>
-    <a class="btn btn-line btn-sm" data-href="gift" href="gift/?v=barber">Сертифікат</a>
-    <a class="btn btn-line btn-sm" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Бот і Пульт власника</a>
+<div class="marquee" aria-hidden="true">
+  <div class="track" id="track"></div>
+</div>
+
+<section id="try">
+  <div class="wrap try">
+    <div class="rv">
+      <span class="kicker">Спробуйте як ваш клієнт</span>
+      <h2 class="h2">Запис за три натиски, без реєстрації</h2>
+      <p class="sub">Оберіть послугу, день і вільний час у телефоні поруч. Так само це бачить ваш клієнт у Telegram або за посиланням з Instagram.</p>
+      <ol class="points">
+        <li data-n="01"><div><b>Зайнятий час не видно</b><p>Розклад один на бот, застосунок і сторінку. Подвійного запису не буде.</p></div></li>
+        <li data-n="02"><div><b>Квиток з нагадуванням</b><p>За 2 години до візиту клієнт отримує нагадування і може скасувати, щоб час дістався іншому.</p></div></li>
+        <li data-n="03"><div><b>Ваш бренд, а не наш</b><p>Назва, логотип і кольори вашого бізнесу. Клієнт бачить вас.</p></div></li>
+      </ol>
+      <div class="live">
+        <a class="btn btn-line btn-sm" data-href="book" href="book/?v=barber">Справжня сторінка запису</a>
+        <a class="btn btn-line btn-sm" data-href="gift" href="gift/?v=barber">Сертифікат</a>
+        <a class="btn btn-line btn-sm" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Бот і Пульт</a>
+      </div>
+    </div>
+    <div class="stage rv">
+      <div class="phone" id="phone" aria-label="Приклад сторінки запису">
+        <div class="screen">
+          <div class="notch" aria-hidden="true"></div>
+          <div class="biz"><div class="mono" data-text="mono">Б</div><div><b data-text="biz">Борода і Ко</b><small data-text="addr">Дніпро, Центр</small></div></div>
+          <p class="ph-h">Послуга</p>
+          <div id="ph-svcs"></div>
+          <p class="ph-h">День</p>
+          <div class="days" id="ph-days"></div>
+          <p class="ph-h">Вільний час</p>
+          <div class="slots" id="ph-slots"></div>
+          <button class="book" id="ph-book" type="button" disabled>Оберіть час</button>
+          <div class="done av-ticket" id="ph-done" aria-live="polite">
+            <small>Ви записані</small>
+            <b id="ph-when">Сб, 14:30</b>
+            <p id="ph-what">Нагадаємо за 2 години до візиту.</p>
+            <button type="button" id="ph-again">Спробувати ще раз</button>
+          </div>
+        </div>
+      </div>
+      <p class="stage-cap">Назви і ціни як у нашому демо.</p>
+    </div>
+  </div>
+</section>
+
+<section id="loop" class="dark">
+  <div class="wrap loop">
+    <div class="ring rv" aria-hidden="true">
+      <svg viewBox="-80 -12 560 424">
+        <circle class="track-c" cx="200" cy="200" r="150"/>
+        <circle class="arc" id="arc" cx="200" cy="200" r="150" transform="rotate(-90 200 200)"/>
+        <g id="nodes"></g>
+        <g class="runner" id="runner"><rect x="186" y="38" width="28" height="24" rx="6"/></g>
+      </svg>
+      <div class="ring-c"><small>візит</small><div class="ring-n" id="ring-n">1</div><div class="ring-m" id="ring-m">+450 грн</div></div>
+    </div>
+    <div>
+      <div class="rv">
+        <span class="kicker">Як працює Avenue</span>
+        <h2 class="h2">Петля, яка повертає клієнтів</h2>
+        <p class="sub">Запис це лише початок. Кожне коло приводить клієнта назад і додає вам грошей.</p>
+      </div>
+      <div class="stops" role="tablist" aria-label="Етапи петлі" id="stops">
+        <button class="stop" type="button" role="tab" aria-selected="true" data-i="0"><h3><span>01</span>Запис 24/7</h3><span class="tx">Бот у Telegram, застосунок усередині Telegram і сторінка за посиланням для Instagram, Google Maps і Viber.<br><span class="tag ok">Працює</span></span></button>
+        <button class="stop" type="button" role="tab" aria-selected="false" data-i="1"><h3><span>02</span>Нагадування</h3><span class="tx">За 2 години до візиту. Клієнт може скасувати, і бот сам напише тим, хто чекав на цей час.<br><span class="tag ok">Працює</span></span></button>
+        <button class="stop" type="button" role="tab" aria-selected="false" data-i="2"><h3><span>03</span>Відгук</h3><span class="tx">Після візиту бот просить оцінку. Задоволених веде на Google Maps, про незадоволених пише тільки вам.<br><span class="tag ok">Працює</span></span></button>
+        <button class="stop" type="button" role="tab" aria-selected="false" data-i="3"><h3><span>04</span>Повернення</h3><span class="tx">Через 3–4 тижні бот кличе клієнта знову. Хто давно не приходив, отримує персональне запрошення зі старої бази.<br><span class="tag ok">Працює · база з грудня</span></span></button>
+        <button class="stop" type="button" role="tab" aria-selected="false" data-i="4"><h3><span>05</span>Сертифікати</h3><span class="tx">Клієнт купує подарунок онлайн і приводить нового клієнта. Гасите одним натиском, двічі не вийде.<br><span class="tag ok">Працює</span></span></button>
+      </div>
+      <div class="extras rv">
+        <div class="extra"><h3>Пульт власника</h3><p>Розклад на день і тиждень, запис вручну, закриття часу, розсилка і звіт щопонеділка.</p><span class="tag ok">Працює</span></div>
+        <div class="extra"><h3>AI-менеджер</h3><p>Відповідає за вашим прайсом і графіком, записує у вільне вікно, складне передає вам.</p><span class="tag soon">Пілот з грудня</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="calc">
-  <div class="calc">
-    <div>
+  <div class="wrap calc">
+    <div class="rv">
+      <span class="kicker">Калькулятор</span>
       <h2 class="h2">Скільки ви втрачаєте щомісяця</h2>
       <p class="sub">Неявки і повідомлення, на які не встигли відповісти, помножені на середній чек. Підставте свої цифри.</p>
       <div class="field">
@@ -320,28 +494,32 @@ footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
         <small>Ви відповіли зранку, а людина вже записалась деінде.</small>
       </div>
     </div>
-    <div class="loss av-ticket" aria-live="polite">
+    <div class="loss av-ticket rv" aria-live="polite">
       <small>Втрати на місяць</small>
-      <div class="loss-n" id="c-out">9 680 <span>грн</span></div>
+      <div class="loss-n" id="c-out">9 675 <span>грн</span></div>
       <small>за 4,3 тижня, якщо нічого не змінювати</small>
       <hr class="cut">
-      <p id="c-note">Якщо запис і нагадування повернуть хоча б третину, це <b>3 230 грн</b> на місяць. Підписка «Старт» коштує <b>390 грн</b>.</p>
-      <a class="btn btn-acc" href="#zayavka" data-interest="Ще не знаю">Порахувати разом з нами</a>
+      <p id="c-note">Якщо запис і нагадування повернуть хоча б третину, це <b>3 225 грн</b> на місяць. Підписка «Старт» коштує <b>390 грн</b>.</p>
+      <a class="btn btn-acc" href="#zayavka" data-interest="Ще не знаю">Порахувати разом з нами <span class="arr" aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
-<section id="price">
-  <h2 class="h2">Ціни відкриті</h2>
-  <p class="sub">Одна ціна за точку, а не за кожного майстра. Без відсотків із записів і прихованих платежів.</p>
+<section id="price" style="padding-top:0">
+  <div class="wrap">
+  <div class="rv">
+    <span class="kicker">Ціни</span>
+    <h2 class="h2">Ціни відкриті</h2>
+    <p class="sub">Одна ціна за точку, а не за кожного майстра. Без відсотків із записів і прихованих платежів.</p>
+  </div>
 
-  <div class="founder">
+  <div class="founder rv">
     <div><b>Ціна засновника для перших 10 бізнесів:</b> запуск зі знижкою 50%, перший місяць підписки безкоштовно, ціна підписки для вас не зросте, поки ви з нами. Натомість просимо відгук і дозвіл показати ваш результат.</div>
     <div class="seats" id="seats">Вільно 10 з 10</div>
   </div>
 
   <div class="plans">
-    <article class="plan">
+    <article class="plan rv">
       <h3>Старт</h3>
       <p class="who">Майстер, що працює сам</p>
       <div class="price">950<small>грн за запуск</small></div>
@@ -356,7 +534,7 @@ footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
       </ul>
       <a class="btn btn-line" href="#zayavka" data-interest="Пакет Старт">Обрати Старт</a>
     </article>
-    <article class="plan main av-ticket">
+    <article class="plan main av-ticket rv">
       <span class="pin">Найчастіше обирають студії</span>
       <h3>Бізнес</h3>
       <p class="who">Студія або СТО до 6 майстрів</p>
@@ -374,7 +552,7 @@ footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
       </ul>
       <a class="btn btn-acc" href="#zayavka" data-interest="Пакет Бізнес">Обрати Бізнес</a>
     </article>
-    <article class="plan">
+    <article class="plan rv">
       <h3>Преміум</h3>
       <p class="who">Салон з адміністратором або кілька точок</p>
       <div class="price">6 450<small>грн за запуск</small></div>
@@ -392,13 +570,13 @@ footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
     </article>
   </div>
 
-  <div class="terms">
+  <div class="terms rv">
     <p><b>Гарантія.</b> Не підійде протягом 30 днів після запуску, повернемо гроші за запуск.</p>
     <p><b>Переїзд безкоштовно</b> з Altegio, DIKIDI, Booksy, Excel чи блокнота.</p>
-    <p><b>Оплата за рік.</b> 12 місяців коштують як 10. Відмовитися від підписки можна будь-коли, базу клієнтів віддамо таблицею. Усі умови в <a href="oferta/" style="text-decoration:underline;text-underline-offset:3px">публічній оферті</a>.</p>
+    <p><b>Оплата за рік.</b> 12 місяців коштують як 10. Відмовитися від підписки можна будь-коли, базу клієнтів віддамо таблицею. Усі умови в <a href="oferta/">публічній оферті</a>.</p>
   </div>
 
-  <h3 class="h2" style="margin-top:var(--s-8);font-size:clamp(22px,5vw,30px)">Не готові до системи? Почніть з однієї задачі</h3>
+  <h3 class="h2 rv" style="margin-top:var(--s-8);font-size:clamp(24px,4.4vw,40px)">Не готові до системи? Почніть з однієї задачі</h3>
   <p class="sub" style="margin-bottom:0">Кожну послугу потім можна підключити до пакета, і перший місяць підписки буде безкоштовним.</p>
   <ul class="svcs" id="svcs">
     <li data-svc="maps"><h3>Google Maps під ключ</h3><div class="cost">990 грн</div><p>Оформимо картку: фото, послуги, години роботи, кнопка запису. Покажемо, як було і як стало.</p><a class="btn btn-line btn-sm" href="#zayavka" data-interest="Google Maps">Замовити</a></li>
@@ -407,7 +585,7 @@ footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
     <li data-svc="ai"><h3>AI-менеджер у Telegram</h3><div class="cost">1 990 грн<small>+ 790 грн на місяць</small></div><p>Пілот на трьох бізнесах з грудня. Відповідає тільки за вашим прайсом і графіком, решту передає вам.</p><a class="btn btn-line btn-sm" href="#zayavka" data-interest="AI-менеджер">У чергу на пілот</a></li>
   </ul>
 
-  <div class="own">
+  <div class="own rv">
     <h3>Своя задача</h3>
     <p>Потрібно те, чого немає в списку: розклад кабінетів, черга на переобування, запис на корти? Опишіть, оцінимо за 24 години і назвемо фіксовану ціну.</p>
     <div class="cta">
@@ -415,76 +593,127 @@ footer a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
       <a class="btn btn-line" href="#zayavka" data-interest="Своя задача">Залишити контакт</a>
     </div>
   </div>
+  </div>
+</section>
+
+<section id="next" class="dark">
+  <div class="wrap">
+    <div class="rv">
+      <span class="kicker">Що буде далі</span>
+      <h2 class="h2">Avenue росте разом з містом</h2>
+      <p class="sub">Цього ще немає. Будуємо, коли бачимо попит: натисніть «Хочу першим», і ми напишемо, щойно запустимо.</p>
+    </div>
+    <div class="next">
+      <article class="nx rv">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(245,240,230,.18)" stroke-dasharray="2 6"/><g class="orbit"><circle cx="60" cy="14" r="6" fill="#E8835A"/><circle cx="106" cy="60" r="4" fill="#F5F0E6"/></g></svg>
+        <span class="when">Avenue Club · 2027</span>
+        <h3>Бонуси, що працюють у сусідів</h3>
+        <p>Клієнт отримує бонус у вашому барбершопі і витрачає його в манікюрі через дорогу. Сусідні бізнеси Avenue приводять клієнтів одне одному.</p>
+        <a class="btn btn-line btn-sm" href="#zayavka" data-interest="Avenue Club">Хочу першим</a>
+      </article>
+      <article class="nx rv">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(245,240,230,.18)" stroke-dasharray="2 6"/><g class="orbit" style="animation-duration:24s"><rect x="46" y="6" width="28" height="18" rx="4" fill="#E8835A"/></g></svg>
+        <span class="when">Avenue Gifts · до свят</span>
+        <h3>Усі подарунки Дніпра на одній сторінці</h3>
+        <p>Сертифікати барбершопів, салонів і студій Avenue в одному місці. Людина шукає подарунок і знаходить ваш бізнес.</p>
+        <a class="btn btn-line btn-sm" href="#zayavka" data-interest="Avenue Gifts">Хочу першим</a>
+      </article>
+      <article class="nx rv">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(245,240,230,.18)" stroke-dasharray="2 6"/><g class="orbit" style="animation-duration:30s;animation-direction:reverse"><circle cx="60" cy="14" r="5" fill="#7FC79B"/><circle cx="14" cy="60" r="5" fill="#E8835A"/></g></svg>
+        <span class="when">Оплата за результат · грудень</span>
+        <h3>Платите за клієнтів, які повернулися</h3>
+        <p>Запрошуємо тих, хто давно не приходив. Платите 150 грн тільки за тих, хто справді записався, за даними Пульта.</p>
+        <a class="btn btn-line btn-sm" href="#zayavka" data-interest="Оплата за результат">Хочу першим</a>
+      </article>
+    </div>
+  </div>
 </section>
 
 <section>
-  <h2 class="h2">Як ми запускаємо</h2>
-  <p class="sub">Від вас потрібно 15 хвилин. Решту робимо ми.</p>
-  <ol class="steps">
-    <li><small>День 1</small><h3>Ви надсилаєте прайс</h3><p>Послуги, ціни, графік і майстри. Можна просто фото.</p></li>
-    <li><small>День 1–2</small><h3>Ми налаштовуємо</h3><p>Бот, сторінку запису і Пульт з вашою назвою, логотипом і кольорами.</p></li>
-    <li><small>Далі</small><h3>Ви ставите посилання</h3><p>У шапку Instagram, на Google Maps і QR-код на рецепції. Записи йдуть самі.</p></li>
-  </ol>
+  <div class="wrap">
+    <div class="rv">
+      <span class="kicker">Запуск</span>
+      <h2 class="h2">Від вас 15 хвилин. Решту робимо ми</h2>
+    </div>
+    <ol class="steps" id="steps">
+      <li><small>День 1</small><h3>Ви надсилаєте прайс</h3><p>Послуги, ціни, графік і майстри. Можна просто фото.</p></li>
+      <li><small>День 1–2</small><h3>Ми налаштовуємо</h3><p>Бот, сторінку запису і Пульт з вашою назвою, логотипом і кольорами.</p></li>
+      <li><small>Далі</small><h3>Ви ставите посилання</h3><p>У шапку Instagram, на Google Maps і QR-код на рецепції. Записи йдуть самі.</p></li>
+    </ol>
+  </div>
 </section>
 
-<section id="faq" class="faq">
-  <h2 class="h2">Часті питання</h2>
-  <details><summary>Клієнтам потрібно щось встановлювати?</summary><p>Ні. Бот працює у звичайному Telegram. Хто ним не користується, записується через сторінку за посиланням у будь-якому браузері.</p></details>
-  <details><summary>А якщо вимкнуть світло?</summary><p>Бот працює на сервері, а не на вашому телефоні. Клієнти записуються і отримують нагадування, навіть коли у вас немає світла чи зв'язку.</p></details>
-  <details><summary>Клієнт записався по телефону чи в директ. Що робити?</summary><p>Додайте його в Пульті кнопкою «Запис вручну», це кілька секунд. Розклад лишається в одному місці, і бот не запише іншого на цей час.</p></details>
-  <details><summary>Чим це краще за DIKIDI чи Altegio?</summary><p>Це програми, які ви налаштовуєте і ведете самі. Ми сервіс: налаштовуємо, підтримуємо, а ціна одна за точку, скільки б майстрів у вас не було. Клієнтам не треба реєструватися в окремому застосунку. Переїзд з цих сервісів безкоштовний.</p></details>
-  <details><summary>Що буде після безкоштовного місяця?</summary><p>Підписка за ціною вашого пакета. Не хочете продовжувати, напишіть нам: вимкнемо бота і віддамо всі записи й контакти таблицею.</p></details>
-  <details><summary>Чия база клієнтів?</summary><p>Ваша. На запит вивантажимо її в будь-який момент.</p></details>
-  <details><summary>Можна змінити ціни чи графік?</summary><p>Так. Напишіть нам, оновимо протягом доби, а в «Преміумі» того ж дня.</p></details>
+<section id="faq" class="faq" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="h2 rv">Часті питання</h2>
+    <details><summary>Клієнтам потрібно щось встановлювати?</summary><p>Ні. Бот працює у звичайному Telegram. Хто ним не користується, записується через сторінку за посиланням у будь-якому браузері.</p></details>
+    <details><summary>А якщо вимкнуть світло?</summary><p>Бот працює на сервері, а не на вашому телефоні. Клієнти записуються і отримують нагадування, навіть коли у вас немає світла чи зв'язку.</p></details>
+    <details><summary>Клієнт записався по телефону чи в директ. Що робити?</summary><p>Додайте його в Пульті кнопкою «Запис вручну», це кілька секунд. Розклад лишається в одному місці, і бот не запише іншого на цей час.</p></details>
+    <details><summary>Чим це краще за DIKIDI чи Altegio?</summary><p>Це програми, які ви налаштовуєте і ведете самі. Ми сервіс: налаштовуємо, підтримуємо, а ціна одна за точку, скільки б майстрів у вас не було. Клієнтам не треба реєструватися в окремому застосунку. Переїзд з цих сервісів безкоштовний.</p></details>
+    <details><summary>Що буде після безкоштовного місяця?</summary><p>Підписка за ціною вашого пакета. Не хочете продовжувати, напишіть нам: вимкнемо бота і віддамо всі записи й контакти таблицею.</p></details>
+    <details><summary>Чия база клієнтів?</summary><p>Ваша. На запит вивантажимо її в будь-який момент.</p></details>
+    <details><summary>Можна змінити ціни чи графік?</summary><p>Так. Напишіть нам, оновимо протягом доби, а в «Преміумі» того ж дня.</p></details>
+  </div>
 </section>
 
-<section id="zayavka">
-  <h2 class="h2">Покажемо, як це виглядатиме у вас</h2>
-  <p class="sub">Залиште контакт. Протягом дня напишемо в Telegram або зателефонуємо і зберемо демо з вашою назвою і прайсом.</p>
-  <form id="lead" class="form" novalidate>
-    <label>Телефон або Telegram *<input name="contact" required maxlength="80" autocomplete="tel" placeholder="+380… або @нік"></label>
-    <label>Назва бізнесу<input name="business" maxlength="120" autocomplete="organization" placeholder="Барбершоп «Борода і Ко»"></label>
-    <label>Що цікавить
-      <select name="interest" id="f-interest">
-        <option>Ще не знаю</option><option>Пакет Старт</option><option>Пакет Бізнес</option><option>Пакет Преміум</option>
-        <option>Google Maps</option><option>Сертифікати</option><option>Повернення бази</option><option>AI-менеджер</option><option>Своя задача</option>
-      </select>
-    </label>
-    <label>Ваше ім'я<input name="name" autocomplete="given-name" maxlength="80" placeholder="Олена"></label>
-    <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <button class="btn btn-acc" type="submit">Надіслати</button>
-    <p class="msg" id="lead-msg" role="status"></p>
-  </form>
+<section id="zayavka" class="dark lead-sec">
+  <div class="wrap">
+    <div class="rv">
+      <span class="kicker">Заявка</span>
+      <h2 class="h2">Покажемо, як це виглядатиме у вас</h2>
+      <p class="sub">Залиште контакт. Протягом дня напишемо в Telegram або зателефонуємо і зберемо демо з вашою назвою і прайсом.</p>
+      <a class="btn btn-line" href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">Або напишіть @avenue_studio_ua</a>
+    </div>
+    <form id="lead" class="form rv" novalidate>
+      <label>Телефон або Telegram *<input name="contact" required maxlength="80" autocomplete="tel" placeholder="+380… або @нік"></label>
+      <label>Назва бізнесу<input name="business" maxlength="120" autocomplete="organization" placeholder="Барбершоп «Борода і Ко»"></label>
+      <label>Що цікавить
+        <select name="interest" id="f-interest">
+          <option>Ще не знаю</option><option>Пакет Старт</option><option>Пакет Бізнес</option><option>Пакет Преміум</option>
+          <option>Google Maps</option><option>Сертифікати</option><option>Повернення бази</option><option>AI-менеджер</option><option>Своя задача</option>
+          <option>Avenue Club</option><option>Avenue Gifts</option><option>Оплата за результат</option>
+        </select>
+      </label>
+      <label>Ваше ім'я<input name="name" autocomplete="given-name" maxlength="80" placeholder="Олена"></label>
+      <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-acc" type="submit">Надіслати <span class="arr" aria-hidden="true">→</span></button>
+      <p class="msg" id="lead-msg" role="status"></p>
+    </form>
+  </div>
 </section>
 </main>
 
 <footer>
-  <a class="logo" href="./" translate="no">avenue<b>.</b></a>
-  <p>Avenue Studio, Дніпро. Онлайн-запис, сертифікати і повернення клієнтів для малого бізнесу.</p>
-  <nav aria-label="Посилання"><a href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">Telegram @avenue_studio_ua</a><a href="partners/">Партнерам</a><a href="https://t.me/zapysua_demo_bot" target="_blank" rel="noopener">Демо-бот</a><a href="oferta/">Публічна оферта</a></nav>
+  <div class="wrap">
+    <div class="foot">
+      <p>Avenue Studio, Дніпро. Записи, сертифікати і повернення клієнтів для малого бізнесу.</p>
+      <nav aria-label="Посилання"><a href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">Telegram @avenue_studio_ua</a><a href="partners/">Партнерам</a><a href="https://t.me/zapysua_demo_bot" target="_blank" rel="noopener">Демо-бот</a><a href="oferta/">Публічна оферта</a></nav>
+    </div>
+    <a class="giant" href="#top" aria-label="Avenue, нагору" translate="no">avenue<b>.</b></a>
+  </div>
 </footer>
-</div>
 
 <script>
 // Мітка партнера ?p= живе в localStorage як zp_p (див. docs/product.md)
 var Q = new URLSearchParams(location.search), P = Q.get("p") || "";
 try { if (P) localStorage.setItem("zp_p", P); else P = localStorage.getItem("zp_p") || ""; } catch (e) {}
+var RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Вільних місць за ціною засновника. Олег зменшує число після кожної оплати.
 var FOUNDER_SEATS_LEFT = 10;
 document.getElementById("seats").textContent = FOUNDER_SEATS_LEFT > 0 ? "Вільно " + FOUNDER_SEATS_LEFT + " з 10" : "Місця закінчились";
 
-// Сфери: назви, ціни і бренди в телефоні вигадані й підписані як приклад
+// Сфери: barber, sto, groom збігаються з демо (docs/product.md), решта підписані як приклад
 var S = {
-  barber: { phrase: "вашого барбершопу", short: "Барбершоп", biz: "Борода і Ко", addr: "Дніпро, Центр", color: "#1F4D3A", check: 450, rec: "certs",
+  barber: { phrase: "вашого барбершопу", short: "Барбершоп", biz: "Борода і Ко", addr: "Дніпро, Центр", color: "#1F4D3A", check: 450, rec: "certs", staff: ["Андрій", "Максим"],
     svcs: [["Чоловіча стрижка", "45 хв", 450], ["Стрижка і борода", "75 хв", 700], ["Батько і син", "90 хв", 800]] },
-  nails: { phrase: "вашої студії манікюру", short: "Манікюр", biz: "Lak Studio", addr: "Дніпро, Набережна", color: "#9C3656", check: 700, rec: "certs",
+  nails: { phrase: "вашої студії манікюру", short: "Манікюр", biz: "Lak Studio", addr: "Дніпро, Набережна", color: "#9C3656", check: 700, rec: "certs", staff: ["Аліна", "Віка"],
     svcs: [["Манікюр з покриттям", "90 хв", 700], ["Педикюр", "90 хв", 850], ["Корекція нарощення", "120 хв", 950]] },
-  sto: { phrase: "вашого СТО", short: "СТО", biz: "Шина Плюс", addr: "Дніпро, Слобожанський пр.", color: "#1E3A5F", check: 1100, rec: "maps",
+  sto: { phrase: "вашого СТО", short: "СТО", biz: "Шина Плюс", addr: "Дніпро, Слобожанський пр.", color: "#1E3A5F", check: 1100, rec: "maps", staff: ["Бокс 1", "Бокс 2"],
     svcs: [["Переобування R15–R16", "40 хв", 800], ["Балансування коліс", "30 хв", 400], ["Діагностика ходової", "45 хв", 500]] },
-  groom: { phrase: "вашого грумінг-салону", short: "Грумінг", biz: "Хвостик", addr: "Дніпро, Тополя", color: "#7A4E1B", check: 800, rec: "base",
+  groom: { phrase: "вашого грумінг-салону", short: "Грумінг", biz: "Хвостик", addr: "Дніпро, Тополя", color: "#7A4E1B", check: 800, rec: "base", staff: ["Оля", "Ірина"],
     svcs: [["Комплекс, малі породи", "120 хв", 900], ["Гігієнічна стрижка", "60 хв", 600], ["Купання і сушка", "45 хв", 450]] },
-  massage: { phrase: "вашого масажного кабінету", short: "Масаж", biz: "Тепло", addr: "Дніпро, Перемога", color: "#3F6152", check: 900, rec: "certs",
+  massage: { phrase: "вашого масажного кабінету", short: "Масаж", biz: "Тепло", addr: "Дніпро, Перемога", color: "#3F6152", check: 900, rec: "certs", staff: ["Дмитро", "Олена"],
     svcs: [["Масаж спини", "40 хв", 600], ["Загальний масаж", "60 хв", 900], ["Антицелюлітний", "50 хв", 800]] }
 };
 var cur = S[Q.get("s")] ? Q.get("s") : "barber", svc = 0, day = 0, slot = null, checkTouched = false;
@@ -495,6 +724,7 @@ var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { retu
 var WD = new Intl.DateTimeFormat("uk-UA", { weekday: "short" });
 var DAYS = [0, 1, 2, 3, 4, 5, 6].map(function (i) { var s = WD.format(new Date(2026, 10, 22 + i)); return s.charAt(0).toUpperCase() + s.slice(1); }), TIMES = ["10:00", "11:30", "13:00", "14:30", "16:00", "18:30"];
 
+// ---------- Телефон: запис як клієнт ----------
 function renderPhone() {
   var s = S[cur], phone = $("phone");
   phone.style.setProperty("--b", s.color);
@@ -523,12 +753,8 @@ function updateBook() {
   b.disabled = !slot;
   b.textContent = slot ? "Записатися на " + slot : "Оберіть час";
 }
-$("ph-svcs").addEventListener("click", function (e) {
-  var t = e.target.closest(".svc"); if (t) { svc = +t.dataset.i; renderPhone(); }
-});
-$("ph-days").addEventListener("click", function (e) {
-  var t = e.target.closest(".day"); if (t) { day = +t.dataset.i; renderPhone(); }
-});
+$("ph-svcs").addEventListener("click", function (e) { var t = e.target.closest(".svc"); if (t) { svc = +t.dataset.i; renderPhone(); } });
+$("ph-days").addEventListener("click", function (e) { var t = e.target.closest(".day"); if (t) { day = +t.dataset.i; renderPhone(); } });
 $("ph-slots").addEventListener("click", function (e) {
   var t = e.target.closest(".slot"); if (!t || t.disabled) return;
   [].forEach.call(this.querySelectorAll(".slot:not(:disabled)"), function (b) { b.setAttribute("aria-pressed", b === t ? "true" : "false"); });
@@ -538,14 +764,92 @@ $("ph-book").addEventListener("click", function () {
   var s = S[cur], x = new Date(); x.setDate(x.getDate() + day);
   $("ph-when").textContent = (day === 0 ? "Сьогодні" : DAYS[x.getDay()] + ", " + x.getDate()) + " о " + slot;
   $("ph-what").textContent = s.svcs[svc][0] + ". Нагадаємо за 2 години до візиту.";
-  $("ph-done").classList.add("show");
+  $("ph-done").classList.add("show"); placeCuts();
 });
 $("ph-again").addEventListener("click", renderPhone);
 
+// ---------- Потік квитків і нічний годинник у заголовку ----------
+var NIGHT = ["23:40", "06:55", "22:15", "00:30", "07:10", "21:50"], CLIENTS = ["Ірина К.", "Олег М.", "Наталя", "Артем С.", "Оксана", "Максим Д.", "Віра П."];
+var feed = $("feed"), clock = $("clock"), tickN = 0, streamTimer = null;
+function ticket(n) {
+  var s = S[cur], v = s.svcs[n % s.svcs.length], li = document.createElement("li");
+  li.className = "tk"; li.style.setProperty("--c", s.color);
+  li.innerHTML = '<span class="m">' + esc(s.biz.charAt(0)) + '</span><b>' + esc(CLIENTS[n % CLIENTS.length]) + " · " + esc(v[0]) + "</b><time>" + NIGHT[n % NIGHT.length] + "</time>" +
+    "<p>Завтра о " + TIMES[(n * 2) % TIMES.length] + " · " + esc(s.staff[n % 2]) + " · " + fmt(v[2]) + " грн · нагадування заплановано</p>";
+  return li;
+}
+function layoutFeed() {
+  var max = innerWidth >= 720 ? 4 : 3;
+  [].forEach.call(feed.children, function (li, i) { li.style.setProperty("--i", i); li.style.opacity = i >= max ? 0 : ""; });
+}
+function setClock(t) {
+  if (RM) { clock.textContent = t; return; }
+  clock.classList.add("tick");
+  setTimeout(function () { clock.textContent = t; clock.classList.remove("tick"); }, 160);
+}
+function pushTicket() {
+  var li = ticket(tickN); li.classList.add("new"); li.style.setProperty("--i", 0);
+  feed.insertBefore(li, feed.firstChild);
+  var max = innerWidth >= 720 ? 4 : 3;
+  while (feed.children.length > max + 1) feed.removeChild(feed.lastChild);
+  requestAnimationFrame(function () { requestAnimationFrame(function () { li.classList.remove("new"); layoutFeed(); }); });
+  setClock(NIGHT[tickN % NIGHT.length]);
+  tickN++;
+}
+function seedFeed() {
+  feed.innerHTML = "";
+  for (var n = 2; n >= 0; n--) feed.appendChild(ticket(n));
+  layoutFeed(); tickN = 3; clock.textContent = NIGHT[2];
+}
+function startStream() { if (!RM && !streamTimer) streamTimer = setInterval(pushTicket, 2800); }
+function stopStream() { clearInterval(streamTimer); streamTimer = null; }
+
+// ---------- Біжучий рядок ----------
+(function () {
+  var words = ["Барбершопи", "Манікюр", "СТО і шиномонтаж", "Грумінг", "Масаж", "Брови і вії", "Стоматологія", "Корти і студії"];
+  var one = words.map(function (w) { return "<span>" + w + "<i></i></span>"; }).join("");
+  $("track").innerHTML = one + one;
+})();
+
+// ---------- Петля повернення ----------
+var ring = { i: 0, visit: 1, turns: 0, timer: null, n: 5, C: 2 * Math.PI * 150 };
+(function buildRing() {
+  var labels = ["Запис", "Нагадування", "Відгук", "Повернення", "Сертифікати"], html = "";
+  for (var i = 0; i < ring.n; i++) {
+    var a = (i / ring.n) * 2 * Math.PI - Math.PI / 2, x = 200 + 150 * Math.cos(a), y = 200 + 150 * Math.sin(a);
+    var lx = 200 + 176 * Math.cos(a), ly = 200 + 176 * Math.sin(a) + (Math.sin(a) < -.9 ? -8 : 5);
+    var anchor = Math.abs(Math.cos(a)) < .2 ? "middle" : (Math.cos(a) > 0 ? "start" : "end");
+    html += '<g class="nd" data-i="' + i + '"><circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="9"/><text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anchor + '">' + labels[i] + "</text></g>";
+  }
+  $("nodes").innerHTML = html;
+  $("arc").style.strokeDasharray = ring.C; $("arc").style.strokeDashoffset = ring.C;
+})();
+function setStop(i, user) {
+  if (i === 0 && ring.i === ring.n - 1) { ring.turns++; ring.visit++; }
+  ring.i = i;
+  $("arc").style.strokeDashoffset = ring.C * (1 - i / ring.n);
+  $("runner").style.transform = "rotate(" + ((ring.turns * ring.n + i) * 360 / ring.n) + "deg)";
+  [].forEach.call(document.querySelectorAll(".nd"), function (n) { var k = +n.dataset.i; n.classList.toggle("on", k === i); n.classList.toggle("past", k < i); });
+  [].forEach.call(document.querySelectorAll(".stop"), function (b) { b.setAttribute("aria-selected", +b.dataset.i === i ? "true" : "false"); b.tabIndex = +b.dataset.i === i ? 0 : -1; });
+  $("ring-n").textContent = ring.visit;
+  $("ring-m").textContent = "+" + fmt(ring.visit * S[cur].check) + " грн";
+  if (user) stopRing();
+}
+$("stops").addEventListener("click", function (e) { var b = e.target.closest(".stop"); if (b) setStop(+b.dataset.i, true); });
+$("stops").addEventListener("keydown", function (e) {
+  if (["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].indexOf(e.key) < 0) return;
+  e.preventDefault(); var fwd = e.key === "ArrowDown" || e.key === "ArrowRight";
+  var i = (ring.i + (fwd ? 1 : ring.n - 1)) % ring.n; setStop(i, true);
+  document.querySelector('.stop[data-i="' + i + '"]').focus();
+});
+function startRing() { if (!RM && !ring.timer) ring.timer = setInterval(function () { setStop((ring.i + 1) % ring.n); }, 3200); }
+function stopRing() { clearInterval(ring.timer); ring.timer = null; }
+
+// ---------- Сфера ----------
 function setSphere(key, animate) {
   cur = key; var s = S[key], sw = document.querySelector('[data-text="phrase"]');
   [].forEach.call(document.querySelectorAll(".chip"), function (c) { c.setAttribute("aria-pressed", c.dataset.s === key ? "true" : "false"); });
-  if (animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (animate && !RM) {
     sw.classList.add("out");
     setTimeout(function () { sw.textContent = s.phrase; sw.classList.remove("out"); }, 160);
   } else sw.textContent = s.phrase;
@@ -555,10 +859,20 @@ function setSphere(key, animate) {
   [].forEach.call(document.querySelectorAll("#svcs li"), function (li) { li.classList.toggle("rec", li.dataset.svc === s.rec); });
   if (!checkTouched) { $("c-check").value = s.check; calc(); }
   svc = 0; day = 0; renderPhone();
+  if (animate) pushTicket(); else seedFeed();
+  setStop(ring.i);
 }
 [].forEach.call(document.querySelectorAll(".chip"), function (c) { c.addEventListener("click", function () { setSphere(c.dataset.s, true); }); });
 
-// Калькулятор: (неявки + пропущені) × чек × 4,3 тижня. Формула описана в docs/product.md
+// ---------- Калькулятор: (неявки + пропущені) × чек × 4,3 тижня (docs/product.md) ----------
+var shown = 0, tween = 0;
+function drawLoss() { $("c-out").innerHTML = fmt(shown) + " <span>грн</span>"; }
+function countTo(to) {
+  cancelAnimationFrame(tween);
+  if (RM) { shown = to; return drawLoss(); }
+  var from = shown, t0 = performance.now();
+  (function step(t) { var k = Math.min(1, (t - t0) / 500); shown = from + (to - from) * (1 - Math.pow(1 - k, 3)); drawLoss(); if (k < 1) tween = requestAnimationFrame(step); })(t0);
+}
 function calc() {
   var v = function (id) { return +$(id).value || 0; };
   var check = v("c-check"), no = v("c-noshow"), miss = v("c-missed");
@@ -566,7 +880,7 @@ function calc() {
   $("o-check").textContent = fmt(check) + " грн";
   $("o-noshow").textContent = no + " на тиждень";
   $("o-missed").textContent = miss + " на тиждень";
-  $("c-out").innerHTML = fmt(loss) + " <span>грн</span>";
+  countTo(loss);
   $("c-note").innerHTML = loss > 0
     ? "Якщо запис і нагадування повернуть хоча б третину, це <b>" + fmt(loss / 3) + " грн</b> на місяць. Підписка «Старт» коштує <b>390 грн</b>."
     : "Втрат немає? Тоді вам, мабуть, потрібні сертифікати або повернення старих клієнтів.";
@@ -575,11 +889,9 @@ function calc() {
 $("c-check").addEventListener("input", function () { checkTouched = true; calc(); });
 
 // Кнопки з data-interest заповнюють «Що цікавить» у заявці
-document.addEventListener("click", function (e) {
-  var a = e.target.closest("[data-interest]"); if (a) $("f-interest").value = a.dataset.interest;
-});
+document.addEventListener("click", function (e) { var a = e.target.closest("[data-interest]"); if (a) $("f-interest").value = a.dataset.interest; });
 
-// Заявка йде у функцію zapys-lead. Сфера й інтерес їдуть у полі niche (до 40 символів)
+// ---------- Заявка йде у функцію zapys-lead. Сфера й інтерес їдуть у полі niche (до 40 символів) ----------
 var LEAD_URL = "https://ykhvfjbolifnpstftpzk.supabase.co/functions/v1/zapys-lead";
 var form = $("lead"), msg = $("lead-msg");
 form.addEventListener("submit", function (e) {
@@ -587,7 +899,7 @@ form.addEventListener("submit", function (e) {
   var d = Object.fromEntries(new FormData(form).entries());
   Object.keys(d).forEach(function (k) { d[k] = String(d[k]).trim(); });
   msg.className = "msg";
-  if (!d.contact || d.contact.trim().length < 5) { msg.className = "msg err"; msg.textContent = "Вкажіть телефон або Telegram, щоб ми могли відповісти."; form.contact.focus(); return; }
+  if (!d.contact || d.contact.length < 5) { msg.className = "msg err"; msg.textContent = "Вкажіть телефон або Telegram, щоб ми могли відповісти."; form.contact.focus(); return; }
   var btn = form.querySelector("button"); btn.disabled = true; msg.textContent = "Надсилаємо…";
   var body = { name: d.name, business: d.business, contact: d.contact, website: d.website,
     niche: (S[cur].short + " · " + d.interest).slice(0, 40), source: "site", partner: P };
@@ -598,15 +910,27 @@ form.addEventListener("submit", function (e) {
     .finally(function () { btn.disabled = false; });
 });
 
-setSphere(cur, false);
-
+// ---------- Поява під час прокрутки, пауза анімацій поза екраном ----------
 function placeCuts() {
-  [].forEach.call(document.querySelectorAll(".av-ticket"), function (t) {
-    var c = t.querySelector(".cut"); if (c) t.style.setProperty("--cut", c.offsetTop + "px");
-  });
+  [].forEach.call(document.querySelectorAll(".av-ticket"), function (t) { var c = t.querySelector(".cut"); if (c) t.style.setProperty("--cut", c.offsetTop + "px"); });
 }
+if ("IntersectionObserver" in window) {
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px -8% 0px", threshold: .12 });
+  [].forEach.call(document.querySelectorAll(".rv, .steps li"), function (el) { io.observe(el); });
+  var watch = function (el, on, off) { new IntersectionObserver(function (es) { if (es[0].isIntersecting && !document.hidden) on(); else off(); }).observe(el); };
+  watch(document.querySelector(".hero"), startStream, stopStream);
+  watch($("loop"), startRing, stopRing);
+} else {
+  [].forEach.call(document.querySelectorAll(".rv, .steps li"), function (el) { el.classList.add("in"); });
+  startStream(); startRing();
+}
+document.addEventListener("visibilitychange", function () { if (document.hidden) { stopStream(); stopRing(); } else { startStream(); } });
+addEventListener("scroll", function () { $("top").classList.toggle("scrolled", scrollY > 8); }, { passive: true });
+
+setSphere(cur, false);
 placeCuts(); addEventListener("resize", placeCuts);
 if (document.fonts) document.fonts.ready.then(placeCuts);
+requestAnimationFrame(function () { document.documentElement.classList.add("ready"); });
 </script>
 </body>
 </html>
