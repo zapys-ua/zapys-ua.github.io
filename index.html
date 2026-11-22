@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/avenue.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Rubik:wght@700&family=Nunito:wght@800&display=swap&text=%D0%91%D0%BE%D1%80%D0%B4%D0%B0%D1%96%D0%9A%D0%A8%D0%B8%D0%BD%D0%9F%D0%BB%D1%8E%D1%81%D0%A5%D0%B2%D1%81%D1%82%D0%BA%20">
 <script>document.documentElement.classList.add("js")</script>
 <style>
 html{scroll-behavior:smooth}
@@ -263,13 +264,36 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 /* Що буде далі */
 .next{display:grid;gap:var(--s-4)}
 .nx{position:relative;display:flex;flex-direction:column;gap:var(--s-3);padding:var(--s-6) var(--s-5);border-radius:var(--r-lg);background:#221E17;border:1px solid rgba(245,240,230,.12);overflow:hidden}
-.nx .when{font:600 var(--t-xs) var(--font-text);letter-spacing:.1em;text-transform:uppercase;color:#E8835A;padding-right:88px}
-.nx h3{font:700 var(--t-2xl)/1.1 var(--font-display);letter-spacing:-.02em;padding-right:40px}
+.nx .when{font:600 var(--t-xs) var(--font-text);letter-spacing:.1em;text-transform:uppercase;color:#E8835A}
+.nx h3{font:700 var(--t-2xl)/1.1 var(--font-display);letter-spacing:-.02em}
 .nx p{color:#B9B0A3;flex:1}
 .nx .btn{align-self:flex-start}
 .nx svg{position:absolute;right:-20px;top:-20px;width:120px;height:120px}
 .orbit{transform-box:view-box;transform-origin:50% 50%;animation:spin 18s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* Демо-сайти «Преміум» */
+.sites{display:grid;gap:var(--s-4);margin-bottom:var(--s-4)}
+.site{--c:#1F4D3A;position:relative;display:block;border-radius:var(--r-lg);overflow:hidden;background:var(--c);color:#fff;aspect-ratio:4/5}
+.site figure{position:absolute;inset:0}
+.site img{width:100%;height:100%;object-fit:cover;transform:scale(1.001);transition:transform 1.4s var(--ease-out)}
+.site:hover img,.site:focus-visible img{transform:scale(1.06)}
+.site::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,0) 55%)}
+.site .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:var(--s-5);display:grid;gap:4px}
+.site .cap span{font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.site .cap b{font-size:clamp(34px,6vw,48px);line-height:1;font-weight:700}
+.site .cap i{font-style:normal;font-weight:600;font-size:var(--t-sm);margin-top:var(--s-2)}
+.site .cap i span{display:inline-block;transition:transform var(--d-base) var(--ease-out)}
+.site:hover .cap i span{transform:translateX(4px)}
+
+/* Лабораторія */
+.labf{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-bottom:var(--s-5)}
+.dark .chip{background:transparent;border-color:rgba(245,240,230,.22);color:var(--av-paper)}
+.dark .chip[aria-pressed="true"]{background:var(--av-paper);color:var(--av-ink);border-color:var(--av-paper)}
+.nx .pain{font-size:var(--t-sm);color:#B9B0A3;border-left:2px solid #E8835A;padding-left:var(--s-3)}
+.nx .pain{flex:none}
+.nx .get{color:var(--av-paper);flex:1}
+.nx[hidden]{display:none}
 
 /* Як запускаємо */
 .steps{list-style:none;display:grid;gap:var(--s-6)}
@@ -327,6 +351,8 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
   .svcs .btn{grid-column:3;grid-row:1/span 2;align-self:center}
   .founder{grid-template-columns:1fr auto;align-items:center}
   .next{grid-template-columns:repeat(3,1fr)}
+  .sites{grid-template-columns:repeat(3,1fr)}
+  .next .nx:last-child:nth-child(3n+1){grid-column:1/-1}
   .extras{grid-template-columns:1fr 1fr}
 }
 @media (min-width:980px){
@@ -357,7 +383,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
   <div class="wrap">
     <a class="logo" href="./" aria-label="Avenue, на головну" translate="no">avenue<b>.</b></a>
     <nav class="nav" aria-label="Розділи">
-      <a href="#try">Спробувати</a><a href="#loop">Як працює</a><a href="#calc">Калькулятор</a><a href="#price">Ціни</a><a href="#faq">Питання</a>
+      <a href="#try">Спробувати</a><a href="#loop">Як працює</a><a href="#sites">Сайти</a><a href="#calc">Калькулятор</a><a href="#price">Ціни</a><a href="#faq">Питання</a>
     </nav>
     <a class="btn btn-ink btn-sm" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Демо в Telegram</a>
   </div>
@@ -475,6 +501,31 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
   </div>
 </section>
 
+<section id="sites">
+  <div class="wrap">
+    <div class="rv">
+      <span class="kicker">Сайт у пакеті «Преміум»</span>
+      <h2 class="h2">Так виглядає ваш бізнес з Avenue</h2>
+      <p class="sub">Сайт з вашими фото, меню послуг і записом прямо на сторінці. Відкрийте будь-який і запишіться як клієнт.</p>
+    </div>
+    <div class="sites">
+      <a class="site rv" href="demo/?v=barber" style="--c:#1F4D3A">
+        <figure><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Борода і Ко" loading="lazy" width="760" height="950"></figure>
+        <div class="cap"><span>Барбершоп</span><b style="font-family:'Playfair Display',serif">Борода і Ко</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      </a>
+      <a class="site rv" href="demo/?v=sto" style="--c:#1E3A5F">
+        <figure><img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Шина Плюс" loading="lazy" width="760" height="950"></figure>
+        <div class="cap"><span>Шиномонтаж</span><b style="font-family:'Rubik',serif">Шина Плюс</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      </a>
+      <a class="site rv" href="demo/?v=groom" style="--c:#7A4E1B">
+        <figure><img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Хвостик" loading="lazy" width="760" height="950"></figure>
+        <div class="cap"><span>Грумінг-салон</span><b style="font-family:'Nunito',serif">Хвостик</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      </a>
+    </div>
+    <p class="note rv">Фото, назви й адреси демо-бізнесів для прикладу. Ваш сайт збираємо з вашими фото і прайсом.</p>
+  </div>
+</section>
+
 <section id="calc">
   <div class="wrap calc">
     <div class="rv">
@@ -561,7 +612,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <p class="sub-p">+ 1 490 грн на місяць<span>перший місяць безкоштовно</span></p>
       <ul class="ticks">
         <li>Усе з «Бізнесу»</li>
-        <li>Сайт бізнесу на одну сторінку з записом</li>
+        <li>Сайт бізнесу з записом, <a href="demo/?v=barber" style="text-decoration:underline;text-underline-offset:3px">як у прикладі</a></li>
         <li>Повернення старої бази клієнтів</li>
         <li>Щомісяця одне покращення від нас</li>
         <li>Зміни в той самий день</li>
@@ -597,36 +648,20 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
   </div>
 </section>
 
-<section id="next" class="dark">
+<section id="lab" class="dark">
   <div class="wrap">
     <div class="rv">
-      <span class="kicker">Що буде далі</span>
-      <h2 class="h2">Avenue росте разом з містом</h2>
-      <p class="sub">Цього ще немає. Будуємо, коли бачимо попит: натисніть «Хочу першим», і ми напишемо, щойно запустимо.</p>
+      <span class="kicker">Лабораторія Avenue</span>
+      <h2 class="h2">Що ми будуємо далі</h2>
+      <p class="sub">Беремо болі, про які говорять власники барбершопів, салонів, СТО і грумінгу. Що набере п'ять голосів за місяць, запускаємо першим і пишемо тим, хто голосував.</p>
     </div>
-    <div class="next">
-      <article class="nx rv">
-        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(245,240,230,.18)" stroke-dasharray="2 6"/><g class="orbit"><circle cx="60" cy="14" r="6" fill="#E8835A"/><circle cx="106" cy="60" r="4" fill="#F5F0E6"/></g></svg>
-        <span class="when">Avenue Club · 2027</span>
-        <h3>Бонуси, що працюють у сусідів</h3>
-        <p>Клієнт отримує бонус у вашому барбершопі і витрачає його в манікюрі через дорогу. Сусідні бізнеси Avenue приводять клієнтів одне одному.</p>
-        <a class="btn btn-line btn-sm" href="#zayavka" data-interest="Avenue Club">Хочу першим</a>
-      </article>
-      <article class="nx rv">
-        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(245,240,230,.18)" stroke-dasharray="2 6"/><g class="orbit" style="animation-duration:24s"><rect x="46" y="6" width="28" height="18" rx="4" fill="#E8835A"/></g></svg>
-        <span class="when">Avenue Gifts · до свят</span>
-        <h3>Усі подарунки Дніпра на одній сторінці</h3>
-        <p>Сертифікати барбершопів, салонів і студій Avenue в одному місці. Людина шукає подарунок і знаходить ваш бізнес.</p>
-        <a class="btn btn-line btn-sm" href="#zayavka" data-interest="Avenue Gifts">Хочу першим</a>
-      </article>
-      <article class="nx rv">
-        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(245,240,230,.18)" stroke-dasharray="2 6"/><g class="orbit" style="animation-duration:30s;animation-direction:reverse"><circle cx="60" cy="14" r="5" fill="#7FC79B"/><circle cx="14" cy="60" r="5" fill="#E8835A"/></g></svg>
-        <span class="when">Оплата за результат · грудень</span>
-        <h3>Платите за клієнтів, які повернулися</h3>
-        <p>Запрошуємо тих, хто давно не приходив. Платите 150 грн тільки за тих, хто справді записався, за даними Пульта.</p>
-        <a class="btn btn-line btn-sm" href="#zayavka" data-interest="Оплата за результат">Хочу першим</a>
-      </article>
+    <div class="labf" role="group" aria-label="Сфера" id="labf">
+      <button type="button" class="chip" data-f="all" aria-pressed="true">Усі</button>
+      <button type="button" class="chip" data-f="beauty" aria-pressed="false">Салони і барбершопи</button>
+      <button type="button" class="chip" data-f="auto" aria-pressed="false">СТО і шиномонтаж</button>
+      <button type="button" class="chip" data-f="pets" aria-pressed="false">Грумінг</button>
     </div>
+    <div class="next" id="labgrid"></div>
   </div>
 </section>
 
@@ -672,7 +707,6 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
         <select name="interest" id="f-interest">
           <option>Ще не знаю</option><option>Пакет Старт</option><option>Пакет Бізнес</option><option>Пакет Преміум</option>
           <option>Google Maps</option><option>Сертифікати</option><option>Повернення бази</option><option>AI-менеджер</option><option>Своя задача</option>
-          <option>Avenue Club</option><option>Avenue Gifts</option><option>Оплата за результат</option>
         </select>
       </label>
       <label>Ваше ім'я<input name="name" autocomplete="given-name" maxlength="80" placeholder="Олена"></label>
@@ -846,10 +880,35 @@ $("stops").addEventListener("keydown", function (e) {
 function startRing() { if (!RM && !ring.timer) ring.timer = setInterval(function () { setStop((ring.i + 1) % ring.n); }, 3200); }
 function stopRing() { clearInterval(ring.timer); ring.timer = null; }
 
+// ---------- Лабораторія: продукти з дослідження болів (docs/research/sphere-pains.md) ----------
+// Список оновлює щотижнева рада. «Хочу першим» іде в zapys-lead у полі niche.
+var LAB = [
+  { f: "auto", tag: "СТО і шиномонтаж", t: "Шинний готель", key: "Шинний готель", pain: "Два сезони годують увесь рік, а між ними порожньо.", get: "Облік зберігання шин клієнтів, нагадування про сезон і оплата зберігання щомісяця.", when: "Збираємо голоси" },
+  { f: "beauty", tag: "Салони і барбершопи", t: "Клієнти лишаються в салоні", key: "Клієнти лишаються", pain: "Майстер іде і забирає своїх клієнтів.", get: "Історія клієнта належить салону, бот сам пропонує іншого майстра з тим самим стилем.", when: "Збираємо голоси" },
+  { f: "all", tag: "Усі сфери", t: "Розумна передоплата", key: "Розумна передоплата", pain: "Неявки без попередження з'їдають день.", get: "Передоплата тільки для тих, хто вже не приходив. Постійних клієнтів не чіпаємо.", when: "Збираємо голоси" },
+  { f: "beauty", tag: "Барбершоп, масаж", t: "Абонементи і підписки", key: "Абонементи", pain: "Клієнти ходять нерегулярно, дохід стрибає.", get: "«Стрижка раз на 2 тижні» або 10 сеансів масажу з оплатою наперед і залишком у боті.", when: "Збираємо голоси" },
+  { f: "beauty", tag: "Салони", t: "Оренда крісла", key: "Оренда крісла", pain: "Майстри-орендарі домовляються в месенджерах, крісло простоює.", get: "Орендарі бронюють крісло чи кабінет самі, ви бачите завантаження і оплату.", when: "Збираємо голоси" },
+  { f: "pets", tag: "Грумінг", t: "Картка улюбленця", key: "Картка улюбленця", pain: "Власники забувають, коли час на наступну стрижку чи обробку.", get: "Порода, вага, алергії і фото «до і після» в картці. Бот сам нагадує про стрижку через 6 тижнів.", when: "Збираємо голоси" },
+  { f: "all", tag: "Усі сфери", t: "Подарунки міста", key: "Подарунки міста", pain: "Перед святами люди шукають подарунок і не знаходять ваш бізнес.", get: "Сертифікати бізнесів Avenue у Дніпрі на одній сторінці, ваш серед них.", when: "До свят, якщо буде попит" }
+];
+(function () {
+  var grid = $("labgrid"), sel = $("f-interest");
+  grid.innerHTML = LAB.map(function (x) {
+    return '<article class="nx rv" data-f="' + x.f + '"><span class="when">' + esc(x.tag) + " · " + esc(x.when) + "</span><h3>" + esc(x.t) + '</h3><p class="pain">' + esc(x.pain) + '</p><p class="get">' + esc(x.get) + "</p>" +
+      '<a class="btn btn-line btn-sm" href="#zayavka" data-interest="' + esc(x.key) + '">Хочу першим</a></article>';
+  }).join("");
+  LAB.forEach(function (x) { var o = document.createElement("option"); o.textContent = x.key; sel.appendChild(o); });
+  $("labf").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-f]"); if (!b) return; var f = b.dataset.f;
+    [].forEach.call(this.children, function (c) { c.setAttribute("aria-pressed", c === b ? "true" : "false"); });
+    [].forEach.call(grid.children, function (c) { c.hidden = !(f === "all" || c.dataset.f === f || c.dataset.f === "all"); });
+  });
+})();
+
 // ---------- Сфера ----------
 function setSphere(key, animate) {
   cur = key; var s = S[key], sw = document.querySelector('[data-text="phrase"]');
-  [].forEach.call(document.querySelectorAll(".chip"), function (c) { c.setAttribute("aria-pressed", c.dataset.s === key ? "true" : "false"); });
+  [].forEach.call(document.querySelectorAll(".chip[data-s]"), function (c) { c.setAttribute("aria-pressed", c.dataset.s === key ? "true" : "false"); });
   if (animate && !RM) {
     sw.classList.add("out");
     setTimeout(function () { sw.textContent = s.phrase; sw.classList.remove("out"); }, 160);
@@ -863,7 +922,7 @@ function setSphere(key, animate) {
   if (animate) pushTicket(); else seedFeed();
   setStop(ring.i);
 }
-[].forEach.call(document.querySelectorAll(".chip"), function (c) { c.addEventListener("click", function () { setSphere(c.dataset.s, true); }); });
+[].forEach.call(document.querySelectorAll(".chip[data-s]"), function (c) { c.addEventListener("click", function () { setSphere(c.dataset.s, true); }); });
 
 // ---------- Калькулятор: (неявки + пропущені) × чек × 4,3 тижня (docs/product.md) ----------
 var shown = 0, tween = 0;
