@@ -160,7 +160,7 @@ function render() {
       '<button class="main" data-a="buy"' + (S.busy || !S.amount ? ' disabled' : '') + '>' + (S.busy ? 'Створюємо…' : S.amount ? 'Створити сертифікат на ' + money(S.amount) : 'Оберіть суму') + '</button>' +
       (S.err ? '<p class="err">' + esc(S.err) + '</p>' : '') + '</div>';
   }
-  h += '<footer>Працює на <a target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '">Avenue</a> — сервіс для вашого бізнесу</footer>';
+  h += '<footer>Працює на <a target="_blank" rel="noopener" href="' + SITE + (S.p ? '?p=' + encodeURIComponent(S.p) : '') + '">Avenue</a>: сервіс для вашого бізнесу</footer>';
   app.innerHTML = h;
 }
 
