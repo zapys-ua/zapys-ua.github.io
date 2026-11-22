@@ -82,6 +82,7 @@ Zapys — сервис онлайн-записи для малого бизне�
 | `index.html` | Главная сайта: обещания продукта, цены, калькулятор потерь, FAQ |
 | `book/index.html` | Страница записи без Telegram |
 | `partners/index.html` | Партнёрская программа |
+| `oferta/index.html` | Публичная оферта. Реквизиты в константе `SELLER`, цены сверяет `node scripts/check-prices.mjs` |
 | `docs/product.md` | Что продукт обещает клиенту, по факту с сайта |
 | `docs/architecture.md` | Как устроено: Supabase, Telegram, GitHub Pages |
 | `docs/adr/` | Принятые решения и их причины |

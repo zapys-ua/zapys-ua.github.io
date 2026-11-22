@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Публічна оферта Avenue: умови, ціни, гарантія</title>
+<meta name="description" content="Договір про налаштування і підписку на сервіс запису Avenue: пакети і ціни, оплата, гарантія повернення 30 днів, база клієнтів. Коротко людською мовою в кожному розділі.">
+<meta property="og:title" content="Публічна оферта Avenue">
+<meta property="og:description" content="Умови, ціни і гарантія. У кожному розділі спершу коротко, потім повний текст.">
+<meta property="og:image" content="https://zapys-ua.github.io/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zapys-ua.github.io/oferta/">
+<meta name="theme-color" content="#F5F0E6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/avenue.css">
+<style>
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.wrap{max-width:var(--w-page);margin:0 auto;padding:0 var(--s-4)}
+a{color:inherit}
+h1,h2,h3{text-wrap:balance}
+p,li{text-wrap:pretty}
+[id]{scroll-margin-top:var(--s-5)}
+.skip{position:absolute;left:var(--s-4);top:-60px;background:var(--text);color:var(--av-paper);padding:10px 14px;border-radius:var(--r-sm);z-index:10}
+.skip:focus{top:var(--s-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:var(--r-sm);font:600 var(--t-sm)/1.2 var(--font-text);border:1.5px solid var(--text);color:var(--text);background:transparent;cursor:pointer;text-decoration:none;touch-action:manipulation}
+.btn:hover{background:rgba(23,20,15,.05)}
+.btn-acc{background:var(--acc);border-color:var(--acc);color:var(--acct)}
+.btn-acc:hover{background:#A33A15}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);padding:var(--s-4) 0}
+.logo{font:800 22px/1 var(--font-display);letter-spacing:-.02em;text-decoration:none}
+.logo b{color:var(--acc)}
+.top nav{display:flex;gap:var(--s-2)}
+
+.head{padding:var(--s-6) 0 var(--s-6);border-bottom:1px solid var(--line)}
+.head h1{font:700 clamp(30px,8vw,52px)/1.08 var(--font-display);letter-spacing:-.025em;margin-bottom:var(--s-4)}
+.head .lead{font-size:var(--t-lg);color:var(--mute);max-width:36em;margin-bottom:var(--s-4)}
+.meta{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-4);align-items:center;font-size:var(--t-sm);color:var(--mute)}
+
+.doc{display:grid;gap:var(--s-6);padding:var(--s-6) 0 var(--s-8)}
+.toc{font-size:var(--t-sm)}
+.toc p{font-weight:600;margin-bottom:var(--s-2)}
+.toc ol{list-style:none;display:grid;gap:2px;counter-reset:t}
+.toc li{counter-increment:t}
+.toc a{display:flex;gap:var(--s-2);padding:8px 0;color:var(--mute);text-decoration:none;min-height:36px;align-items:center}
+.toc a::before{content:counter(t);font-variant-numeric:tabular-nums;color:var(--acc);font-weight:600;min-width:1.4em}
+.toc a:hover{color:var(--text)}
+
+.body{max-width:680px;counter-reset:sec}
+.sec{counter-increment:sec;padding-bottom:var(--s-6);margin-bottom:var(--s-6);border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec h2{font:700 var(--t-xl)/1.25 var(--font-display);letter-spacing:-.01em;margin-bottom:var(--s-4);display:flex;gap:var(--s-3)}
+.sec h2::before{content:counter(sec);color:var(--acc);font-variant-numeric:tabular-nums}
+.tldr{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s-4);margin-bottom:var(--s-5);font-size:var(--t-md)}
+.tldr b{display:block;font:600 var(--t-xs)/1 var(--font-text);letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:var(--s-2)}
+.cl{list-style:none;counter-reset:cl;display:grid;gap:var(--s-3);font-size:var(--t-sm);line-height:1.6}
+.cl>li{counter-increment:cl;position:relative;padding-left:3em}
+.cl>li::before{content:counter(sec) "." counter(cl);position:absolute;left:0;color:var(--mute);font-variant-numeric:tabular-nums}
+.cl a,.sec p a{text-decoration:underline;text-underline-offset:3px}
+.cl ul{margin:var(--s-2) 0 0 1.1em;display:grid;gap:var(--s-1)}
+dl.terms{display:grid;gap:var(--s-3);font-size:var(--t-sm);line-height:1.6}
+dl.terms dt{font-weight:600}
+dl.terms dd{color:var(--text);margin-top:-6px}
+
+.prices{display:grid;gap:var(--s-2);margin:0 0 var(--s-5)}
+.prow{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-1) var(--s-4);background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s-3) var(--s-4);font-size:var(--t-sm)}
+.prow h3{grid-column:1/-1;font:700 var(--t-md)/1.3 var(--font-display)}
+.prow h3 small{font:400 var(--t-sm) var(--font-text);color:var(--mute);margin-left:6px}
+.prow span{color:var(--mute)}
+.prow strong{font-variant-numeric:tabular-nums;text-align:right}
+.prow{grid-template-columns:1fr auto}
+.prow strong{white-space:nowrap}
+.svcl{list-style:none;display:grid;gap:var(--s-2);margin-bottom:var(--s-5);font-size:var(--t-sm)}
+.svcl li{display:grid;grid-template-columns:1fr minmax(0,auto);gap:var(--s-1) var(--s-4);padding:var(--s-2) 0;border-bottom:1px dashed var(--line)}
+.svcl strong{font-variant-numeric:tabular-nums;text-align:right;max-width:13em}
+
+.seller{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s-4);font-size:var(--t-sm);line-height:1.7}
+footer{padding:var(--s-6) 0 var(--s-8);border-top:1px solid var(--line);color:var(--mute);font-size:var(--t-sm);display:flex;flex-wrap:wrap;gap:var(--s-4)}
+footer a{color:var(--text);text-underline-offset:3px}
+
+@media (min-width:980px){
+  .doc{grid-template-columns:240px 1fr;gap:var(--s-8)}
+  .toc{position:sticky;top:var(--s-5);align-self:start}
+  .prow{grid-template-columns:1.2fr 1fr 1fr 1fr;align-items:baseline}
+  .prow h3{grid-column:auto}
+  .prow span{display:none}
+  .phead{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:var(--s-4);padding:0 var(--s-4);font-size:var(--t-xs);color:var(--mute)}
+  .phead em{font-style:normal;text-align:right}
+}
+.phead{display:none}
+@media (min-width:980px){.phead{display:grid}}
+@media print{
+  .top,.toc,.skip,.print,footer nav{display:none!important}
+  body{background:#fff}
+  .doc{display:block;padding:0}
+  .tldr,.prow,.seller{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">До тексту оферти</a>
+<div class="wrap">
+<header class="top">
+  <a class="logo" href="../" aria-label="Avenue, на головну" translate="no">avenue<b>.</b></a>
+  <nav aria-label="Посилання">
+    <a class="btn" href="../#price">Ціни</a>
+    <a class="btn btn-acc" href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">Telegram</a>
+  </nav>
+</header>
+
+<div class="head">
+  <h1>Публічна оферта</h1>
+  <p class="lead">Договір про налаштування і підписку на сервіс запису Avenue. У кожному розділі спершу коротко людською мовою, нижче повний текст. Юридичну силу має повний текст.</p>
+  <div class="meta">
+    <span>Редакція від 22 листопада 2026 року</span>
+    <button class="btn print" type="button" onclick="window.print()">Зберегти як PDF</button>
+  </div>
+</div>
+
+<div class="doc">
+<nav class="toc" aria-label="Зміст">
+  <p>Зміст</p>
+  <ol>
+    <li><a href="#zagalne">Загальні положення</a></li>
+    <li><a href="#terminy">Терміни</a></li>
+    <li><a href="#robota">Що ми робимо</a></li>
+    <li><a href="#ciny">Ціни</a></li>
+    <li><a href="#oplata">Оплата</a></li>
+    <li><a href="#garantiya">Гарантія і повернення</a></li>
+    <li><a href="#dani">Ваші дані і база клієнтів</a></li>
+    <li><a href="#obovyazky">Ваші обов'язки</a></li>
+    <li><a href="#vidpovidalnist">Відповідальність</a></li>
+    <li><a href="#strok">Строк дії і розірвання</a></li>
+    <li><a href="#rekvizyty">Реквізити і контакти</a></li>
+  </ol>
+</nav>
+
+<main class="body" id="main">
+
+<section class="sec" id="zagalne">
+  <h2>Загальні положення</h2>
+  <div class="tldr"><b>Коротко</b>Це договір між нами і вашим бізнесом. Ви приймаєте його, коли оплачуєте рахунок. Підписувати папери не треба.</div>
+  <ol class="cl">
+    <li>Цей документ є публічною офертою відповідно до статей 633, 641 і 642 Цивільного кодексу України. У тексті «ми» означає Виконавця (реквізити в розділі 11), «ви» означає Замовника.</li>
+    <li>Оферта адресована фізичним особам-підприємцям і юридичним особам, які використовують сервіс у своєму бізнесі.</li>
+    <li>Акцептом оферти є оплата рахунку за запуск пакета, вхідну послугу або підписку. З моменту оплати договір вважається укладеним на умовах редакції, чинної в день оплати.</li>
+    <li>Ми можемо змінювати оферту. Нова редакція діє з дня публікації на цій сторінці для нових оплат. Про зміни, які стосуються вже оплачених послуг, повідомляємо в Telegram щонайменше за 14 днів. Для вже оплаченого періоду діють умови на день оплати.</li>
+  </ol>
+</section>
+
+<section class="sec" id="terminy">
+  <h2>Терміни</h2>
+  <div class="tldr"><b>Коротко</b>Платите за точку, а не за кожного майстра. Запуск оплачуєте один раз, підписку щомісяця.</div>
+  <dl class="terms">
+    <dt>Сервіс</dt><dd>Бот запису в Telegram, застосунок у Telegram, сторінка запису за посиланням, Пульт власника та інші модулі, що входять у ваш пакет.</dd>
+    <dt>Точка</dt><dd>Одна адреса, де ви приймаєте клієнтів. Кількість майстрів у межах пакета на ціну не впливає.</dd>
+    <dt>Запуск</dt><dd>Разове налаштування сервісу під ваш бізнес: послуги, ціни, графік, майстри, назва, логотип і кольори.</dd>
+    <dt>Підписка</dt><dd>Щомісячний доступ до сервісу, його робота, підтримка і зміни за вашим запитом.</dd>
+    <dt>Вхідна послуга</dt><dd>Окрема разова послуга з розділу 4, яку можна замовити без пакета.</dd>
+    <dt>Клієнти</dt><dd>Люди, які записуються до вас через сервіс.</dd>
+  </dl>
+</section>
+
+<section class="sec" id="robota">
+  <h2>Що ми робимо</h2>
+  <div class="tldr"><b>Коротко</b>Налаштовуємо все самі за 1–2 робочі дні. Далі сервіс працює, а ми вносимо зміни протягом доби, у «Преміумі» того ж дня.</div>
+  <ol class="cl">
+    <li>Ми налаштовуємо сервіс за даними, які ви надсилаєте: прайс, графік, майстри, логотип. Достатньо фото прайсу.</li>
+    <li>Запуск займає 1–2 робочі дні від дня, коли ми отримали оплату і всі дані.</li>
+    <li>Протягом підписки ми забезпечуємо роботу сервісу і відповідаємо вам у Telegram у робочі дні. Зміни цін, послуг і графіка вносимо протягом доби від запиту, у пакеті «Преміум» того ж робочого дня.</li>
+    <li>Склад кожного пакета описаний на <a href="../#price">головній сторінці</a> в розділі «Ціни». Опис на головній є частиною цієї оферти.</li>
+    <li>Переносимо записи і клієнтів з Altegio, DIKIDI, Booksy, Excel чи блокнота безкоштовно.</li>
+    <li>Сервіс працює через Telegram і хмарні сервери. Ми не відповідаємо за збої Telegram, мобільного зв'язку чи інтернету у вас і ваших клієнтів. Про відомі збої повідомляємо і відновлюємо роботу якнайшвидше.</li>
+  </ol>
+</section>
+
+<section class="sec" id="ciny">
+  <h2>Ціни</h2>
+  <div class="tldr"><b>Коротко</b>Ціна одна за точку. Без відсотків із записів і прихованих платежів: усе, що коштує грошей, перелічено тут.</div>
+  <div class="phead" aria-hidden="true"><em style="text-align:left">Пакет</em><em>Запуск, ціна засновника</em><em>Запуск, звичайна ціна</em><em>Підписка на місяць</em></div>
+  <div class="prices" id="prices"></div>
+  <ul class="svcl" id="svcs"></ul>
+  <ol class="cl">
+    <li><b>Ціна засновника</b> діє для перших 10 бізнесів, які оплатили будь-який пакет: запуск зі знижкою 50%, а ціна підписки для вас не зростає, поки ви з нами. Натомість ви залишаєте відгук і дозволяєте показати назву вашого бізнесу і результат у наших матеріалах. Кількість вільних місць показує лічильник на головній, ми оновлюємо його після кожної оплати. Після 10 місць діє звичайна ціна запуску.</li>
+    <li>Перший місяць підписки безкоштовний. Він починається в день запуску. Це стосується і тих, хто почав з вхідної послуги і потім підключив пакет.</li>
+    <li>Оплата за рік: 12 місяців підписки коштують як 10.</li>
+    <li>«Сертифікати до свят» за 1 490 грн: ціна діє, якщо запуск відбувся до 20 грудня 2026 року.</li>
+    <li>«Повернення старої бази»: на ваш вибір 1 990 грн фіксовано або 150 грн за кожного клієнта, що повернувся. Клієнт вважається таким, що повернувся, якщо записався за персональним запрошенням протягом 30 днів після розсилки.</li>
+    <li>«AI-менеджер» з грудня 2026 року працює як пілот на трьох бізнесах. Умови пілоту погоджуємо з вами в Telegram до оплати.</li>
+    <li>«Своя задача»: оцінюємо протягом 24 годин і називаємо фіксовану ціну. Ціну і строк погоджуємо в Telegram до оплати.</li>
+    <li>Ціни вказані в гривнях. Звичайну ціну, яку показано поруч із ціною засновника, ми справді застосовуємо після того, як 10 місць зайнято.</li>
+  </ol>
+</section>
+
+<section class="sec" id="oplata">
+  <h2>Оплата</h2>
+  <div class="tldr"><b>Коротко</b>Платите за рахунком. Запуск і вхідні послуги наперед, підписку щомісяця наперед.</div>
+  <ol class="cl">
+    <li>Ми надсилаємо рахунок у Telegram. Оплата на банківський рахунок Виконавця за реквізитами з рахунку.</li>
+    <li>Запуск пакета і вхідні послуги оплачуються наперед повністю. Роботу починаємо після оплати.</li>
+    <li>Підписка оплачується щомісяця наперед, починаючи з дня, коли закінчився безкоштовний місяць.</li>
+    <li>Якщо оплата підписки не надійшла протягом 7 днів після дати платежу, ми можемо призупинити сервіс, попередивши вас у Telegram за 3 дні. Записи і база клієнтів при цьому зберігаються 60 днів.</li>
+  </ol>
+</section>
+
+<section class="sec" id="garantiya">
+  <h2>Гарантія і повернення</h2>
+  <div class="tldr"><b>Коротко</b>Не підійде протягом 30 днів після запуску, повернемо всі гроші за запуск без пояснень. Від підписки можна відмовитися будь-коли.</div>
+  <ol class="cl">
+    <li>Якщо протягом 30 днів від запуску пакета ви вирішили, що сервіс вам не підходить, напишіть нам у Telegram. Ми повернемо всю суму, сплачену за запуск, протягом 5 банківських днів на рахунок, з якого надійшла оплата. Пояснювати причину не обов'язково.</li>
+    <li>Вхідну послугу, яку ми виконали повністю, не повертаємо. Якщо ми не виконали послугу в погоджений строк, повертаємо оплату повністю.</li>
+    <li>Від підписки можна відмовитися будь-коли, написавши нам у Telegram. Оплачений місяць не повертаємо, сервіс працює до його кінця.</li>
+    <li>Якщо ви оплатили рік і відмовились раніше, ми перераховуємо використані місяці за ціною місячної підписки і повертаємо різницю.</li>
+  </ol>
+</section>
+
+<section class="sec" id="dani">
+  <h2>Ваші дані і база клієнтів</h2>
+  <div class="tldr"><b>Коротко</b>База клієнтів ваша. Віддамо її таблицею будь-коли, навіть після відмови.</div>
+  <ol class="cl">
+    <li>Дані ваших клієнтів (ім'я, телефон, Telegram, історія записів) належать вам. Ви є володільцем цих персональних даних, а ми обробляємо їх лише за вашим дорученням і лише для роботи сервісу, відповідно до Закону України «Про захист персональних даних».</li>
+    <li>На ваш запит вивантажуємо базу клієнтів і записів таблицею протягом 2 робочих днів, у тому числі після припинення договору.</li>
+    <li>Після припинення договору зберігаємо дані 60 днів, щоб ви могли їх забрати, а потім видаляємо. На ваш запит видаляємо раніше.</li>
+    <li>Дані зберігаються на серверах Supabase в Європейському Союзі (Франкфурт) і передаються через Telegram.</li>
+    <li>Ваші контакти як Замовника ми використовуємо, щоб зв'язуватися щодо сервісу. Рекламу від третіх осіб не надсилаємо і ваші дані не продаємо.</li>
+  </ol>
+</section>
+
+<section class="sec" id="obovyazky">
+  <h2>Ваші обов'язки</h2>
+  <div class="tldr"><b>Коротко</b>Надсилайте актуальний прайс і графік і не використовуйте сервіс для спаму.</div>
+  <ol class="cl">
+    <li>Надавати правдиві дані для налаштування і вчасно повідомляти про зміни цін, послуг і графіка.</li>
+    <li>Передавати для розсилок лише контакти клієнтів, які ви отримали законно.</li>
+    <li>Не використовувати сервіс для спаму, обману клієнтів чи діяльності, забороненої законом.</li>
+    <li>Внизу сторінки запису є невелике посилання «Працює на Avenue». Його не потрібно прибирати чи змінювати самостійно.</li>
+  </ol>
+</section>
+
+<section class="sec" id="vidpovidalnist">
+  <h2>Відповідальність</h2>
+  <div class="tldr"><b>Коротко</b>Ми відповідаємо за роботу сервісу в межах суми, яку ви нам заплатили за останній місяць.</div>
+  <ol class="cl">
+    <li>Наша відповідальність за договором обмежена сумою підписки, сплаченою за останній місяць, а до першої оплати підписки сумою, сплаченою за запуск.</li>
+    <li>Ми не відповідаємо за упущену вигоду, неявки клієнтів і рішення, які ви приймаєте на основі звітів сервісу.</li>
+    <li>Сторони звільняються від відповідальності за обставини непереборної сили, зокрема воєнні дії, тривалі відключення електроенергії чи зв'язку в дата-центрах і блокування Telegram. Сервер не залежить від світла у вас: коли вимикають світло на вашій точці, записи і нагадування працюють.</li>
+    <li>Код і дизайн сервісу належать Виконавцю. Ваша назва, логотип, тексти, фото і база клієнтів належать вам.</li>
+  </ol>
+</section>
+
+<section class="sec" id="strok">
+  <h2>Строк дії і розірвання</h2>
+  <div class="tldr"><b>Коротко</b>Договір діє, поки ви користуєтесь сервісом. Спори вирішуємо розмовою, а якщо не вийде, за законом України.</div>
+  <ol class="cl">
+    <li>Договір діє з дня оплати до відмови однієї зі сторін.</li>
+    <li>Ви можете відмовитися будь-коли, написавши нам у Telegram. Повернення коштів за правилами розділу 6.</li>
+    <li>Ми можемо припинити договір, попередивши вас за 30 днів і повернувши оплату за невикористаний період. Якщо ви порушили розділ 8, ми можемо призупинити сервіс одразу.</li>
+    <li>Спори вирішуємо переговорами. Якщо домовитися не вдалося, спір розглядає суд відповідно до законодавства України.</li>
+  </ol>
+</section>
+
+<section class="sec" id="rekvizyty">
+  <h2>Реквізити і контакти</h2>
+  <div class="tldr"><b>Коротко</b>Пишіть у Telegram, там відповідаємо найшвидше.</div>
+  <div class="seller" id="seller"></div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <span>Avenue · онлайн-запис і постійні клієнти для малого бізнесу</span>
+  <nav aria-label="Посилання"><a href="../">Головна</a> · <a href="../#price">Ціни</a> · <a href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">Telegram @avenue_studio_ua</a></nav>
+</footer>
+</div>
+
+<script>
+// Ціни: ті самі числа, що на головній і в docs/product.md. Перевірка: node scripts/check-prices.mjs
+var PACKS = [
+  { name: "Старт", who: "майстер, що працює сам", founder: 950, launch: 1900, month: 390 },
+  { name: "Бізнес", who: "студія або СТО до 6 майстрів", founder: 2950, launch: 5900, month: 790 },
+  { name: "Преміум", who: "салон з адміністратором або кілька точок", founder: 6450, launch: 12900, month: 1490 }
+];
+var SERVICES = [
+  ["Google Maps під ключ", "990 грн"],
+  ["Сертифікати до свят", "1 490 грн"],
+  ["Повернення старої бази", "1 990 грн або 150 грн за клієнта"],
+  ["AI-менеджер у Telegram", "1 990 грн + 790 грн на місяць"],
+  ["Своя задача", "фіксована ціна після оцінки"]
+];
+// Реквізити Виконавця. Заповнити після реєстрації ФОП (задача 3.1), тоді вони з'являться на сторінці.
+// Приклад: { name: "ФОП Прізвище Ім'я По батькові", code: "1234567890", iban: "UA00 0000 0000 0000 0000 0000 000", address: "м. Дніпро, ..." }
+var SELLER = null;
+
+var g = function (n) { return n.toLocaleString("uk-UA").replace(/ /g, " ") + " грн"; };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+document.getElementById("prices").innerHTML = PACKS.map(function (p) {
+  return '<div class="prow"><h3>' + p.name + '<small>' + p.who + '</small></h3>' +
+    '<span>Запуск, ціна засновника</span><strong>' + g(p.founder) + '</strong>' +
+    '<span>Запуск, звичайна ціна</span><strong>' + g(p.launch) + '</strong>' +
+    '<span>Підписка на місяць</span><strong>' + g(p.month) + '</strong></div>';
+}).join("");
+document.getElementById("svcs").innerHTML = SERVICES.map(function (s) { return '<li><span>' + s[0] + '</span><strong>' + s[1] + '</strong></li>'; }).join("");
+document.getElementById("seller").innerHTML = (SELLER
+  ? '<b>Виконавець:</b> ' + esc(SELLER.name) + '<br>РНОКПП: ' + esc(SELLER.code) + '<br>IBAN: ' + esc(SELLER.iban) + (SELLER.address ? '<br>Адреса: ' + esc(SELLER.address) : '') + '<br>'
+  : '<b>Виконавець:</b> фізична особа-підприємець, що працює під брендом Avenue Studio. Повні реквізити (ПІБ, РНОКПП, IBAN) вказані в рахунку на оплату.<br>') +
+  'Telegram: <a href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">@avenue_studio_ua</a><br>Сайт: <a href="../">zapys-ua.github.io</a>';
+</script>
+</body>
+</html>
