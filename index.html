@@ -192,11 +192,11 @@ section{padding:clamp(64px,10vw,128px) 0}
 .ring-m{font:700 var(--t-md) var(--font-display);color:#E8835A;margin-top:6px}
 .stops{display:grid;margin-bottom:var(--s-6)}
 .stop{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(245,240,230,.14);color:inherit;padding:var(--s-4) 0;cursor:pointer;font:inherit}
-.stop h3{display:flex;align-items:center;gap:var(--s-3);font:700 var(--t-xl)/1.2 var(--font-display);color:#8E867A;transition:color var(--d-base)}
-.stop h3 span{font:600 var(--t-xs) var(--font-text);color:#8E867A;min-width:2em}
+.stop .t{display:flex;align-items:center;gap:var(--s-3);font:700 var(--t-xl)/1.2 var(--font-display);color:#8E867A;transition:color var(--d-base)}
+.stop .t span{font:600 var(--t-xs) var(--font-text);color:#8E867A;min-width:2em}
 .stop .tx{display:block;color:#B9B0A3;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s var(--ease-out),opacity .4s,margin .4s;max-width:30em}
-.stop[aria-selected="true"] h3{color:var(--av-paper)}
-.stop[aria-selected="true"] .tx{max-height:12em;opacity:1;margin-top:var(--s-2)}
+.stop[aria-expanded="true"] .t{color:var(--av-paper)}
+.stop[aria-expanded="true"] .tx{max-height:12em;opacity:1;margin-top:var(--s-2)}
 .stop:focus-visible{outline:2px solid #E8835A;outline-offset:4px}
 .tag{display:inline-block;font-size:var(--t-xs);font-weight:600;padding:3px 9px;border-radius:var(--r-pill);border:1px solid currentColor;margin-top:var(--s-2)}
 .tag.ok{color:#7FC79B}
@@ -312,7 +312,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
 .foot{display:grid;gap:var(--s-4);margin-bottom:var(--s-6)}
 .foot nav{display:flex;flex-wrap:wrap;gap:var(--s-4)}
 .foot a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
-.giant{display:block;font:800 clamp(72px,23vw,320px)/.82 var(--font-display);letter-spacing:-.06em;color:var(--text);white-space:nowrap;margin-left:-.04em}
+.giant{display:block;width:max-content;max-width:100%;font:800 clamp(52px,18vw,254px)/.82 var(--font-display);letter-spacing:-.06em;color:var(--text);white-space:nowrap;margin-left:-.04em}
 .giant b{color:var(--acc);display:inline-block;animation:dot 3.2s var(--ease-spring) infinite}
 @keyframes dot{0%,70%,100%{transform:none}80%{transform:translateY(-.08em)}90%{transform:translateY(.02em)}}
 
@@ -333,7 +333,8 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
   .nav{display:flex}
   .hero{grid-template-columns:1.25fr 1fr;column-gap:var(--s-8);min-height:calc(100svh - 64px);align-content:center;padding:var(--s-6) 0}
   .try{grid-template-columns:1fr 1fr;gap:var(--s-8)}
-  .loop{grid-template-columns:1.05fr 1fr;gap:var(--s-8)}
+  .loop{grid-template-columns:1.05fr 1fr;gap:var(--s-8);align-items:start}
+  .loop>.ring{position:sticky;top:calc(50vh - 212px)}
   .calc{grid-template-columns:1fr 1fr;gap:var(--s-8)}
   .plans{grid-template-columns:1fr 1.12fr 1fr}
   .plan.main{transform:translateY(-12px)}
@@ -459,12 +460,12 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
         <h2 class="h2">Петля, яка повертає клієнтів</h2>
         <p class="sub">Запис це лише початок. Кожне коло приводить клієнта назад і додає вам грошей.</p>
       </div>
-      <div class="stops" role="tablist" aria-label="Етапи петлі" id="stops">
-        <button class="stop" type="button" role="tab" aria-selected="true" data-i="0"><h3><span>01</span>Запис 24/7</h3><span class="tx">Бот у Telegram, застосунок усередині Telegram і сторінка за посиланням для Instagram, Google Maps і Viber.<br><span class="tag ok">Працює</span></span></button>
-        <button class="stop" type="button" role="tab" aria-selected="false" data-i="1"><h3><span>02</span>Нагадування</h3><span class="tx">За 2 години до візиту. Клієнт може скасувати, і бот сам напише тим, хто чекав на цей час.<br><span class="tag ok">Працює</span></span></button>
-        <button class="stop" type="button" role="tab" aria-selected="false" data-i="2"><h3><span>03</span>Відгук</h3><span class="tx">Після візиту бот просить оцінку. Задоволених веде на Google Maps, про незадоволених пише тільки вам.<br><span class="tag ok">Працює</span></span></button>
-        <button class="stop" type="button" role="tab" aria-selected="false" data-i="3"><h3><span>04</span>Повернення</h3><span class="tx">Через 3–4 тижні бот кличе клієнта знову. Хто давно не приходив, отримує персональне запрошення зі старої бази.<br><span class="tag ok">Працює · база з грудня</span></span></button>
-        <button class="stop" type="button" role="tab" aria-selected="false" data-i="4"><h3><span>05</span>Сертифікати</h3><span class="tx">Клієнт купує подарунок онлайн і приводить нового клієнта. Гасите одним натиском, двічі не вийде.<br><span class="tag ok">Працює</span></span></button>
+      <div class="stops" role="group" aria-label="Етапи петлі" id="stops">
+        <button class="stop" type="button" aria-expanded="true" data-i="0"><span class="t"><span>01</span>Запис 24/7</span><span class="tx">Бот у Telegram, застосунок усередині Telegram і сторінка за посиланням для Instagram, Google Maps і Viber.<br><span class="tag ok">Працює</span></span></button>
+        <button class="stop" type="button" aria-expanded="false" data-i="1"><span class="t"><span>02</span>Нагадування</span><span class="tx">За 2 години до візиту. Клієнт може скасувати, і бот сам напише тим, хто чекав на цей час.<br><span class="tag ok">Працює</span></span></button>
+        <button class="stop" type="button" aria-expanded="false" data-i="2"><span class="t"><span>03</span>Відгук</span><span class="tx">Після візиту бот просить оцінку. Задоволених веде на Google Maps, про незадоволених пише тільки вам.<br><span class="tag ok">Працює</span></span></button>
+        <button class="stop" type="button" aria-expanded="false" data-i="3"><span class="t"><span>04</span>Повернення</span><span class="tx">Через 3–4 тижні бот кличе клієнта знову. Хто давно не приходив, отримує персональне запрошення зі старої бази.<br><span class="tag ok">Працює · база з грудня</span></span></button>
+        <button class="stop" type="button" aria-expanded="false" data-i="4"><span class="t"><span>05</span>Сертифікати</span><span class="tx">Клієнт купує подарунок онлайн і приводить нового клієнта. Гасите одним натиском, двічі не вийде.<br><span class="tag ok">Працює</span></span></button>
       </div>
       <div class="extras rv">
         <div class="extra"><h3>Пульт власника</h3><p>Розклад на день і тиждень, запис вручну, закриття часу, розсилка і звіт щопонеділка.</p><span class="tag ok">Працює</span></div>
@@ -774,8 +775,8 @@ var feed = $("feed"), clock = $("clock"), tickN = 0, streamTimer = null;
 function ticket(n) {
   var s = S[cur], v = s.svcs[n % s.svcs.length], li = document.createElement("li");
   li.className = "tk"; li.style.setProperty("--c", s.color);
-  li.innerHTML = '<span class="m">' + esc(s.biz.charAt(0)) + '</span><b>' + esc(CLIENTS[n % CLIENTS.length]) + " · " + esc(v[0]) + "</b><time>" + NIGHT[n % NIGHT.length] + "</time>" +
-    "<p>Завтра о " + TIMES[(n * 2) % TIMES.length] + " · " + esc(s.staff[n % 2]) + " · " + fmt(v[2]) + " грн · нагадування заплановано</p>";
+  li.innerHTML = '<span class="m">' + esc(s.biz.charAt(0)) + '</span><b>' + esc(CLIENTS[n % CLIENTS.length]) + "</b><time>" + NIGHT[n % NIGHT.length] + "</time>" +
+    "<p>" + esc(v[0]) + ", завтра о " + TIMES[(n * 2) % TIMES.length] + " · " + esc(s.staff[n % 2]) + "</p>";
   return li;
 }
 function layoutFeed() {
@@ -830,7 +831,7 @@ function setStop(i, user) {
   $("arc").style.strokeDashoffset = ring.C * (1 - i / ring.n);
   $("runner").style.transform = "rotate(" + ((ring.turns * ring.n + i) * 360 / ring.n) + "deg)";
   [].forEach.call(document.querySelectorAll(".nd"), function (n) { var k = +n.dataset.i; n.classList.toggle("on", k === i); n.classList.toggle("past", k < i); });
-  [].forEach.call(document.querySelectorAll(".stop"), function (b) { b.setAttribute("aria-selected", +b.dataset.i === i ? "true" : "false"); b.tabIndex = +b.dataset.i === i ? 0 : -1; });
+  [].forEach.call(document.querySelectorAll(".stop"), function (b) { b.setAttribute("aria-expanded", +b.dataset.i === i ? "true" : "false"); });
   $("ring-n").textContent = ring.visit;
   $("ring-m").textContent = "+" + fmt(ring.visit * S[cur].check) + " грн";
   if (user) stopRing();
