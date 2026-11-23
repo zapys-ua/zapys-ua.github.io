@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap">
 <link rel="stylesheet" href="assets/avenue.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Rubik:wght@700&family=Nunito:wght@800&display=swap&text=%D0%91%D0%BE%D1%80%D0%B4%D0%B0%D1%96%D0%9A%D0%A8%D0%B8%D0%BD%D0%9F%D0%BB%D1%8E%D1%81%D0%A5%D0%B2%D1%81%D1%82%D0%BA%20">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Rubik:wght@800&family=Nunito:wght@900&display=swap&text=%D0%91%D0%BE%D1%80%D0%B4%D0%B0%20%D1%96%D0%9A%D0%A8%D0%B8%D0%BD%D0%9F%D0%BB%D1%8E%D1%81%D0%A5%D0%B2%D1%82%D0%BA%D0%A0%D1%83%D0%A2%D0%B1%D0%B5%D1%86%D1%8F%C2%AB%C2%BB">
 <script>document.documentElement.classList.add("js")</script>
 <style>
 html{scroll-behavior:smooth}
@@ -275,17 +275,28 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 
 /* Демо-сайти «Преміум» */
 .sites{display:grid;gap:var(--s-4);margin-bottom:var(--s-4)}
-.site{--c:#1F4D3A;position:relative;display:block;border-radius:var(--r-lg);overflow:hidden;background:var(--c);color:#fff;aspect-ratio:4/5}
-.site figure{position:absolute;inset:0}
-.site img{width:100%;height:100%;object-fit:cover;transform:scale(1.001);transition:transform 1.4s var(--ease-out)}
+.site{position:relative;display:flex;flex-direction:column;border-radius:var(--r-lg);overflow:hidden;min-height:560px;transition:transform .5s var(--ease-out)}
+.site:hover{transform:translateY(-6px)}
+.site figure{position:relative;height:280px;overflow:hidden}
+.site img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out)}
 .site:hover img,.site:focus-visible img{transform:scale(1.06)}
-.site::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,0) 55%)}
-.site .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:var(--s-5);display:grid;gap:4px}
-.site .cap span{font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
-.site .cap b{font-size:clamp(34px,6vw,48px);line-height:1;font-weight:700}
-.site .cap i{font-style:normal;font-weight:600;font-size:var(--t-sm);margin-top:var(--s-2)}
-.site .cap i span{display:inline-block;transition:transform var(--d-base) var(--ease-out)}
-.site:hover .cap i span{transform:translateX(4px)}
+.site .cap{display:flex;flex-direction:column;gap:10px;padding:22px 22px 24px;flex:1}
+.site .cn{font:500 11px/1 var(--font-text);letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.site b{font-size:clamp(34px,4vw,46px);line-height:1}
+.site ul{list-style:none;display:grid;gap:6px;font-size:var(--t-sm);margin-top:4px}
+.site li{display:flex;gap:8px;align-items:baseline}
+.site li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5;transform:translateY(-2px)}
+.site .go{margin-top:auto;padding-top:14px;font-weight:600;font-size:var(--t-sm);display:flex;justify-content:space-between;align-items:center;border-top:1px solid currentColor;border-color:color-mix(in srgb,currentColor 20%,transparent)}
+.site .go span{display:inline-block;transition:transform var(--d-base) var(--ease-out)}
+.site:hover .go span{transform:translateX(4px)}
+.s-bar{background:#0E0D0B;color:#EDE6D8}.s-bar img{filter:grayscale(.3) contrast(1.05)}
+.s-bar b{font-family:"Playfair Display",Georgia,serif;font-weight:500}.s-bar b i{color:#C9A56B}.s-bar .cn{color:#C9A56B;opacity:1}
+.s-sto{background:#111418;color:#EEF0F2}.s-sto b{font-family:"Rubik",sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.02em}.s-sto b i{font-style:normal;color:#FFC53D}
+.s-sto .cn{font-family:ui-monospace,Consolas,monospace;color:#FFC53D;opacity:1}
+.s-sto figure::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;background:repeating-linear-gradient(90deg,#FFC53D 0 2px,transparent 2px 22px);opacity:.8}
+.s-groom{background:#FBF5EC;color:#2B2018;border:1.5px solid rgba(43,32,24,.12)}.s-groom b{font-family:"Nunito",sans-serif;font-weight:900;letter-spacing:-.02em;color:#7A4E1B}
+.s-groom figure{margin:14px 14px 0;height:266px;border-radius:46% 54% 48% 52% / 54% 46% 54% 46%;background:#F4C7A1}
+.s-groom .cn{color:#7A4E1B;opacity:1}
 
 /* Лабораторія */
 .labf{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-bottom:var(--s-5)}
@@ -507,20 +518,20 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
     <div class="rv">
       <span class="kicker">Сайт у пакеті «Преміум»</span>
       <h2 class="h2">Так виглядає ваш бізнес з Avenue</h2>
-      <p class="sub">Сайт з вашими фото, меню послуг і записом прямо на сторінці. Відкрийте будь-який і запишіться як клієнт.</p>
+      <p class="sub">Не шаблон з іншим кольором, а своя ідея для кожної ніші. Ваші фото, прайс і запис прямо на сторінці. Відкрийте будь-який і запишіться як клієнт.</p>
     </div>
     <div class="sites">
-      <a class="site rv" href="demo/?v=barber" style="--c:#1F4D3A">
-        <figure><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Борода і Ко" loading="lazy" width="760" height="950"></figure>
-        <div class="cap"><span>Барбершоп</span><b style="font-family:'Playfair Display',serif">Борода і Ко</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      <a class="site s-bar rv" href="demo/barber/">
+        <figure><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт барбершопу «Борода і Ко»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">Барбершоп · концепція «Ритуал»</span><b>Борода <i>і Ко</i></b><ul><li>Візит як ритуал на 45 хвилин, крок за кроком</li><li>Прайс, як друковане меню, запис з рядка</li><li>Найближчий вільний час кожного майстра наживо</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
       </a>
-      <a class="site rv" href="demo/?v=sto" style="--c:#1E3A5F">
-        <figure><img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Шина Плюс" loading="lazy" width="760" height="950"></figure>
-        <div class="cap"><span>Шиномонтаж</span><b style="font-family:'Rubik',serif">Шина Плюс</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      <a class="site s-sto rv" href="demo/sto/">
+        <figure><img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт шиномонтажу «Шина Плюс»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">СТО · концепція «Табло»</span><b>Шина <i>Плюс</i></b><ul><li>Табло боксів: коли вільний кожен, наживо</li><li>Погода Дніпра і правило +7 °C: коли переобуватися</li><li>Номер авто українським знаком прямо у записі</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
       </a>
-      <a class="site rv" href="demo/?v=groom" style="--c:#7A4E1B">
-        <figure><img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Хвостик" loading="lazy" width="760" height="950"></figure>
-        <div class="cap"><span>Грумінг-салон</span><b style="font-family:'Nunito',serif">Хвостик</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      <a class="site s-groom rv" href="demo/groom/">
+        <figure><img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт грумінг-салону «Хвостик»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">Грумінг · концепція «Картка улюбленця»</span><b>Хвостик</b><ul><li>Підбір догляду за вагою улюбленця за 30 секунд</li><li>Картка улюбленця, що заповнюється на очах</li><li>Полароїди клієнтів і м'які анімації</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
       </a>
     </div>
     <p class="note rv">Фото, назви й адреси демо-бізнесів для прикладу. Ваш сайт збираємо з вашими фото і прайсом.</p>
@@ -613,7 +624,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <p class="sub-p">+ 1 490 грн на місяць<span>перший місяць безкоштовно</span></p>
       <ul class="ticks">
         <li>Усе з «Бізнесу»</li>
-        <li>Сайт бізнесу з записом, <a href="demo/?v=barber" style="text-decoration:underline;text-underline-offset:3px">як у прикладі</a></li>
+        <li>Сайт бізнесу з записом, <a href="demo/barber/" style="text-decoration:underline;text-underline-offset:3px">як у прикладі</a></li>
         <li>Повернення старої бази клієнтів</li>
         <li>Щомісяця одне покращення від нас</li>
         <li>Зміни в той самий день</li>

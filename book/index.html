@@ -11,65 +11,136 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap">
 <link rel="stylesheet" href="../assets/avenue.css">
 <style>
-:root{--bg:var(--tg-theme-secondary-bg-color,var(--av-paper));--card:var(--tg-theme-bg-color,var(--av-card));--text:var(--tg-theme-text-color,var(--av-ink));--mute:var(--tg-theme-hint-color,var(--av-mute));--acc:var(--tg-theme-button-color,var(--av-terra));--acct:var(--tg-theme-button-text-color,#fff)}
+:root{--bg:var(--tg-theme-secondary-bg-color,var(--av-paper));--card:var(--tg-theme-bg-color,var(--av-card));--text:var(--tg-theme-text-color,var(--av-ink));--mute:var(--tg-theme-hint-color,var(--av-mute));--acc:var(--tg-theme-button-color,var(--av-terra));--acct:var(--tg-theme-button-text-color,#fff);--ease:cubic-bezier(.2,.8,.2,1);--spring:cubic-bezier(.34,1.4,.64,1)}
 body{background:var(--bg);color:var(--text)}
 .wrap{max-width:560px;margin:0 auto;padding:16px 14px 40px}
-header{text-align:center;padding:10px 0 14px}
-.em{font-size:40px;line-height:1.1}
-.logo{width:64px;height:64px;border-radius:16px;object-fit:cover;display:block;margin:0 auto 6px}
-.fgroup{font-size:13px;font-weight:700;margin:4px 0 8px}
-h1{font-size:24px;letter-spacing:-.3px;margin:4px 0}
-h1,.ok h2{font-family:var(--font-display)}.card h2{font-family:var(--font-text);font-weight:700}
-header p{color:var(--mute);font-size:14px}
-.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
-.card h2{font-size:15px;margin-bottom:10px}
-.card h2 span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--acc);color:var(--acct);font-size:12px;margin-right:7px}
-.note{font-size:13px;color:var(--mute);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px;background:var(--card)}
+.embed .wrap{padding-top:12px}
+svg.i{width:18px;height:18px;flex:none;vertical-align:-3px}
+
+/* Шапка бізнесу */
+header{display:flex;gap:14px;align-items:center;padding:8px 2px 18px}
+.logo,.mono{width:60px;height:60px;border-radius:18px;flex:none}
+.logo{object-fit:cover}
+.mono{display:grid;place-items:center;background:var(--acc);color:var(--acct);font:700 26px/1 var(--font-display)}
+h1{font:700 22px/1.15 var(--font-display);letter-spacing:-.01em}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--mute);font-size:13px;margin-top:6px}
+.meta span{display:inline-flex;align-items:center;gap:5px}
+.about{color:var(--mute);font-size:14px;margin:-6px 2px 16px}
+
+/* Кроки */
+.prog{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 2px 12px;margin:0 -2px 6px;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:6px}
+.prog i{height:4px;border-radius:2px;background:var(--line);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;inset:0;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.prog i.on::after{transform:scaleX(1)}
+.prog span{grid-column:1/-1;font-size:12px;color:var(--mute);display:flex;justify-content:space-between}
+.prog span b{color:var(--text);font-weight:600}
+
+.note{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--mute);border:1px dashed var(--line);border-radius:14px;padding:11px 13px;margin-bottom:12px;background:var(--card)}
+.card{background:var(--card);border-radius:20px;padding:18px 16px;margin-bottom:12px;box-shadow:0 1px 0 var(--line)}
+.card.enter{animation:in .5s var(--ease) both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.card h2{font:700 16px/1.2 var(--font-text);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.card h2 .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--acc);color:var(--acct);font-size:12px;flex:none}
+.card h2 .n.done{background:var(--ok,#2F7A4F)}
+button,.btn{font:inherit;cursor:pointer;border:1.5px solid var(--line);background:transparent;color:var(--text);border-radius:14px;padding:10px 12px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;transition:transform .15s var(--ease),border-color .2s,background .2s}
+button:active,.btn:active{transform:scale(.97)}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
-.scroll{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-.scroll::-webkit-scrollbar{display:none}
-button,.btn{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--text);border-radius:12px;padding:10px 12px;text-decoration:none;display:inline-block;text-align:center}
-button.on{background:var(--acc);color:var(--acct);border-color:var(--acc)}
-.svc{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;margin-bottom:8px}
+
+/* Послуги */
+.svc{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 12px;width:100%;text-align:left;margin-bottom:8px;padding:14px;border-radius:16px}
 .svc:last-child{margin-bottom:0}
-.svc small{display:block;color:var(--mute);font-size:12px}
-.svc.on small{color:inherit;opacity:.85}
-.svc b{white-space:nowrap}
-.day{min-width:58px;flex:0 0 auto;padding:8px 6px}
-.day small{display:block;font-size:11px;opacity:.75}
-.day b{font-size:17px}
-.times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-label{display:block;font-size:13px;color:var(--mute);margin-bottom:10px}
-input,select{font:inherit;font-size:16px;width:100%;margin-top:5px;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}
-input:focus{outline:2px solid var(--acc);outline-offset:1px}
-.main{width:100%;background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700;padding:14px;font-size:16px}
-.main:disabled{opacity:.6}
-.sum{font-size:14px;margin-bottom:14px}
-.sum div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line)}
-.sum div span{color:var(--mute)}
-.sum div b{text-align:right}
-.hint{font-size:13px;color:var(--mute);margin:10px 0}
-.near{display:block;width:100%;text-align:left;margin:0 0 12px;padding:12px 14px;border-radius:12px;border:1.5px dashed var(--acc);background:transparent;color:var(--text);font:500 14px/1.35 inherit;cursor:pointer}
+.svc .nm{font-weight:600;font-size:15px}
+.svc .dur{grid-column:1;font-size:12px;color:var(--mute);display:inline-flex;align-items:center;gap:5px}
+.svc .pr{grid-row:1/span 2;grid-column:2;font:700 16px var(--font-text);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.svc .ck{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.svc .ck svg{opacity:0;transform:scale(.5);transition:opacity .2s,transform .3s var(--spring)}
+.svc.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 7%,transparent)}
+.svc.on .ck{background:var(--acc);border-color:var(--acc);color:var(--acct)}
+.svc.on .ck svg{opacity:1;transform:none}
+.svc.dim{opacity:.55}
+
+/* Майстри */
+.mst{display:flex;gap:10px;flex-wrap:wrap}
+.mst button{flex-direction:column;gap:6px;min-width:92px;padding:12px 10px;border-radius:16px;font-size:14px;font-weight:600}
+.mst .av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font:700 18px var(--font-display);color:var(--text)}
+.mst button.on{border-color:var(--acc)}
+.mst button.on .av{background:var(--acc);color:var(--acct)}
+
+/* Дні і час */
+.near{width:100%;justify-content:flex-start;text-align:left;margin:0 0 14px;padding:13px 14px;border:1.5px solid var(--acc);background:color-mix(in srgb,var(--acc) 8%,transparent);font:500 14px/1.35 var(--font-text)}
 .near b{color:var(--acc)}
-.cal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 8px}
-.cal .btn{font-size:13px;padding:10px 8px}
-.share{width:100%;background:none;border:0;color:var(--mute);text-decoration:underline;text-underline-offset:3px;font:500 14px inherit;padding:10px 0;cursor:pointer}
-.err{color:#d6453d;font-size:14px;margin-top:10px}
-.ok{text-align:center}
-.ok .em{font-size:52px}
-.ok h2{font-size:20px;margin:6px 0 12px}
-.cta{text-align:center}
-.cta p{color:var(--mute);font-size:14px;margin:6px 0 12px}
-.cta .btn{margin:4px}
-.cta .fill{background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700}
-footer{text-align:center;font-size:12px;color:var(--mute);margin-top:14px}
-footer a{color:inherit}
+.near svg{color:var(--acc)}
+.month{font-size:12px;color:var(--mute);margin:0 0 8px;text-transform:capitalize}
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin:0 -2px;scrollbar-width:none;scroll-snap-type:x proximity}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 auto;flex-direction:column;gap:2px;min-width:62px;padding:10px 6px;border-radius:16px;scroll-snap-align:start}
+.day small{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.day b{font:700 20px/1.1 var(--font-text)}
+.day i{font-style:normal;font-size:10px;color:var(--mute)}
+.day.on{background:var(--acc);border-color:var(--acc);color:var(--acct)}
+.day.on small,.day.on i{color:inherit;opacity:.85}
+.part{font-size:12px;font-weight:600;color:var(--mute);margin:16px 0 8px;display:flex;align-items:center;gap:6px}
+.times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.times button{padding:11px 4px;font-weight:600;font-variant-numeric:tabular-nums}
+.times button.on{background:var(--acc);color:var(--acct);border-color:var(--acc)}
+.hint{font-size:13px;color:var(--mute);margin:10px 0}
+.skel{height:44px;border-radius:14px;background:linear-gradient(90deg,var(--line),transparent,var(--line));background-size:200% 100%;animation:sk 1.2s linear infinite;opacity:.6}
+@keyframes sk{to{background-position:-200% 0}}
+
+/* Контакти */
+.sum{font-size:14px;margin-bottom:16px;border-radius:16px;background:var(--bg);padding:4px 14px}
+.sum div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.sum div:last-child{border-bottom:0}
+.sum div span{color:var(--mute)}
+.sum div b{text-align:right;font-weight:600}
+.fgroup{font-size:13px;font-weight:700;margin:4px 0 10px}
+label{display:block;font-size:13px;font-weight:500;color:var(--mute);margin-bottom:12px}
+label small{font-weight:400}
+input,select{font:inherit;font-size:16px;width:100%;margin-top:6px;padding:13px 14px;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--text);transition:border-color .2s}
+input:focus,select:focus{outline:0;border-color:var(--acc)}
+.plate{display:inline-flex;align-items:stretch;margin:-2px 0 14px;border:2px solid #111;border-radius:6px;background:#fff;color:#111;font:700 20px/1 var(--font-mono);letter-spacing:.06em;overflow:hidden;box-shadow:0 0 0 2px #fff,0 6px 16px -8px rgba(0,0,0,.4)}
+.plate .ua{display:flex;flex-direction:column;justify-content:space-between;align-items:center;background:#0057B8;color:#fff;font-size:9px;padding:3px 4px;width:24px}
+.plate .ua i{width:13px;height:9px;background:linear-gradient(#0057B8 50%,#FFD700 50%);border:1px solid #fff}
+.plate span:last-child{padding:7px 12px;min-width:150px}
+.main{width:100%;background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700;padding:15px;font-size:16px;border-radius:16px}
+.main:disabled{opacity:.6}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(1turn)}}
+.err{color:var(--err,#d6453d);font-size:14px;margin-top:10px;display:flex;gap:8px;align-items:flex-start}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.load{text-align:center;padding:60px 0;color:var(--mute)}
+
+/* Готово: квиток */
+.ok{text-align:center;padding:26px 18px 20px}
+.ok .tick{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;background:var(--ok,#2F7A4F);color:#fff;display:grid;place-items:center;animation:pop .6s var(--spring) both}
+.ok .tick svg{animation:pop .5s var(--spring) .15s both}
+@keyframes pop{from{opacity:0;transform:scale(.4)}}
+.ok h2{font:700 24px/1.15 var(--font-display);margin-bottom:6px;display:block}
+.ok>p.when{color:var(--mute);font-size:15px;margin-bottom:18px}
+.tkt{position:relative;text-align:left;border-radius:16px;background:var(--bg);padding:6px 14px;margin-bottom:14px}
+.tkt::before,.tkt::after{content:"";position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:var(--card);transform:translateY(-50%)}
+.tkt::before{left:-9px}.tkt::after{right:-9px}
+.tkt div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.tkt div:last-child{border-bottom:0}
+.tkt span{color:var(--mute)}
+.tkt b{text-align:right;font-weight:600}
+.cal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 4px}
+.cal .btn{font-size:13px;padding:11px 8px}
+.share{width:100%;border:0;color:var(--mute);font:500 14px var(--font-text);padding:12px 0}
+.share:hover{color:var(--text)}
+.again{width:100%;margin-top:8px}
+.cta{text-align:center}
+.cta b{font:700 17px/1.25 var(--font-display);display:block}
+.cta p{color:var(--mute);font-size:14px;margin:8px 0 14px}
+.cta .row{display:grid;gap:8px}
+.cta .fill{background:var(--acc);color:var(--acct);border-color:var(--acc);font-weight:700}
+footer{text-align:center;font-size:12px;color:var(--mute);margin-top:16px}
+footer a{color:inherit}
+.load{padding:40px 0}
+@media (prefers-reduced-motion:reduce){.card.enter,.ok .tick,.ok .tick svg,.skel,.spin{animation:none}.prog i::after{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap" id="app"><p class="load">Завантаження…</p></div>
+<div class="wrap" id="app"><div class="load"><div class="skel"></div><div class="skel" style="margin-top:10px"></div><div class="skel" style="margin-top:10px;width:70%"></div></div></div>
 <script>
 var API = 'https://ykhvfjbolifnpstftpzk.supabase.co/functions/v1/zapys-api', SITE = 'https://zapys-ua.github.io/';
 var q = new URLSearchParams(location.search), app = document.getElementById('app');
@@ -80,8 +151,9 @@ var S = { b: q.get('d') ? 'leads' : (q.get('b') || 'demo'), v: q.get('d') || q.g
   c: null, svc: null, m: '*', needM: false, days: null, loading: false, day: null, start: null,
   name: ls('zp_name'), phone: ls('zp_phone'), f: {}, busy: false, err: '', done: null };
 // ?embed=1: сторінка відкрита у вікні на сайті бізнесу (без шапки й блоку «хочете такий запис»).
-// ?svc=<id>: одразу відкрити вибір часу для цієї послуги.
-var EMBED = q.get('embed') === '1', DEEP = q.get('svc') || '';
+// ?svc=<id>: одразу відкрити вибір часу для цієї послуги. ?m=<id>: і для цього майстра.
+var EMBED = q.get('embed') === '1', DEEP = q.get('svc') || '', DEEPM = q.get('m') || '';
+if (EMBED) document.documentElement.classList.add('embed');
 var TODAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Kiev', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
 var FONTS = ['Manrope', 'Montserrat', 'Rubik', 'Unbounded', 'Playfair Display', 'Inter', 'Nunito', 'Comfortaa'];
 var SYS = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
@@ -109,6 +181,22 @@ function V(k, def) { var p = S.c && S.c.pack; return (p && p.vocab && p.vocab[k]
 function pfields() { return (S.c && S.c.pack && S.c.pack.fields) || []; }
 if (T) { T.ready(); T.expand(); }
 
+// Іконки замість емодзі: однаковий штрих на будь-якому телефоні.
+var IC = {
+  pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  bolt: '<path d="M13 3L5 14h6l-1 7 8-11h-6z"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  cal: '<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  share: '<path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M12 3v12M7 8l5-5 5 5"/>',
+  bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  dice: '<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/>'
+};
+function ic(n, s) { return '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (s || 1.8) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + IC[n] + '</svg>'; }
+
 function api(a, extra) {
   var body = { a: a, b: S.b, v: S.v, tg: T ? T.initData : '' };
   for (var k in (extra || {})) body[k] = extra[k];
@@ -119,12 +207,22 @@ function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function 
 function money(n) { return Number(n).toLocaleString('uk-UA') + ' ' + S.c.currency; }
 function fm(m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + m % 60).slice(-2); }
 var WD = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'], MON = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
-function dp(iso) { var p = iso.split('-').map(Number); return { w: WD[new Date(Date.UTC(p[0], p[1] - 1, p[2])).getUTCDay()], d: p[2], m: MON[p[1] - 1] }; }
+var MONN = ['січень', 'лютий', 'березень', 'квітень', 'травень', 'червень', 'липень', 'серпень', 'вересень', 'жовтень', 'листопад', 'грудень'];
+function dp(iso) { var p = iso.split('-').map(Number); return { w: WD[new Date(Date.UTC(p[0], p[1] - 1, p[2])).getUTCDay()], d: p[2], m: MON[p[1] - 1], mn: MONN[p[1] - 1] }; }
 function dlong(iso) { var x = dp(iso); return x.w + ', ' + x.d + ' ' + x.m; }
+function addDay(iso, n) { var d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+function rel(iso) { return iso === TODAY ? 'сьогодні' : iso === addDay(TODAY, 1) ? 'завтра' : ''; }
 function svc() { return S.c.services.filter(function (s) { return s.id === S.svc; })[0]; }
 function mname(id) { var m = S.c.masters.filter(function (x) { return x.id === id; })[0]; return m ? m.name : ''; }
-function go(id) { setTimeout(function () { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); }
+function go(id) { setTimeout(function () { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }, 60); }
 function row(k, v) { return '<div><span>' + k + '</span><b>' + v + '</b></div>'; }
+function bare(s) { return String(s || '').replace(/^[^\p{L}\p{N}]+/u, '').trim(); }
+// Картки, які вже були на екрані, не анімуються вдруге при кожному оновленні.
+var seen = {};
+function card(id, inner, cls) { var e = seen[id] ? '' : ' enter'; seen[id] = 1; return '<div class="card' + (cls ? ' ' + cls : '') + e + '" id="' + id + '">' + inner + '</div>'; }
+// Український номерний знак, поки клієнт вводить номер авто.
+function plateHtml(v) { return '<div class="plate" aria-hidden="true"><span class="ua"><i></i>UA</span><span data-plate>' + esc((v || 'AA 0000 AA').toUpperCase()) + '</span></div>'; }
+
 // Візит у календар клієнта: Google Calendar і файл .ics. Час київський.
 function calLinks(d) {
   var t = function (m) { return d.day.replace(/-/g, '') + 'T' + fm(m).replace(':', '') + '00'; };
@@ -134,75 +232,85 @@ function calLinks(d) {
   var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Avenue//Zapys//UK', 'BEGIN:VEVENT', 'UID:' + d.day + '-' + d.start + '@avenue',
     'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;TZID=Europe/Kiev:' + t(d.start), 'DTEND;TZID=Europe/Kiev:' + t(d.start + d.min),
     'SUMMARY:' + title.replace(/[,;]/g, ' '), 'LOCATION:' + where.replace(/[,;]/g, ' '), 'BEGIN:VALARM', 'TRIGGER:-PT2H', 'ACTION:DISPLAY', 'DESCRIPTION:' + title.replace(/[,;]/g, ' '), 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
-  return '<div class="cal"><a class="btn" data-a="ext" target="_blank" rel="noopener" href="' + esc(g) + '">📅 Google Календар</a>' +
-    '<a class="btn" download="zapys.ics" href="data:text/calendar;charset=utf-8,' + encodeURIComponent(ics) + '">🗓 Інший календар</a></div>' +
-    '<button class="share" data-a="share">💬 Порадити другові</button>';
+  return '<div class="cal"><a class="btn" data-a="ext" target="_blank" rel="noopener" href="' + esc(g) + '">' + ic('cal') + 'Google Календар</a>' +
+    '<a class="btn" download="zapys.ics" href="data:text/calendar;charset=utf-8,' + encodeURIComponent(ics) + '">' + ic('cal') + 'Інший календар</a></div>' +
+    '<button class="share" data-a="share">' + ic('share') + ' Порадити другові</button>';
 }
 function share() {
   var url = location.origin + location.pathname + '?' + (S.b !== 'demo' ? 'b=' + encodeURIComponent(S.b) + '&' : '') + (S.v ? 'v=' + encodeURIComponent(S.v) : '');
   var text = 'Записуюсь у «' + S.c.title + '» онлайн, без дзвінків. Спробуй:';
   if (navigator.share) navigator.share({ title: S.c.title, text: text, url: url }).catch(function () {});
-  else if (navigator.clipboard) navigator.clipboard.writeText(text + ' ' + url).then(function () { var b = app.querySelector('.share'); if (b) b.textContent = '✓ Посилання скопійовано'; });
+  else if (navigator.clipboard) navigator.clipboard.writeText(text + ' ' + url).then(function () { var b = app.querySelector('.share'); if (b) b.innerHTML = ic('check') + ' Посилання скопійовано'; });
 }
 
 function render() {
   var c = S.c, h = '', n = 1, sv = S.svc ? svc() : null;
-  var logo = c.brand && /^https:\/\//.test(c.brand.logo_url || '') ? '<img class="logo" src="' + esc(c.brand.logo_url) + '" alt="">' : '<div class="em">' + esc(c.emoji) + '</div>';
-  if (!EMBED) h += '<header>' + logo + '<h1>' + esc(c.title) + '</h1>' + (c.about ? '<p>' + esc(c.about) + '</p>' : '') +
-    '<p>' + (c.address ? '📍 ' + esc(c.address) + ' · ' : '') + '🕐 ' + esc(c.hours) + '</p></header>';
-  if (c.prepared) h += '<div class="note">🧪 Це демо-сторінка запису, яку ми підготували для «' + esc(c.title) + '». Записи тут тестові. Спробуйте, як це побачать ваші клієнти.</div>';
-  else if (c.demo) h += '<div class="note">🧪 Це демо онлайн-запису. Запишіться як клієнт: записи тестові й ні до чого не зобов\'язують.</div>';
-  if (c.variants.length > 1 && !S.done && !EMBED) h += '<div class="card"><h2>Сфера бізнесу</h2><div class="chips">' + c.variants.map(function (v) {
-    return '<button data-a="var" data-v="' + esc(v.key) + '"' + (v.key === c.variant ? ' class="on"' : '') + '>' + esc(v.label) + '</button>'; }).join('') + '</div></div>';
+  var nm = bare(c.title).replace(/^.*«(.+)»$/, '$1');
+  var logo = c.brand && /^https:\/\//.test(c.brand.logo_url || '') ? '<img class="logo" src="' + esc(c.brand.logo_url) + '" alt="">' : '<div class="mono" aria-hidden="true">' + esc(nm.charAt(0)) + '</div>';
+  if (!EMBED) h += '<header>' + logo + '<div><h1>' + esc(c.title) + '</h1><div class="meta">' + (c.address ? '<span>' + ic('pin') + esc(c.address) + '</span>' : '') +
+    '<span>' + ic('clock') + esc(c.hours) + '</span></div></div></header>' + (c.about ? '<p class="about">' + esc(c.about) + '</p>' : '');
+  if (c.prepared) h += '<div class="note">' + ic('info') + '<span>Це демо-сторінка запису, яку ми підготували для «' + esc(c.title) + '». Записи тут тестові. Спробуйте, як це побачать ваші клієнти.</span></div>';
+  else if (c.demo) h += '<div class="note">' + ic('info') + '<span>Демо онлайн-запису. Запишіться як клієнт: записи тестові й ні до чого не зобов\'язують.</span></div>';
 
   if (S.done) {
-    var d = S.done;
-    h += '<div class="card ok"><div class="em">🎉</div><h2>Ви записані!</h2><div class="sum">' + row('Послуга', esc(d.name)) + row('Дата', dlong(d.day)) +
-      row('Час', fm(d.start) + '–' + fm(d.start + d.min)) + (d.master ? row(V('resource', 'Майстер'), esc(d.master)) : '') +
+    var d = S.done, r = rel(d.day);
+    h += card('st-ok', '<div class="tick">' + ic('check', 2.6).replace('class="i"', 'width="34" height="34"') + '</div><h2>Ви записані</h2><p class="when">' + (r ? r.charAt(0).toUpperCase() + r.slice(1) + ', ' : '') + dlong(d.day) + ' о ' + fm(d.start) + '</p>' +
+      '<div class="tkt">' + row('Послуга', esc(d.name)) + row('Час', fm(d.start) + '–' + fm(d.start + d.min)) + (d.master ? row(V('resource', 'Майстер'), esc(d.master)) : '') +
       pfields().filter(function (f) { return d.f[f.key]; }).map(function (f) { return row(esc(f.label), esc(d.f[f.key])); }).join('') +
       row('Вартість', money(d.price)) + '</div>' +
       '<p class="hint">' + (T ? 'Підтвердження надіслано вам у чат. Нагадаємо за 2 години до візиту.' :
-        (c.demo ? 'У реальному бізнесі власник у цю ж мить отримує сповіщення про запис у Telegram.' : 'Власник уже отримав сповіщення про ваш запис.')) + '</p>' +
-      (!T && d.remind ? '<p class="hint">Хочете нагадування? Натисніть кнопку, і бот напише вам у Telegram за 2 години до візиту.</p>' +
-        '<a class="btn main" data-a="tgl" target="_blank" rel="noopener" href="' + esc(d.remind) + '">🔔 Нагадати в Telegram</a>' : '') +
+        (c.demo ? 'У реальному бізнесі власник у цю ж мить отримує сповіщення в Telegram.' : 'Власник уже отримав сповіщення про ваш запис.')) + '</p>' +
+      (!T && d.remind ? '<a class="btn main" data-a="tgl" target="_blank" rel="noopener" href="' + esc(d.remind) + '">' + ic('bell') + 'Нагадати в Telegram за 2 години</a>' : '') +
       (T ? '' : calLinks(d)) +
-      (T ? '<button class="main" data-a="close">Готово</button>' : '<button class="' + (d.remind ? '' : 'main') + '" data-a="again" style="width:100%;margin-top:8px">Записатися ще раз</button>') + '</div>';
+      (T ? '<button class="main" data-a="close">Готово</button>' : '<button class="again' + (d.remind ? '' : ' main') + '" data-a="again">Записатися ще раз</button>'), 'ok');
   } else {
-    h += '<div class="card"><h2><span>' + (n++) + '</span>Оберіть послугу</h2>' + c.services.map(function (s) {
-      return '<button class="svc' + (s.id === S.svc ? ' on' : '') + '" data-a="svc" data-v="' + esc(s.id) + '"><div>' + esc(s.emoji) + ' ' + esc(s.name) +
-        '<small>' + s.min + ' хв</small></div><b>' + money(s.price) + '</b></button>'; }).join('') + '</div>';
+    // Шкала кроків: послуга → (майстер) → час → контакти
+    var many = sv && sv.masters.length > 1, total = many ? 4 : 3, at = !sv ? 0 : S.needM ? 1 : S.start == null ? (many ? 2 : 1) : (many ? 3 : 2);
+    var names = many ? ['Послуга', V('resource', 'Майстер'), 'Час', 'Контакти'] : ['Послуга', 'Час', 'Контакти'];
+    h += '<div class="prog" style="--n:' + total + '" aria-hidden="true">' + names.map(function (x, i) { return '<i class="' + (i <= at ? 'on' : '') + '"></i>'; }).join('') +
+      '<span><b>Крок ' + (at + 1) + ' з ' + total + '</b>' + names[at] + '</span></div>';
+    if (c.variants.length > 1 && !EMBED) h += card('st-v', '<h2>Сфера бізнесу</h2><div class="chips">' + c.variants.map(function (v) {
+      return '<button data-a="var" data-v="' + esc(v.key) + '"' + (v.key === c.variant ? ' class="on" style="border-color:var(--acc);color:var(--acc)"' : '') + '>' + esc(bare(v.label)) + '</button>'; }).join('') + '</div>');
+
+    h += card('st-s', '<h2><span class="n' + (sv ? ' done' : '') + '">' + (sv ? ic('check', 3) : n) + '</span>Оберіть послугу</h2>' + c.services.map(function (s) {
+      var on = s.id === S.svc;
+      return '<button class="svc' + (on ? ' on' : sv ? ' dim' : '') + '" data-a="svc" data-v="' + esc(s.id) + '" aria-pressed="' + on + '"><span class="nm">' + esc(s.name) + '</span><span class="dur">' + ic('clock') + s.min + ' хв</span>' +
+        '<span class="pr">' + money(s.price) + '<span class="ck">' + ic('check', 3) + '</span></span></button>'; }).join(''));
+    n++;
     if (sv && sv.masters.length > 1) {
-      h += '<div class="card" id="st-m"><h2><span>' + (n++) + '</span>' + esc(V('choose_resource', 'Оберіть майстра')) + '</h2><div class="chips">' +
-        '<button data-a="m" data-v="*"' + (!S.needM && S.m === '*' ? ' class="on"' : '') + '>🎲 ' + esc(V('any_resource', 'Будь-який')) + '</button>' +
-        sv.masters.map(function (id) { return '<button data-a="m" data-v="' + esc(id) + '"' + (S.m === id ? ' class="on"' : '') + '>' + esc(mname(id)) + '</button>'; }).join('') + '</div></div>';
+      h += card('st-m', '<h2><span class="n' + (!S.needM ? ' done' : '') + '">' + (!S.needM ? ic('check', 3) : n) + '</span>' + esc(V('choose_resource', 'Оберіть майстра')) + '</h2><div class="mst">' +
+        '<button data-a="m" data-v="*"' + (!S.needM && S.m === '*' ? ' class="on"' : '') + '><span class="av">' + ic('dice') + '</span>' + esc(V('any_resource', 'Будь-який')) + '</button>' +
+        sv.masters.map(function (id) { var mn = mname(id); return '<button data-a="m" data-v="' + esc(id) + '"' + (S.m === id ? ' class="on"' : '') + '><span class="av">' + esc(/\d/.test(mn) ? mn.replace(/\D/g, '') : mn.charAt(0)) + '</span>' + esc(mn) + '</button>'; }).join('') + '</div>');
+      n++;
     }
     if (sv && !S.needM) {
-      h += '<div class="card" id="st-d"><h2><span>' + (n++) + '</span>Оберіть день і час</h2>';
-      if (S.loading) h += '<p class="hint">Шукаємо вільний час…</p>';
-      else if (!S.days || !S.days.length) h += '<p class="hint">Найближчим часом вільних вікон немає 😔 Спробуйте іншу послугу або майстра.</p>';
+      var dh = '<h2><span class="n' + (S.start != null ? ' done' : '') + '">' + (S.start != null ? ic('check', 3) : n) + '</span>Оберіть день і час</h2>';
+      if (S.loading) dh += '<div class="skel"></div><div class="skel" style="margin-top:10px"></div>';
+      else if (!S.days || !S.days.length) dh += '<p class="hint">Найближчим часом вільних вікон немає. Спробуйте іншу послугу або ' + esc(V('resource', 'майстра').toLowerCase()) + '.</p>';
       else {
         // Найближче вільне вікно одним натиском: перший день і перший час зі списку API
         if (S.start === null || S.start === undefined) { var f0 = S.days[0], p0 = dp(f0.d);
-          h += '<button class="near" data-a="near">⚡ Найближчий вільний час: <b>' + (f0.d === TODAY ? 'сьогодні' : p0.w + ', ' + p0.d + ' ' + p0.m) + ' о ' + fm(f0.s[0]) + '</b></button>'; }
-        h += '<div class="chips scroll">' + S.days.map(function (x) { var p = dp(x.d);
-          return '<button class="day' + (x.d === S.day ? ' on' : '') + '" data-a="day" data-v="' + x.d + '"><small>' + p.w + '</small><b>' + p.d + '</b></button>'; }).join('') + '</div>';
-        var cur = S.days.filter(function (x) { return x.d === S.day; })[0];
-        h += '<p class="hint" style="margin-bottom:0">' + dlong(S.day) + '</p><div class="times" id="st-t">' + (cur ? cur.s : []).map(function (s) {
-          return '<button data-a="time" data-v="' + s + '"' + (s === S.start ? ' class="on"' : '') + '>' + fm(s) + '</button>'; }).join('') + '</div>';
+          dh += '<button class="near" data-a="near">' + ic('bolt') + '<span>Найближчий вільний час: <b>' + (rel(f0.d) || p0.w + ', ' + p0.d + ' ' + p0.m) + ' о ' + fm(f0.s[0]) + '</b></span></button>'; }
+        dh += '<p class="month">' + dp(S.day || S.days[0].d).mn + '</p><div class="days">' + S.days.map(function (x) { var p = dp(x.d), r = rel(x.d);
+          return '<button class="day' + (x.d === S.day ? ' on' : '') + '" data-a="day" data-v="' + x.d + '"><small>' + (r || p.w) + '</small><b>' + p.d + '</b><i>' + x.s.length + ' вікон</i></button>'; }).join('') + '</div>';
+        var cur = S.days.filter(function (x) { return x.d === S.day; })[0], sl = cur ? cur.s : [];
+        var parts = [['Ранок', 'sun', function (s) { return s < 720; }], ['День', 'sun', function (s) { return s >= 720 && s < 1020; }], ['Вечір', 'moon', function (s) { return s >= 1020; }]];
+        dh += '<div id="st-t">' + parts.map(function (pt) { var xs = sl.filter(pt[2]); if (!xs.length) return '';
+          return '<p class="part">' + ic(pt[1]) + pt[0] + '</p><div class="times">' + xs.map(function (s) { return '<button data-a="time" data-v="' + s + '"' + (s === S.start ? ' class="on"' : '') + '>' + fm(s) + '</button>'; }).join('') + '</div>'; }).join('') + '</div>';
       }
-      if (S.err && S.start == null) h += '<p class="err">' + esc(S.err) + '</p>';
-      h += '</div>';
+      if (S.err && S.start == null) dh += '<p class="err">' + ic('info') + esc(S.err) + '</p>';
+      h += card('st-d', dh); n++;
     }
     if (sv && S.start != null) {
-      h += '<div class="card" id="st-f"><h2><span>' + (n++) + '</span>Ваші контакти</h2><div class="sum">' + row('Послуга', esc(sv.name)) + row('Коли', dlong(S.day) + ', ' + fm(S.start)) +
-        (sv.masters.length > 1 ? row(esc(V('resource', 'Майстер')), S.m === '*' ? 'будь-який вільний' : esc(mname(S.m))) : '') + row('Вартість', money(sv.price)) + '</div>' +
+      h += card('st-f', '<h2><span class="n">' + n + '</span>Ваші контакти</h2><div class="sum">' + row('Послуга', esc(sv.name)) + row('Коли', (rel(S.day) ? rel(S.day) + ', ' : '') + dlong(S.day) + ', ' + fm(S.start)) +
+        (sv.masters.length > 1 ? row(esc(V('resource', 'Майстер')), S.m === '*' ? esc(V('any_resource', 'будь-який вільний')).toLowerCase() : esc(mname(S.m))) : '') + row('Вартість', money(sv.price)) + '</div>' +
         fieldsHtml() +
         '<label>Ваше ім\'я<input id="nm" autocomplete="given-name" maxlength="60" value="' + esc(S.name) + '" placeholder="Олена"></label>' +
-        '<label>Телефон<input id="ph" type="tel" autocomplete="tel" maxlength="20" value="' + esc(S.phone) + '" placeholder="+380 67 123 45 67"></label>' +
+        '<label>Телефон<input id="ph" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" value="' + esc(S.phone) + '" placeholder="+380 67 123 45 67"></label>' +
         '<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-        (c.prepay ? '<p class="hint">💳 Після запису потрібна передоплата ' + money(c.prepay) + '.</p>' : '') +
-        '<button class="main" data-a="book"' + (S.busy ? ' disabled' : '') + '>' + (S.busy ? 'Записуємо…' : 'Записатися') + '</button>' +
-        (S.err ? '<p class="err">' + esc(S.err) + '</p>' : '') + '</div>';
+        (c.prepay ? '<p class="hint">Після запису потрібна передоплата ' + money(c.prepay) + '.</p>' : '') +
+        '<button class="main" data-a="book"' + (S.busy ? ' disabled' : '') + '>' + (S.busy ? '<span class="spin"></span>Записуємо…' : 'Записатися на ' + fm(S.start)) + '</button>' +
+        (S.err ? '<p class="err">' + ic('info') + esc(S.err) + '</p>' : ''));
     }
   }
   // Лид из демо попадает на главную в своей сфере (?s=) и с меткой партнёра (?p=).
@@ -210,11 +318,11 @@ function render() {
   var site = SITE + ((sp || S.p) ? '?' + [sp ? 's=' + sp : '', S.p ? 'p=' + encodeURIComponent(S.p) : ''].filter(Boolean).join('&') : '');
   if (c.demo && !EMBED) {
     var st = c.niche || (S.b === 'demo' ? c.variant : '');
-    h += '<div class="card cta"><b>Хочете такий онлайн-запис для свого бізнесу?</b><p>Бот у Telegram і ця сторінка для Instagram, Google Maps та Viber. Налаштуємо все за вас за 1 день.</p>' +
+    h += card('st-cta', '<b>Хочете такий онлайн-запис для свого бізнесу?</b><p>Бот у Telegram і ця сторінка для Instagram, Google Maps та Viber. Налаштуємо все за вас за 1 день.</p><div class="row">' +
       '<a class="btn fill" data-a="ext" target="_blank" rel="noopener" href="' + site + '#zayavka">Залишити заявку</a>' +
-      '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/avenue_studio_ua">Написати нам у Telegram</a>' + (c.bot ? '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/' + esc(c.bot) + (st ? '?start=' + encodeURIComponent(st) : '') + '">Спробувати бота в Telegram</a>' : '') + '</div>';
+      '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/avenue_studio_ua">Написати нам у Telegram</a>' + (c.bot ? '<a class="btn" data-a="tgl" target="_blank" rel="noopener" href="https://t.me/' + esc(c.bot) + (st ? '?start=' + encodeURIComponent(st) : '') + '">Спробувати бота в Telegram</a>' : '') + '</div>', 'cta');
   }
-  h += '<footer>Працює на <a data-a="ext" target="_blank" rel="noopener" href="' + site + '" translate="no">Avenue</a>: онлайн-запис для вашого бізнесу</footer>';
+  h += '<footer>Працює на <a data-a="ext" target="_blank" rel="noopener" href="' + site + '" translate="no">Avenue</a></footer>';
   app.innerHTML = h;
 }
 
@@ -228,7 +336,8 @@ function fieldsHtml() {
     if (f.type === 'select') return head + '<select data-f="' + esc(f.key) + '"><option value="">' + (f.required ? 'Оберіть' : 'Не вказано') + '</option>' +
       (f.options || []).map(function (o) { return '<option' + (S.f[f.key] === o ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select></label>';
     return head +
-      '<input data-f="' + esc(f.key) + '" maxlength="' + (f.type === 'plate' ? 12 : Math.min(f.max || 120, 200)) + '"' + t + ' value="' + esc(S.f[f.key] || '') + '"></label>';
+      '<input data-f="' + esc(f.key) + '" maxlength="' + (f.type === 'plate' ? 12 : Math.min(f.max || 120, 200)) + '"' + t + ' value="' + esc(S.f[f.key] || '') + '"></label>' +
+      (f.type === 'plate' ? plateHtml(S.f[f.key]) : '');
   }
   var sf = fs.filter(function (f) { return f.scope === 'subject'; }), vf = fs.filter(function (f) { return f.scope !== 'subject'; });
   if (sf.length) h += '<p class="fgroup">' + esc(subj ? subj.label : V('subject', 'Клієнт')) + '</p>' + sf.map(one).join('');
@@ -271,7 +380,12 @@ function load() {
     if (c.me) { S.name = S.name || c.me.name; S.phone = S.phone || c.me.phone; }
     document.title = 'Онлайн-запис · ' + c.title;
     var deep = DEEP && !S.svc ? c.services.filter(function (s) { return s.id === DEEP; })[0] : null;
-    if (deep) { DEEP = ''; S.svc = deep.id; S.needM = deep.masters.length > 1; if (S.needM) { render(); go('st-m'); } else slots(); return; }
+    if (deep) {
+      DEEP = ''; S.svc = deep.id;
+      if (DEEPM && deep.masters.indexOf(DEEPM) > -1) { S.m = DEEPM; S.needM = false; } else S.needM = deep.masters.length > 1;
+      DEEPM = '';
+      if (S.needM) { render(); go('st-m'); } else slots(); return;
+    }
     render();
   }).catch(function (e) {
     app.innerHTML = '<div class="card" style="text-align:center;margin-top:40px">' + (e.message === 'not found' ? 'Сторінку запису не знайдено.' : 'Не вдалося завантажити сторінку. Спробуйте оновити її.') + '</div>';
@@ -282,7 +396,7 @@ app.addEventListener('click', function (e) {
   var a = el.dataset.a, v = el.dataset.v;
   if (a === 'ext' || a === 'tgl') { if (T) { e.preventDefault(); if (a === 'tgl') T.openTelegramLink(el.href); else T.openLink(el.href); } return; }
   S.err = '';
-  if (a === 'var') { S.v = v; S.svc = null; S.days = null; S.start = null; S.needM = false; app.innerHTML = '<p class="load">Завантаження…</p>'; load(); }
+  if (a === 'var') { S.v = v; S.svc = null; S.days = null; S.start = null; S.needM = false; seen = {}; load(); }
   else if (a === 'svc') { S.svc = v; S.m = '*'; S.days = null; S.day = null; S.start = null; S.needM = svc().masters.length > 1; if (S.needM) { render(); go('st-m'); } else slots(); }
   else if (a === 'm') { S.m = v; S.needM = false; slots(); }
   else if (a === 'day') { S.day = v; S.start = null; render(); }
@@ -291,13 +405,18 @@ app.addEventListener('click', function (e) {
   else if (a === 'share') share();
   else if (a === 'book') submit();
   else if (a === 'close') { if (T) T.close(); }
-  else if (a === 'again') { S.done = null; S.svc = null; S.days = null; S.start = null; S.needM = false; render(); window.scrollTo(0, 0); }
+  else if (a === 'again') { S.done = null; S.svc = null; S.days = null; S.start = null; S.needM = false; seen = {}; render(); window.scrollTo(0, 0); }
 });
 app.addEventListener('input', function (e) {
   if (e.target.id === 'nm') S.name = e.target.value;
   if (e.target.id === 'ph') S.phone = e.target.value;
-  if (e.target.dataset && e.target.dataset.f) S.f[e.target.dataset.f] = e.target.value;
+  if (e.target.dataset && e.target.dataset.f) {
+    S.f[e.target.dataset.f] = e.target.value;
+    var pl = e.target.parentNode.nextElementSibling;
+    if (pl && pl.classList.contains('plate')) pl.querySelector('[data-plate]').textContent = (e.target.value || 'AA 0000 AA').toUpperCase();
+  }
 });
+app.addEventListener('change', function (e) { if (e.target.dataset && e.target.dataset.f) S.f[e.target.dataset.f] = e.target.value; });
 load();
 </script>
 </body>
