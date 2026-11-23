@@ -72,3 +72,8 @@ Unsplash (images.unsplash.com). Лицензия Unsplash (https://unsplash.com/
 
 Демо СТО (`demo/sto/`) берёт прогноз температуры в Днепре из Open-Meteo (https://open-meteo.com)
 без ключа. Данные по лицензии CC BY 4.0, подпись «Погода: Open-Meteo» стоит в подвале страницы.
+
+Страница записи (`book/`) в демо загружает Google Pay API (https://pay.google.com/gp/p/js/pay.js) в тестовом
+окружении (`environment: TEST`, шлюз `example`): кнопка и лист оплаты Google, деньги не списываются.
+Кнопку рисует сам Google Pay API по его правилам бренда. Товары в демо-магазине записи нарисованы
+векторными формами, без фото и чужих брендов.

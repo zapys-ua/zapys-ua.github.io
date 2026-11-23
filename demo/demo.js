@@ -53,7 +53,7 @@
       var b = e.target.closest("[data-book]"); if (!b) return;
       e.preventDefault();
       var svc = b.dataset.book, m = b.dataset.m;
-      var src = "../../book/?v=" + cfg.v + "&embed=1" + (svc ? "&svc=" + encodeURIComponent(svc) : "") + (m ? "&m=" + encodeURIComponent(m) : "");
+      var src = "../../book/?v=" + cfg.v + "&embed=1" + (svc ? "&svc=" + encodeURIComponent(svc) : "") + (m ? "&m=" + encodeURIComponent(m) : "") + (cfg.acc ? "&acc=" + cfg.acc + "&font=" + encodeURIComponent(cfg.font || "") + (cfg.bg ? "&bg=" + cfg.bg : "") : "");
       if (!d.showModal) { location.href = src.replace("&embed=1", ""); return; }
       fr.src = src;
       t.textContent = b.dataset.title || (svc && b.dataset.name) || "Запис · " + cfg.name;

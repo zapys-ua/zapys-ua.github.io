@@ -7,7 +7,7 @@
 <title>Демо-сайти · Avenue</title>
 <script>
 // Старі посилання demo/?v=<сфера> ведуть на окремі сайти кожної ніші.
-(function () { var v = new URLSearchParams(location.search).get("v"); location.replace((/^(barber|sto|groom)$/.test(v || "") ? v : "barber") + "/"); })();
+(function () { var v = new URLSearchParams(location.search).get("v"); location.replace((/^(barber|sto|groom|nails|massage|dental)$/.test(v || "") ? v : "barber") + "/"); })();
 </script>
 <style>body{font:16px/1.5 system-ui,sans-serif;padding:40px 20px;text-align:center}a{color:#B4532A}</style>
 </head>
