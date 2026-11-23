@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шина Плюс · шиномонтаж і ходова в Дніпрі</title>
+<meta name="description" content="Шиномонтаж «Шина Плюс» у Дніпрі: переобування без черги в призначений час, балансування, діагностика ходової. Запис онлайн 24/7. Демо-сайт студії Avenue.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#111418">
+<meta property="og:image" content="https://zapys-ua.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<script>document.documentElement.classList.add("js")</script>
+<style>
+:root{--asph:#111418;--panel:#1A1F26;--panel2:#232A33;--light:#EEF0F2;--paper:#F6F7F8;--navy:#1E3A5F;--sig:#FFC53D;--mut:#8A94A3;--ink:#111418;--line:rgba(17,20,24,.12);--dline:rgba(238,240,242,.12);--text:"Rubik",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--text);overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+h1,h2,h3{font-weight:800;line-height:.95;letter-spacing:-.025em;text-transform:uppercase;text-wrap:balance}
+p{text-wrap:pretty}
+[id]{scroll-margin-top:80px}
+:focus-visible{outline:3px solid var(--sig);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 18px}
+.lbl{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:10px}
+.lbl::before{content:"";width:18px;height:2px;background:var(--sig)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:8px;font:700 15px var(--text);text-transform:uppercase;letter-spacing:.02em;transition:transform .18s var(--ease),background .2s,color .2s}
+.btn:active{transform:scale(.97)}
+.btn-s{background:var(--sig);color:var(--ink)}
+.btn-s:hover{background:#FFD566}
+.btn-o{border:1.5px solid currentColor}
+.btn-o:hover{background:var(--ink);color:var(--light)}
+.dark .btn-o:hover{background:var(--light);color:var(--ink)}
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+.dot{width:8px;height:8px;border-radius:50%;background:#3DDC84;display:inline-block;animation:blink 1.6s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+.dark{background:var(--asph);color:var(--light)}
+
+/* Шапка */
+.top{position:sticky;top:0;z-index:30;background:var(--asph);color:var(--light);border-bottom:1px solid var(--dline)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:14px}
+.logo{display:flex;align-items:center;gap:10px;font:800 19px/1 var(--text);text-transform:uppercase;letter-spacing:-.01em}
+.logo i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:5px solid var(--sig);position:relative}
+.logo i::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--sig)}
+.nav{display:none;gap:28px;font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#B5BDC8}
+.nav a:hover{color:var(--sig)}
+.top .btn{min-height:42px;padding:0 16px;font-size:13px}
+
+/* Перший екран: заголовок і табло боксів */
+.hero{padding:clamp(40px,7vw,88px) 0 0}
+.hero-g{display:grid;gap:36px}
+.hero h1{font-size:clamp(36px,10.2vw,148px);margin:20px 0 22px}
+.hero h1 span{color:var(--sig)}
+.hero p.sub{font-size:18px;color:#B5BDC8;max-width:30em;margin-bottom:28px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:10px}
+.board{background:var(--panel);border:1px solid var(--dline);border-radius:14px;overflow:hidden;font-family:var(--mono);align-self:end}
+.board-h{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--dline);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+.board-h b{color:var(--light);font-size:20px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.bx{display:grid;grid-template-columns:auto 1fr auto;gap:4px 16px;align-items:center;padding:18px;border-bottom:1px solid var(--dline)}
+.bx:last-of-type{border-bottom:0}
+.bx .no{font:800 44px/1 var(--text);color:var(--sig);grid-row:span 2}
+.bx .st{display:flex;align-items:center;gap:8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#3DDC84}
+.bx .nx{font-size:15px;color:var(--light)}
+.bx button{grid-row:span 2;font:700 12px var(--mono);text-transform:uppercase;padding:10px 12px;border-radius:6px;background:var(--panel2);color:var(--light);transition:background .2s,color .2s}
+.bx button:hover{background:var(--sig);color:var(--ink)}
+.board-f{padding:12px 18px;background:var(--panel2);font-size:12px;color:var(--mut)}
+.hero-ph{margin-top:clamp(40px,6vw,72px);height:clamp(240px,34vw,460px);overflow:hidden;position:relative}
+.hero-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:saturate(.8) brightness(1.15) contrast(1.05)}
+.hero-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--asph) 0%,rgba(17,20,24,0) 30%)}
+.ruler{position:absolute;left:0;right:0;bottom:0;z-index:2;height:28px;background:repeating-linear-gradient(90deg,rgba(255,197,61,.9) 0 2px,transparent 2px 24px);mask:linear-gradient(0deg,#000 0 10px,transparent 10px),repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 120px);-webkit-mask:linear-gradient(0deg,#000 0 10px,transparent 10px),repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 120px);opacity:.8}
+
+/* Сезон: правило +7 °C з живою погодою */
+.season{padding:clamp(72px,10vw,130px) 0}
+.season-g{display:grid;gap:36px;align-items:center}
+.season h2{font-size:clamp(40px,6vw,80px);margin:18px 0 18px}
+.season .lead{color:#4A5260;font-size:18px;max-width:30em}
+.therm{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
+.therm-t{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}
+.therm-t b{font:800 clamp(64px,9vw,104px)/.9 var(--text);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.therm-t span{font:500 12px var(--mono);text-transform:uppercase;color:var(--mut);text-align:right}
+.scale{position:relative;height:14px;border-radius:7px;background:linear-gradient(90deg,#5B8DEF 0%,#9FC0F5 38%,#F2F2F2 50%,#FFD27A 62%,#F28B3C 100%)}
+.scale i{position:absolute;top:-8px;width:4px;height:30px;border-radius:2px;background:var(--ink);left:50%;transform:translateX(-50%);transition:left 1.2s var(--ease)}
+.scale .seven{position:absolute;top:-24px;left:52%;font:500 11px var(--mono);color:var(--ink);transform:translateX(-50%)}
+.scale .seven::after{content:"";position:absolute;left:50%;top:16px;width:1px;height:22px;background:var(--ink)}
+.ticks{display:flex;justify-content:space-between;font:500 11px var(--mono);color:var(--mut);margin-top:10px}
+.verdict{margin-top:22px;padding:16px;border-radius:10px;background:var(--light);font-size:15px;display:flex;gap:12px;align-items:flex-start}
+.verdict svg{flex:none;margin-top:2px}
+
+/* Прайс як специфікація */
+.spec{margin-top:48px;border-top:2px solid var(--light)}
+.row{display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding:22px 0;border-bottom:1px solid var(--dline);align-items:center;width:100%;text-align:left;position:relative}
+.row .code{font:500 12px var(--mono);color:var(--sig);letter-spacing:.08em}
+.row .nm{font:700 clamp(22px,2.6vw,32px)/1.1 var(--text);text-transform:uppercase;letter-spacing:-.01em;grid-column:1}
+.row .meta{font:500 13px var(--mono);color:var(--mut);grid-column:1;display:flex;gap:18px;flex-wrap:wrap}
+.row .pr{grid-row:1/span 3;grid-column:2;text-align:right;font:800 clamp(28px,3.4vw,44px)/1 var(--text);letter-spacing:-.02em}
+.row .pr small{display:block;font:500 11px var(--mono);color:var(--mut);letter-spacing:.06em;margin-top:6px}
+.row::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--sig);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.row:hover::after{transform:scaleX(1)}
+.row:hover .nm{color:var(--sig)}
+.sizes{display:flex;flex-wrap:wrap;gap:8px;margin-top:36px}
+.sizes button{font:700 14px var(--mono);padding:12px 16px;border-radius:8px;border:1.5px solid var(--dline);color:var(--light)}
+.sizes button[aria-pressed="true"]{background:var(--sig);border-color:var(--sig);color:var(--ink)}
+.sz-note{font:500 13px var(--mono);color:var(--mut);margin-top:14px;min-height:1.6em}
+
+/* Процес: 40 хвилин у боксі */
+.proc{display:grid;gap:0;margin-top:56px;position:relative}
+.ps{padding:26px 0 26px 56px;position:relative;border-left:2px solid var(--line);margin-left:16px}
+.ps::before{content:attr(data-t);position:absolute;left:-17px;top:24px;width:32px;height:32px;border-radius:50%;background:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font:700 11px var(--mono)}
+.ps.in::before{background:var(--sig);border-color:var(--sig)}
+.ps h3{font-size:clamp(22px,2.4vw,28px);margin-bottom:8px}
+.ps p{color:#4A5260;max-width:30em}
+.ps .m{font:500 12px var(--mono);color:var(--mut);margin-bottom:6px;display:block}
+
+/* Історія авто */
+.hist-g{display:grid;gap:40px;align-items:center}
+.carcard{background:var(--panel);border:1px solid var(--dline);border-radius:16px;padding:22px;font-family:var(--mono);max-width:520px}
+.plate{display:inline-flex;align-items:stretch;border:2.5px solid #111;border-radius:7px;background:#fff;color:#111;font:700 clamp(26px,4vw,34px)/1 var(--mono);letter-spacing:.04em;overflow:hidden;box-shadow:0 0 0 3px #fff}
+.plate .ua{display:flex;flex-direction:column;justify-content:space-between;align-items:center;background:#0057B8;color:#fff;font-size:11px;padding:4px 6px;width:30px}
+.plate .ua i{width:16px;height:11px;background:linear-gradient(#0057B8 50%,#FFD700 50%);border:1px solid #fff}
+.plate span:last-child{padding:8px 14px}
+.cc-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--dline);font-size:13px}
+.cc-row span{color:var(--mut);text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+.cc-row b{color:var(--light);font-weight:500;text-align:right}
+.cc-next{margin-top:16px;padding:14px;border-radius:10px;background:rgba(255,197,61,.12);color:var(--sig);font-size:13px;display:flex;gap:10px;align-items:center}
+.checks{list-style:none;display:grid;gap:14px;margin-top:28px}
+.checks li{display:flex;gap:14px;align-items:flex-start;color:#B5BDC8}
+.checks li svg{flex:none;margin-top:3px}
+.checks b{color:var(--light);font-weight:500;display:block}
+
+/* Фото: сітка */
+.bento{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:48px}
+.bento div{overflow:hidden;border-radius:10px;aspect-ratio:1;background:var(--panel)}
+.bento div:first-child{grid-column:span 2;aspect-ratio:16/9}
+.bento img{width:100%;height:100%;object-fit:cover;filter:saturate(.8);transition:transform 1.2s var(--ease),filter .6s}
+.bento div:hover img{transform:scale(1.05);filter:saturate(1)}
+
+/* Контакти */
+.find-g{display:grid;gap:36px}
+.addr{font:800 clamp(34px,5vw,64px)/1 var(--text);text-transform:uppercase;letter-spacing:-.02em;margin:18px 0}
+.hrs{font-family:var(--mono);border-top:1px solid var(--dline)}
+.hrs div{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--dline);font-size:14px}
+.hrs span{color:var(--mut);text-transform:uppercase}
+.cta2{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+
+section.s{padding:clamp(72px,10vw,130px) 0}
+.h2{font-size:clamp(40px,6.4vw,88px);margin:18px 0 18px}
+.lead{font-size:18px;max-width:32em;color:#4A5260}
+.dark .lead{color:#B5BDC8}
+footer{padding:56px 0 120px;font:500 13px var(--mono);color:var(--mut);background:var(--asph);border-top:1px solid var(--dline)}
+footer .wrap{display:grid;gap:10px}
+footer a{color:var(--light);text-decoration:underline;text-underline-offset:3px}
+.bigf{font:800 clamp(60px,15vw,220px)/.85 var(--text);text-transform:uppercase;letter-spacing:-.05em;color:var(--panel2);white-space:nowrap;overflow:hidden;margin-bottom:36px}
+.dock{position:fixed;left:12px;right:12px;bottom:12px;z-index:25;transform:translateY(150%);transition:transform .5s var(--ease)}
+.dock.on{transform:none}
+.dock .btn{width:100%;box-shadow:0 16px 36px -14px rgba(0,0,0,.7)}
+
+@media (min-width:760px){
+  .wrap{padding:0 32px}
+  .season-g,.hist-g{grid-template-columns:1fr 1fr;gap:72px}
+  .bento{grid-template-columns:repeat(4,1fr);grid-auto-rows:220px}
+  .bento div{aspect-ratio:auto}
+  .bento div:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+  .find-g{grid-template-columns:1.3fr 1fr;gap:72px}
+  .dock{display:none}
+}
+@media (min-width:1000px){
+  .nav{display:flex}
+  .hero-g{grid-template-columns:minmax(0,1.4fr) minmax(360px,1fr);gap:56px}
+  .hero h1{font-size:clamp(52px,5.6vw,90px)}
+  .proc{grid-template-columns:repeat(4,1fr);gap:0}
+  .ps{border-left:0;border-top:2px solid var(--line);margin:0;padding:56px 28px 0 0}
+  .ps::before{left:0;top:-17px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .rv{opacity:1!important;transform:none!important;transition:none!important}
+  .dot{animation:none}
+}
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Шина Плюс</a>
+    <nav class="nav" aria-label="Розділи"><a href="#season">Сезон</a><a href="#price">Ціни</a><a href="#process">Як працюємо</a><a href="#history">Історія авто</a><a href="#find">Контакти</a></nav>
+    <button class="btn btn-s" data-book="" data-title="Запис у «Шина Плюс»">Записатися</button>
+  </div>
+</header>
+
+<main>
+<section class="hero dark">
+  <div class="wrap hero-g">
+    <div>
+      <p class="lbl">Шиномонтаж і ходова · Дніпро</p>
+      <h1>Переобування <span>без черги</span></h1>
+      <p class="sub">Записуєтесь на годину, приїжджаєте, бокс уже вільний. Сорок хвилин, і авто на нових колесах.</p>
+      <div class="cta"><button class="btn btn-s" data-book="s_tires" data-name="Переобування R15–R16">Записатися на переобування</button><a class="btn btn-o" href="#price">Ціни</a></div>
+    </div>
+    <div class="board" aria-label="Табло вільних боксів">
+      <div class="board-h"><span>Табло боксів</span><b id="clock">--:--</b></div>
+      <div class="bx"><span class="no">01</span><span class="st"><span class="dot"></span>Наступний вільний</span><button data-book="s_tires" data-m="s_box1" data-title="Переобування · Бокс 1">Зайняти</button><span class="nx" data-free="s_tires" data-m="s_box1">Запис онлайн 24/7</span></div>
+      <div class="bx"><span class="no">02</span><span class="st"><span class="dot"></span>Наступний вільний</span><button data-book="s_tires" data-m="s_box2" data-title="Переобування · Бокс 2">Зайняти</button><span class="nx" data-free="s_tires" data-m="s_box2">Запис онлайн 24/7</span></div>
+      <div class="board-f">Дані з розкладу запису. Оновлюються, щойно хтось записався.</div>
+    </div>
+  </div>
+  <div class="hero-ph"><img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=1800&q=70" srcset="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=900&q=70 900w, https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=1800&q=70 1800w" sizes="100vw" alt="Майстер перевіряє вузли під капотом" width="1800" height="1200"><div class="ruler" aria-hidden="true"></div></div>
+</section>
+
+<section class="season" id="season">
+  <div class="wrap season-g">
+    <div class="rv">
+      <p class="lbl">Сезон</p>
+      <h2>Правило <span style="color:var(--navy)">+7&nbsp;°C</span></h2>
+      <p class="lead">Коли середня температура тримається нижче +7 °C, літня гума твердне і гальмівний шлях росте. Тоді час на зимову. Ми дивимось на прогноз за вас.</p>
+    </div>
+    <div class="therm rv" aria-live="polite">
+      <div class="therm-t"><b id="tnow">+7°</b><span id="tsrc">Дніпро<br>середня на 7 днів</span></div>
+      <div class="scale"><span class="seven">+7</span><i id="tmark"></i></div>
+      <div class="ticks"><span>−10</span><span>0</span><span>+10</span><span>+20</span></div>
+      <div class="verdict" id="verdict"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4 7.5l16 9M20 7.5l-16 9" stroke="#1E3A5F" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>Перевіряємо прогноз…</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="s dark" id="price">
+  <div class="wrap">
+    <p class="lbl">Ціни</p>
+    <h2 class="h2 rv">Ціна до приїзду, <span style="color:var(--sig)">не після</span></h2>
+    <p class="lead rv">Скажемо, що справді треба міняти, і не продаватимемо зайвого. Натисніть на послугу, щоб обрати час.</p>
+    <div class="spec" id="spec"></div>
+    <div class="sizes" role="group" aria-label="Розмір дисків" id="sizes"><button aria-pressed="true" data-s="15">R13–R16</button><button aria-pressed="false" data-s="17">R17–R18</button><button aria-pressed="false" data-s="19">R19+</button><button aria-pressed="false" data-s="suv">Позашляховик</button></div>
+    <p class="sz-note" id="sznote">Ціни вказані для R13–R16.</p>
+  </div>
+</section>
+
+<section class="s" id="process">
+  <div class="wrap">
+    <p class="lbl">Як працюємо</p>
+    <h2 class="h2 rv">40 хвилин <span style="color:var(--navy)">у боксі</span></h2>
+    <div class="proc">
+      <div class="ps rv" data-t="00"><span class="m">00–05 хв</span><h3>Приймання</h3><p>Записуємо номер і пробіг, дивимось протектор. Якщо гума не доживе сезон, скажемо одразу.</p></div>
+      <div class="ps rv" data-t="05"><span class="m">05–25 хв</span><h3>Заміна</h3><p>Знімаємо колеса, міняємо гуму на дисках, перевіряємо вентилі.</p></div>
+      <div class="ps rv" data-t="25"><span class="m">25–35 хв</span><h3>Балансування</h3><p>Кожне колесо на стенді, грузики клеїмо, не набиваємо на диск.</p></div>
+      <div class="ps rv" data-t="35"><span class="m">35–40 хв</span><h3>Видача</h3><p>Протяжка динамометричним ключем і нагадування: після 50 км заїдьте, протягнемо ще раз безкоштовно.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="s dark" id="history">
+  <div class="wrap hist-g">
+    <div class="rv">
+      <p class="lbl">Історія авто</p>
+      <h2 class="h2">Ми пам'ятаємо <span style="color:var(--sig)">ваше авто</span></h2>
+      <p class="lead">Номер, модель і пробіг зберігаються після першого візиту. Наступного разу не треба нічого пояснювати.</p>
+      <ul class="checks">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6" stroke="#FFC53D" stroke-width="2.6" fill="none"/></svg><span><b>Нагадаємо про сезон</b>Восени і навесні бот запропонує час, коли ще немає черг.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6" stroke="#FFC53D" stroke-width="2.6" fill="none"/></svg><span><b>Скасувати одним натиском</b>Плани змінились, бокс відразу бачить інший водій.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6" stroke="#FFC53D" stroke-width="2.6" fill="none"/></svg><span><b>Два бокси</b>Якщо один зайнятий, запис сам запропонує час у сусідньому.</span></li>
+      </ul>
+    </div>
+    <div class="carcard rv" aria-label="Приклад картки авто">
+      <div class="plate"><span class="ua"><i></i>UA</span><span>AE 4817 KC</span></div>
+      <div style="margin-top:18px">
+        <div class="cc-row"><span>Авто</span><b>Skoda Octavia A7</b></div>
+        <div class="cc-row"><span>Пробіг</span><b>142 300 км</b></div>
+        <div class="cc-row"><span>Останній візит</span><b>Переобування на літо, R16</b></div>
+        <div class="cc-row"><span>Шини</span><b>Зимові на складі клієнта</b></div>
+      </div>
+      <div class="cc-next"><span class="dot" style="background:var(--sig)"></span>Нагадування про зимову гуму: коли прогноз опуститься нижче +7 °C</div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="works">
+  <div class="wrap">
+    <p class="lbl">Бокси</p>
+    <h2 class="h2 rv">Чисто, світло, <span style="color:var(--navy)">з інструментом</span></h2>
+    <div class="bento">
+      <div class="rv"><img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=70" alt="Майстер працює ключем" loading="lazy" width="1200" height="800"></div>
+      <div class="rv"><img src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?auto=format&fit=crop&w=600&q=70" alt="Двигун авто на обслуговуванні" loading="lazy" width="600" height="600"></div>
+      <div class="rv"><img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=600&q=70" alt="Ремені і шківи двигуна" loading="lazy" width="600" height="600"></div>
+      <div class="rv"><img src="https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?auto=format&fit=crop&w=600&q=70" alt="Стіна з інструментом у боксі" loading="lazy" width="600" height="600"></div>
+      <div class="rv"><img src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=600&q=70" alt="Заміна оливи" loading="lazy" width="600" height="600"></div>
+    </div>
+  </div>
+</section>
+
+<section class="s dark" id="find">
+  <div class="wrap find-g">
+    <div class="rv">
+      <p class="lbl">Контакти</p>
+      <p class="addr">Слобожанський проспект</p>
+      <p class="lead">Демо-адреса. Заїзд з боку проспекту, два бокси поруч, чекати можна в кімнаті з кавою і Wi-Fi.</p>
+      <div class="cta2"><button class="btn btn-s" data-book="">Записатися онлайн</button><a class="btn btn-o" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=%D0%94%D0%BD%D1%96%D0%BF%D1%80%D0%BE%2C%20%D0%A1%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82">Маршрут</a><a class="btn btn-o" target="_blank" rel="noopener" href="https://t.me/zapysua_demo_bot?start=sto">Бот у Telegram</a></div>
+    </div>
+    <div class="hrs rv"><div><span>Пн–Пт</span><b>09:00–19:00</b></div><div><span>Субота</span><b>09:00–17:00</b></div><div><span>Неділя</span><b>вихідний</b></div><div><span>Запис онлайн</span><b>24/7</b></div></div>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap">
+    <p class="bigf" aria-hidden="true">Шина Плюс</p>
+    <p>© Шина Плюс. Демо-бізнес: назва, адреса, номер авто і фото для прикладу. Фото: Unsplash. Погода: Open-Meteo.</p>
+    <p>Сайт і онлайн-запис: <a href="../../?s=sto" translate="no">Avenue</a></p>
+  </div>
+</footer>
+<div class="dock" id="dock"><button class="btn btn-s" data-book="">Записатися онлайн</button></div>
+
+<script src="../demo.js"></script>
+<script>
+// Послуги збігаються з демо-записом (id з API). Ціни для R13–R16; інші розміри підказують, що ціну уточнять.
+var SPEC = [["s_tires", "S-01", "Переобування", 800, 40, "4 колеса, зняти і поставити"], ["s_bal", "S-02", "Балансування коліс", 400, 30, "Стенд, клейові грузики"], ["s_susp", "S-03", "Діагностика ходової", 500, 45, "Підйомник, звіт у Telegram"], ["s_oil", "S-04", "Заміна оливи та фільтрів", 600, 60, "Робота, без вартості оливи"]];
+document.getElementById("spec").innerHTML = SPEC.map(function (s) {
+  return '<button class="row rv" data-book="' + s[0] + '" data-name="' + AV.esc(s[2]) + '"><span class="code">' + s[1] + '</span><span class="nm">' + AV.esc(s[2]) + '</span><span class="meta"><span>' + s[4] + ' хв</span><span>' + AV.esc(s[5]) + '</span></span><span class="pr">' + s[3] + '<small>грн</small></span></button>';
+}).join("");
+var NOTES = { "15": "Ціни вказані для R13–R16.", "17": "Для R17–R18 ціна трохи вища. Точну суму назвемо при записі, до приїзду.", "19": "Для R19 і більше ціну назвемо при записі: залежить від профілю.", "suv": "Для позашляховиків ціну назвемо при записі: залежить від розміру і ваги коліс." };
+document.getElementById("sizes").addEventListener("click", function (e) {
+  var b = e.target.closest("button"); if (!b) return;
+  [].forEach.call(this.children, function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+  document.getElementById("sznote").textContent = NOTES[b.dataset.s];
+});
+
+AV.init({ v: "sto", name: "Шина Плюс" });
+
+// Годинник табло, київський час.
+var ck = document.getElementById("clock"), kf = new Intl.DateTimeFormat("uk-UA", { timeZone: "Europe/Kiev", hour: "2-digit", minute: "2-digit" });
+function tick() { ck.textContent = kf.format(new Date()); } tick(); setInterval(tick, 15000);
+
+// Жива погода Дніпра (Open-Meteo, без ключа): середня на 7 днів і висновок за правилом +7 °C.
+fetch("https://api.open-meteo.com/v1/forecast?latitude=48.46&longitude=35.04&daily=temperature_2m_mean&timezone=Europe%2FKyiv&forecast_days=7")
+  .then(function (r) { return r.json(); })
+  .then(function (j) {
+    var t = j.daily.temperature_2m_mean, avg = t.reduce(function (a, b) { return a + b; }, 0) / t.length, r = Math.round(avg);
+    document.getElementById("tnow").textContent = (r > 0 ? "+" : r < 0 ? "−" : "") + Math.abs(r) + "°";
+    document.getElementById("tmark").style.left = Math.max(2, Math.min(98, (avg + 10) / 30 * 100)) + "%";
+    var v = document.getElementById("verdict").lastElementChild;
+    v.innerHTML = avg < 7 ? "<b>Час зимової гуми.</b> Середня на тиждень нижча за +7 °C. У пік сезону черги на тиждень, тож вільні вікна краще брати зараз."
+      : avg < 10 ? "<b>Скоро сезон.</b> Ще тепло, але до +7 °C недалеко. Запишіться заздалегідь, поки є вільні вікна."
+      : "<b>Літня гума ще працює.</b> Нагадаємо, щойно прогноз опуститься до +7 °C.";
+  })
+  .catch(function () { document.getElementById("verdict").lastElementChild.textContent = "Нижче +7 °C тримається тиждень? Час переобуватися. Нагадаємо самі."; });
+
+// Липка кнопка запису на телефоні.
+var dock = document.getElementById("dock");
+addEventListener("scroll", function () { dock.classList.toggle("on", scrollY > innerHeight * .8); }, { passive: true });
+</script>
+</body>
+</html>

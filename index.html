@@ -16,7 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap">
 <link rel="stylesheet" href="assets/avenue.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Rubik:wght@700&family=Nunito:wght@800&display=swap&text=%D0%91%D0%BE%D1%80%D0%B4%D0%B0%D1%96%D0%9A%D0%A8%D0%B8%D0%BD%D0%9F%D0%BB%D1%8E%D1%81%D0%A5%D0%B2%D1%81%D1%82%D0%BA%20">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Rubik:wght@800&family=Nunito:wght@900&display=swap&text=%D0%91%D0%BE%D1%80%D0%B4%D0%B0%20%D1%96%D0%9A%D0%A8%D0%B8%D0%BD%D0%9F%D0%BB%D1%8E%D1%81%D0%A5%D0%B2%D1%82%D0%BA%D0%A0%D1%83%D0%A2%D0%B1%D0%B5%D1%86%D1%8F%C2%AB%C2%BB">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Lora:wght@500&family=Manrope:wght@800&display=swap&text=%D0%9C%D0%B8%D0%B3%D0%B4%D0%B0%D0%BB%D1%8C%20nail%D0%A2%D1%88%D0%9F%D0%BE%D1%81%D0%BC%D1%96%D0%BA">
 <script>document.documentElement.classList.add("js")</script>
 <style>
 html{scroll-behavior:smooth}
@@ -106,6 +107,21 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opa
 .tk b{font:700 15px/1.2 var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tk p{font-size:13px;color:var(--mute);line-height:1.35;grid-column:2/-1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tk time{font:700 13px var(--font-display);color:var(--acc);justify-self:end}
+/* Перший екран: сайт бізнесу у вікні браузера, поверх нього записи в Telegram */
+.show{position:relative;align-self:center}
+.browser{display:block;border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:0 50px 90px -50px rgba(23,20,15,.55);transition:transform .6s var(--ease-out)}
+.browser:hover{transform:translateY(-4px)}
+.bbar{display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:#EDE5D8}
+.bbar i{width:9px;height:9px;border-radius:50%;background:rgba(23,20,15,.18)}
+.bbar span{margin-left:8px;flex:1;max-width:280px;font:500 11px/22px var(--font-text);color:var(--mute);background:var(--card);border-radius:7px;padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bimgs{position:relative;display:block;aspect-ratio:16/10;background:#ddd}
+.bimgs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s var(--ease-out)}
+.bimgs img.on{opacity:1}
+.bgo{position:absolute;right:14px;top:48px;font:600 12px var(--font-text);background:rgba(23,20,15,.82);color:#fff;border-radius:999px;padding:7px 12px;opacity:0;transform:translateY(-4px);transition:opacity .3s,transform .3s}
+.browser:hover .bgo,.browser:focus-visible .bgo{opacity:1;transform:none}
+.show .stream{margin-top:var(--s-4)}
+.show .feed{height:106px;overflow:hidden;margin:0 -6px;padding:0 6px}
+.show .stream-cap{display:none}
 .stream-cap{font-size:var(--t-xs);color:var(--mute);margin-top:var(--s-3)}
 
 /* Біжучий рядок */
@@ -237,6 +253,12 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 .sub-p span{display:block;color:var(--mute);font-weight:400;font-size:var(--t-sm)}
 .ticks{list-style:none;display:grid;gap:10px;margin-bottom:var(--s-6);flex:1}
 .ticks li{position:relative;padding-left:26px}
+/* Рядок сайту в кожному пакеті: сходинки «сторінка → візитка → брендовий сайт» */
+.ticks li.site-l{padding:12px 12px 12px 38px;margin-bottom:4px;border-radius:var(--r-md);background:color-mix(in srgb,var(--acc) 9%,transparent)}
+.ticks li.site-l::before{left:12px;top:calc(12px + .3em)}
+.ticks li.site-l a{text-decoration:underline;text-underline-offset:3px}
+.alt{display:grid;gap:6px;margin-top:var(--s-5);padding:var(--s-5);border-radius:var(--r-lg);border:1.5px solid var(--line);background:var(--card)}
+.alt p{color:var(--mute)}
 .ticks li::before{content:"";position:absolute;left:0;top:.3em;width:16px;height:16px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5l3 3 7-7'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5l3 3 7-7'/%3E%3C/svg%3E") center/contain no-repeat;color:var(--acc)}
 .ticks .pilot{color:var(--mute)}
 .plan.main{background:var(--av-ink);color:var(--av-paper);border-color:var(--av-ink)}
@@ -275,17 +297,34 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 
 /* Демо-сайти «Преміум» */
 .sites{display:grid;gap:var(--s-4);margin-bottom:var(--s-4)}
-.site{--c:#1F4D3A;position:relative;display:block;border-radius:var(--r-lg);overflow:hidden;background:var(--c);color:#fff;aspect-ratio:4/5}
-.site figure{position:absolute;inset:0}
-.site img{width:100%;height:100%;object-fit:cover;transform:scale(1.001);transition:transform 1.4s var(--ease-out)}
+.site{position:relative;display:flex;flex-direction:column;border-radius:var(--r-lg);overflow:hidden;min-height:560px;transition:transform .5s var(--ease-out)}
+.site:hover{transform:translateY(-6px)}
+.site figure{position:relative;height:280px;overflow:hidden}
+.site img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out)}
 .site:hover img,.site:focus-visible img{transform:scale(1.06)}
-.site::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,0) 55%)}
-.site .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:var(--s-5);display:grid;gap:4px}
-.site .cap span{font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
-.site .cap b{font-size:clamp(34px,6vw,48px);line-height:1;font-weight:700}
-.site .cap i{font-style:normal;font-weight:600;font-size:var(--t-sm);margin-top:var(--s-2)}
-.site .cap i span{display:inline-block;transition:transform var(--d-base) var(--ease-out)}
-.site:hover .cap i span{transform:translateX(4px)}
+.site .cap{display:flex;flex-direction:column;gap:10px;padding:22px 22px 24px;flex:1}
+.site .cn{font:500 11px/1 var(--font-text);letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.site b{font-size:clamp(34px,4vw,46px);line-height:1}
+.site ul{list-style:none;display:grid;gap:6px;font-size:var(--t-sm);margin-top:4px}
+.site li{display:flex;gap:8px;align-items:baseline}
+.site li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5;transform:translateY(-2px)}
+.site .go{margin-top:auto;padding-top:14px;font-weight:600;font-size:var(--t-sm);display:flex;justify-content:space-between;align-items:center;border-top:1px solid currentColor;border-color:color-mix(in srgb,currentColor 20%,transparent)}
+.site .go span{display:inline-block;transition:transform var(--d-base) var(--ease-out)}
+.site:hover .go span{transform:translateX(4px)}
+.s-bar{background:#0E0D0B;color:#EDE6D8}.s-bar img{filter:grayscale(.3) contrast(1.05)}
+.s-bar b{font-family:"Playfair Display",Georgia,serif;font-weight:500}.s-bar b i{color:#C9A56B}.s-bar .cn{color:#C9A56B;opacity:1}
+.s-sto{background:#111418;color:#EEF0F2}.s-sto b{font-family:"Rubik",sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.02em}.s-sto b i{font-style:normal;color:#FFC53D}
+.s-sto .cn{font-family:ui-monospace,Consolas,monospace;color:#FFC53D;opacity:1}
+.s-sto figure::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;background:repeating-linear-gradient(90deg,#FFC53D 0 2px,transparent 2px 22px);opacity:.8}
+.s-groom{background:#FBF5EC;color:#2B2018;border:1.5px solid rgba(43,32,24,.12)}.s-groom b{font-family:"Nunito",sans-serif;font-weight:900;letter-spacing:-.02em;color:#7A4E1B}
+.s-groom figure{margin:14px 14px 0;height:266px;border-radius:46% 54% 48% 52% / 54% 46% 54% 46%;background:#F4C7A1}
+.s-groom .cn{color:#7A4E1B;opacity:1}
+.s-nails{background:#F6EEEA;color:#2A1C22;border:1.5px solid rgba(42,28,34,.1)}.s-nails b{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:500;color:#5A2A41}.s-nails .cn{color:#5A2A41;opacity:1}
+.s-nails figure{margin:14px 14px 0;height:266px;border-radius:999px 999px 18px 18px}
+.s-mass{background:#2F4A3F;color:#F8F7F2}.s-mass b{font-family:"Lora",Georgia,serif;font-weight:500}.s-mass .cn{color:#D8C7A6;opacity:1}
+.s-mass figure{margin:14px auto 0;width:240px;height:240px;border-radius:50%;box-shadow:0 0 0 12px rgba(248,247,242,.08),0 0 0 24px rgba(248,247,242,.05)}
+.s-dent{background:#F5F8FA;color:#0F1F2A;border:1.5px solid rgba(15,31,42,.1)}.s-dent b{font-family:"Manrope",sans-serif;font-weight:800;letter-spacing:-.04em}.s-dent b i{font-style:normal;color:#0E6E78}.s-dent .cn{color:#0E6E78;opacity:1}
+.s-dent figure{margin:14px 14px 0;height:266px;border-radius:16px}
 
 /* Лабораторія */
 .labf{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-bottom:var(--s-5)}
@@ -394,20 +433,21 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
 <div class="wrap">
 <div class="hero">
   <div>
-    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Avenue Studio · Дніпро · запуск за один день</p>
-    <h1 class="display" aria-label="Клієнти записуються самі. Навіть о 23:40.">
-      <span class="ln" aria-hidden="true"><span>Клієнти</span></span>
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Avenue Studio · сайти й онлайн-запис для сервісного бізнесу</p>
+    <h1 class="display" aria-label="Сайт, де записуються і платять. Навіть о 23:40.">
+      <span class="ln" aria-hidden="true"><span>Сайт, де</span></span>
       <span class="ln" aria-hidden="true"><span>записуються</span></span>
-      <span class="ln" aria-hidden="true"><span>самі. Навіть</span></span>
+      <span class="ln" aria-hidden="true"><span>і платять. Навіть</span></span>
       <span class="ln" aria-hidden="true"><span>о <span class="clock" id="clock">23:40</span>.</span></span>
     </h1>
-    <p class="lead">Бот у Telegram, сторінка запису і сертифікати для <span class="swap" data-text="phrase">вашого барбершопу</span>. А потім бот сам кличе клієнтів знову. <strong>Налаштуємо все за вас за один день.</strong></p>
+    <p class="lead">Брендовий сайт для <span class="swap" data-text="phrase">вашого барбершопу</span>: запис з оплатою онлайн, товари до візиту і бот у Telegram, який сам кличе клієнтів знову. <strong>Запускаємо за один день.</strong></p>
     <div class="chips" role="group" aria-label="Ваша сфера">
       <button class="chip" type="button" data-s="barber" aria-pressed="true">Барбершоп</button>
       <button class="chip" type="button" data-s="nails" aria-pressed="false">Манікюр</button>
       <button class="chip" type="button" data-s="sto" aria-pressed="false">СТО, шиномонтаж</button>
       <button class="chip" type="button" data-s="groom" aria-pressed="false">Грумінг</button>
       <button class="chip" type="button" data-s="massage" aria-pressed="false">Масаж</button>
+      <button class="chip" type="button" data-s="dental" aria-pressed="false">Стоматологія</button>
     </div>
     <div class="cta">
       <a class="btn btn-acc" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Відкрити демо в Telegram <span class="arr" aria-hidden="true">→</span></a>
@@ -416,10 +456,17 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
     <p class="note">Демо безкоштовне. Без Telegram? <a data-href="book" href="book/?v=barber">Сторінка запису за посиланням</a></p>
   </div>
 
+  <div class="show">
+  <a class="browser" id="browser" href="demo/barber/">
+    <span class="bbar" aria-hidden="true"><i></i><i></i><i></i><span id="burl">zapys-ua.github.io/demo/barber</span></span>
+    <span class="bimgs"><img data-s="barber" class="on" src="assets/sites/barber.jpg" alt="Демо-сайт Борода і Ко" width="960" height="600" fetchpriority="high"><img data-s="sto" class="" src="assets/sites/sto.jpg" alt="Демо-сайт Шина Плюс" width="960" height="600" loading="lazy"><img data-s="groom" class="" src="assets/sites/groom.jpg" alt="Демо-сайт Хвостик" width="960" height="600" loading="lazy"><img data-s="nails" class="" src="assets/sites/nails.jpg" alt="Демо-сайт Мигдаль" width="960" height="600" loading="lazy"><img data-s="massage" class="" src="assets/sites/massage.jpg" alt="Демо-сайт Тиша" width="960" height="600" loading="lazy"><img data-s="dental" class="" src="assets/sites/dental.jpg" alt="Демо-сайт Посмішка" width="960" height="600" loading="lazy"></span>
+    <span class="bgo">Відкрити сайт <span aria-hidden="true">→</span></span>
+  </a>
   <div class="stream" aria-hidden="true">
     <div class="stream-head"><b><span class="pulse"></span>Пульт власника</b><span>нові записи</span></div>
     <ol class="feed" id="feed"></ol>
     <p class="stream-cap">Так записи приходять вам у Telegram, поки ви спите. Імена і час для прикладу.</p>
+  </div>
   </div>
 </div>
 </div>
@@ -505,22 +552,34 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
 <section id="sites">
   <div class="wrap">
     <div class="rv">
-      <span class="kicker">Сайт у пакеті «Преміум»</span>
+      <span class="kicker">Сайт у кожному пакеті</span>
       <h2 class="h2">Так виглядає ваш бізнес з Avenue</h2>
-      <p class="sub">Сайт з вашими фото, меню послуг і записом прямо на сторінці. Відкрийте будь-який і запишіться як клієнт.</p>
+      <p class="sub">Шість ніш, шість ідей. Не шаблон з іншим кольором, а своя концепція для кожного бізнесу. Ваші фото, прайс і запис прямо на сторінці. Відкрийте будь-який і запишіться як клієнт.</p>
     </div>
     <div class="sites">
-      <a class="site rv" href="demo/?v=barber" style="--c:#1F4D3A">
-        <figure><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Борода і Ко" loading="lazy" width="760" height="950"></figure>
-        <div class="cap"><span>Барбершоп</span><b style="font-family:'Playfair Display',serif">Борода і Ко</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      <a class="site s-bar rv" href="demo/barber/">
+        <figure><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт барбершопу «Борода і Ко»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">Барбершоп · концепція «Ритуал»</span><b>Борода <i>і Ко</i></b><ul><li>Візит як ритуал на 45 хвилин, крок за кроком</li><li>Прайс, як друковане меню, запис з рядка</li><li>Найближчий вільний час кожного майстра наживо</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
       </a>
-      <a class="site rv" href="demo/?v=sto" style="--c:#1E3A5F">
-        <figure><img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Шина Плюс" loading="lazy" width="760" height="950"></figure>
-        <div class="cap"><span>Шиномонтаж</span><b style="font-family:'Rubik',serif">Шина Плюс</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      <a class="site s-sto rv" href="demo/sto/">
+        <figure><img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт шиномонтажу «Шина Плюс»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">СТО · концепція «Табло»</span><b>Шина <i>Плюс</i></b><ul><li>Табло боксів: коли вільний кожен, наживо</li><li>Погода Дніпра і правило +7 °C: коли переобуватися</li><li>Номер авто українським знаком прямо у записі</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
       </a>
-      <a class="site rv" href="demo/?v=groom" style="--c:#7A4E1B">
-        <figure><img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70 760w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1100&q=70 1100w" sizes="(min-width:980px) 33vw, 100vw" alt="Демо-сайт Хвостик" loading="lazy" width="760" height="950"></figure>
-        <div class="cap"><span>Грумінг-салон</span><b style="font-family:'Nunito',serif">Хвостик</b><i>Відкрити сайт <span aria-hidden="true">→</span></i></div>
+      <a class="site s-groom rv" href="demo/groom/">
+        <figure><img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт грумінг-салону «Хвостик»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">Грумінг · концепція «Картка улюбленця»</span><b>Хвостик</b><ul><li>Підбір догляду за вагою улюбленця за 30 секунд</li><li>Картка улюбленця, що заповнюється на очах</li><li>Полароїди клієнтів і м'які анімації</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
+      </a>
+      <a class="site s-nails rv" href="demo/nails/">
+        <figure><img src="https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт нейл-студії «Мигдаль»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">Манікюр · концепція «Палітра»</span><b>Мигдаль nail</b><ul><li>Приміряйте відтінок і форму нігтів до запису</li><li>Стерильність по кроках: сухожар, крафт-пакет</li><li>Запис до майстрині з її вільним часом</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
+      </a>
+      <a class="site s-mass rv" href="demo/massage/">
+        <figure><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт масажного кабінету «Тиша»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">Масаж · концепція «Дихання»</span><b>Тиша</b><ul><li>Коло дихання на першому екрані, повільний ритм</li><li>Карта напруги: покажіть, де болить, і отримайте масаж</li><li>Сертифікат як подарунок для тих, хто все встигає</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
+      </a>
+      <a class="site s-dent rv" href="demo/dental/">
+        <figure><img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=760&q=70" srcset="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=480&q=70 480w,https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=760&q=70 760w" sizes="(min-width:980px) 33vw, 100vw" alt="Сайт стоматології «Посмішка»" loading="lazy" width="760" height="560"></figure>
+        <div class="cap"><span class="cn">Стоматологія · концепція «Прозорий кошторис»</span><b>Посміш<i>ка</i></b><ul><li>Кошторис за скаргою: план, ціна, відчуття</li><li>Шкала відтінку: як зміняться зуби після відбілювання</li><li>Лікарі з найближчим вільним часом</li></ul><span class="go">Відкрити сайт <span aria-hidden="true">→</span></span></div>
       </a>
     </div>
     <p class="note rv">Фото, назви й адреси демо-бізнесів для прикладу. Ваш сайт збираємо з вашими фото і прайсом.</p>
@@ -579,11 +638,11 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <p class="was">для перших 10, далі <s>1 900 грн</s></p>
       <p class="sub-p">+ 390 грн на місяць<span>перший місяць безкоштовно</span></p>
       <ul class="ticks">
+        <li class="site-l"><b>Сторінка бізнесу</b> з записом: ваші логотип, кольори і прайс</li>
         <li>Бот, застосунок у Telegram і сторінка запису</li>
         <li>Нагадування і відгуки з переходом на Google Maps</li>
         <li>Лист очікування на зайнятий час</li>
         <li>Пульт власника і звіт щопонеділка</li>
-        <li>Ваш логотип і кольори</li>
       </ul>
       <a class="btn btn-line" href="#zayavka" data-interest="Пакет Старт">Обрати Старт</a>
     </article>
@@ -596,6 +655,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <p class="sub-p">+ 790 грн на місяць<span>перший місяць безкоштовно</span></p>
       <hr class="cut">
       <ul class="ticks">
+        <li class="site-l"><b>Сайт-візитка</b> в одній з <a href="#sites">6 концепцій</a>, з вашими фото і вашим доменом</li>
         <li>Усе зі «Старту»</li>
         <li>Кілька майстрів, у кожного свій розклад</li>
         <li>Передоплата одразу після запису</li>
@@ -612,8 +672,8 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <p class="was">для перших 10, далі <s>12 900 грн</s></p>
       <p class="sub-p">+ 1 490 грн на місяць<span>перший місяць безкоштовно</span></p>
       <ul class="ticks">
+        <li class="site-l"><b>Брендовий сайт</b> з власною концепцією під вас: товари до візиту й оплата онлайн</li>
         <li>Усе з «Бізнесу»</li>
-        <li>Сайт бізнесу з записом, <a href="demo/?v=barber" style="text-decoration:underline;text-underline-offset:3px">як у прикладі</a></li>
         <li>Повернення старої бази клієнтів</li>
         <li>Щомісяця одне покращення від нас</li>
         <li>Зміни в той самий день</li>
@@ -621,6 +681,11 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       </ul>
       <a class="btn btn-line" href="#zayavka" data-interest="Пакет Преміум">Обрати Преміум</a>
     </article>
+  </div>
+
+  <div class="alt rv">
+    <b>Вже є сайт або тільки Instagram?</b>
+    <p>Сайт від нас не обов'язковий. Кнопку запису вбудуємо у ваш сайт, шапку Instagram, Google Maps і Viber. Розклад, нагадування і пульт працюють так само.</p>
   </div>
 
   <div class="terms rv">
@@ -743,14 +808,16 @@ document.getElementById("seats").textContent = FOUNDER_SEATS_LEFT > 0 ? "Віл�
 var S = {
   barber: { phrase: "вашого барбершопу", short: "Барбершоп", biz: "Борода і Ко", addr: "Дніпро, Центр", color: "#1F4D3A", check: 450, rec: "certs", staff: ["Андрій", "Максим"],
     svcs: [["Чоловіча стрижка", "45 хв", 450], ["Стрижка і борода", "75 хв", 700], ["Батько і син", "90 хв", 800]] },
-  nails: { phrase: "вашої студії манікюру", short: "Манікюр", biz: "Lak Studio", addr: "Дніпро, Набережна", color: "#9C3656", check: 700, rec: "certs", staff: ["Аліна", "Віка"],
-    svcs: [["Манікюр з покриттям", "90 хв", 700], ["Педикюр", "90 хв", 850], ["Корекція нарощення", "120 хв", 950]] },
+  nails: { phrase: "вашої нейл-студії", short: "Манікюр", biz: "Мигдаль", addr: "Дніпро, Центр", color: "#5A2A41", check: 650, rec: "certs", staff: ["Олена", "Катерина"],
+    svcs: [["Манікюр з покриттям", "90 хв", 650], ["Педикюр з покриттям", "90 хв", 750], ["Нарощування", "150 хв", 1100]] },
   sto: { phrase: "вашого СТО", short: "СТО", biz: "Шина Плюс", addr: "Дніпро, Слобожанський пр.", color: "#1E3A5F", check: 1100, rec: "maps", staff: ["Бокс 1", "Бокс 2"],
     svcs: [["Переобування R15–R16", "40 хв", 800], ["Балансування коліс", "30 хв", 400], ["Діагностика ходової", "45 хв", 500]] },
   groom: { phrase: "вашого грумінг-салону", short: "Грумінг", biz: "Хвостик", addr: "Дніпро, Тополя", color: "#7A4E1B", check: 800, rec: "base", staff: ["Оля", "Ірина"],
     svcs: [["Комплекс, малі породи", "120 хв", 900], ["Гігієнічна стрижка", "60 хв", 600], ["Купання і сушка", "45 хв", 450]] },
-  massage: { phrase: "вашого масажного кабінету", short: "Масаж", biz: "Тепло", addr: "Дніпро, Перемога", color: "#3F6152", check: 900, rec: "certs", staff: ["Дмитро", "Олена"],
-    svcs: [["Масаж спини", "40 хв", 600], ["Загальний масаж", "60 хв", 900], ["Антицелюлітний", "50 хв", 800]] }
+  massage: { phrase: "вашого масажного кабінету", short: "Масаж", biz: "Тиша", addr: "Дніпро, Центр", color: "#2F4A3F", check: 800, rec: "certs", staff: ["Майстер"],
+    svcs: [["Масаж спини", "45 хв", 600], ["Загальний масаж", "60 хв", 1000], ["Спортивний масаж", "60 хв", 900]] },
+  dental: { phrase: "вашої стоматології", short: "Стоматологія", biz: "Посмішка", addr: "Дніпро, Центр", color: "#0E6E78", check: 1500, rec: "base", staff: ["Ірина", "Сергій"],
+    svcs: [["Консультація та огляд", "30 хв", 300], ["Професійна гігієна", "60 хв", 1500], ["Лікування карієсу", "60 хв", 1800]] }
 };
 var cur = S[Q.get("s")] ? Q.get("s") : "barber", svc = 0, day = 0, slot = null, checkTouched = false;
 var $ = function (id) { return document.getElementById(id); };
@@ -884,6 +951,8 @@ function stopRing() { clearInterval(ring.timer); ring.timer = null; }
 // ---------- Лабораторія: продукти з дослідження болів (docs/research/sphere-pains.md) ----------
 // Список оновлює щотижнева рада. «Хочу першим» іде в zapys-lead у полі niche.
 var LAB = [
+  { f: "all", tag: "Усі сфери", t: "«Запізнююсь» одним натиском", key: "Запізнююсь", pain: "Клієнт запізнюється на 15 хвилин, а майстер не знає: чекати чи брати наступного.", get: "Фінальне нагадування за 15 хвилин з кнопками «буду вчасно», «запізнююсь на 10–20 хв» і «не встигаю». Майстер одразу бачить, а коли клієнт не встигає, бот пропонує найближче вікно і віддає звільнений час листу очікування.", when: "У розробці" },
+  { f: "all", tag: "Усі сфери", t: "Запис у Viber та Instagram", key: "Viber та Instagram", pain: "Половина клієнтів не має Telegram і пише в Direct або Viber.", get: "Той самий запис і нагадування там, де клієнту зручно: Telegram, Viber або Instagram Direct. Клієнт сам обирає, куди слати нагадування.", when: "Збираємо голоси" },
   { f: "auto", tag: "СТО і шиномонтаж", t: "Шинний готель", key: "Шинний готель", pain: "Два сезони годують увесь рік, а між ними порожньо.", get: "Облік зберігання шин клієнтів, нагадування про сезон і оплата зберігання щомісяця.", when: "Збираємо голоси" },
   { f: "beauty", tag: "Салони і барбершопи", t: "Клієнти лишаються в салоні", key: "Клієнти лишаються", pain: "Майстер іде і забирає своїх клієнтів.", get: "Історія клієнта належить салону, бот сам пропонує іншого майстра з тим самим стилем.", when: "Збираємо голоси" },
   { f: "all", tag: "Усі сфери", t: "Розумна передоплата", key: "Розумна передоплата", pain: "Неявки без попередження з'їдають день.", get: "Передоплата тільки для тих, хто вже не приходив. Постійних клієнтів не чіпаємо.", when: "Збираємо голоси" },
@@ -914,6 +983,8 @@ function setSphere(key, animate) {
     sw.classList.add("out");
     setTimeout(function () { sw.textContent = s.phrase; sw.classList.remove("out"); }, 160);
   } else sw.textContent = s.phrase;
+  [].forEach.call(document.querySelectorAll(".bimgs img"), function (im) { im.classList.toggle("on", im.dataset.s === key); if (im.dataset.s === key) im.loading = "eager"; });
+  $("browser").href = "demo/" + key + "/"; $("burl").textContent = "zapys-ua.github.io/demo/" + key;
   [].forEach.call(document.querySelectorAll('[data-href="bot"]'), function (a) { a.href = "https://t.me/zapysua_demo_bot?start=" + key; });
   [].forEach.call(document.querySelectorAll('[data-href="book"]'), function (a) { a.href = "book/?v=" + key; });
   [].forEach.call(document.querySelectorAll('[data-href="gift"]'), function (a) { a.href = "gift/?v=" + key; });
