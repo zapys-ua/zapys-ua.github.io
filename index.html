@@ -283,6 +283,23 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 .own{margin-top:var(--s-6);padding:var(--s-6) var(--s-5);border:1.5px dashed var(--text);border-radius:var(--r-lg)}
 .own h3{font-size:var(--t-xl);margin-bottom:var(--s-2)}
 .own p{color:var(--mute);margin-bottom:var(--s-4);max-width:34em}
+/* Форма «Своя задача»: опис, сфера, бюджет, контакт. Іде в zapys-lead з source=custom */
+.own{display:grid;gap:var(--s-5)}
+.own-alt a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+.own-f{display:grid;gap:10px;max-width:640px}
+.own-f label,.own-f legend{font-weight:600;font-size:var(--t-sm);margin-top:6px}
+.own-f fieldset{border:0;padding:0;margin:0;min-width:0}
+.own-f textarea,.own-f input:not(.hp){font:inherit;font-size:16px;width:100%;padding:13px 14px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--card);color:var(--text);resize:vertical;transition:border-color .2s}
+.own-f textarea:focus,.own-f input:focus{outline:0;border-color:var(--acc)}
+.own-f .ex{display:flex;flex-wrap:wrap;gap:6px}
+.own-f .ex button{font:500 13px var(--font-text);color:var(--mute);background:none;border:1px dashed var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.own-f .ex button:hover{color:var(--text);border-color:var(--text)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.pills button{font:500 14px var(--font-text);color:var(--text);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:9px 14px;min-height:44px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.pills button[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:var(--bg)}
+.own-f .btn{margin-top:8px;justify-self:start}
+.own-f .msg.ok{color:var(--ok)}.own-f .msg.err{color:var(--err)}
+@media (min-width:900px){.own{grid-template-columns:1fr 1.2fr;align-items:start}}
 
 /* Що буде далі */
 .next{display:grid;gap:var(--s-4)}
@@ -703,13 +720,24 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
     <li data-svc="ai"><h3>AI-менеджер у Telegram</h3><div class="cost">1 990 грн<small>+ 790 грн на місяць</small></div><p>Пілот на трьох бізнесах з грудня. Відповідає тільки за вашим прайсом і графіком, решту передає вам.</p><a class="btn btn-line btn-sm" href="#zayavka" data-interest="AI-менеджер">У чергу на пілот</a></li>
   </ul>
 
-  <div class="own rv">
-    <h3>Своя задача</h3>
-    <p>Потрібно те, чого немає в списку: розклад кабінетів, черга на переобування, запис на корти? Опишіть, оцінимо за 24 години і назвемо фіксовану ціну.</p>
-    <div class="cta">
-      <a class="btn btn-acc" href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">Описати в Telegram</a>
-      <a class="btn btn-line" href="#zayavka" data-interest="Своя задача">Залишити контакт</a>
+  <div class="own rv" id="own">
+    <div class="own-h">
+      <h3>Своя задача</h3>
+      <p>Потрібно те, чого немає в списку: розклад кабінетів, черга на переобування, запис на корти? Опишіть, оцінимо за 24 години і назвемо фіксовану ціну.</p>
+      <p class="own-alt">Зручніше голосом? <a href="https://t.me/avenue_studio_ua" target="_blank" rel="noopener">Напишіть у Telegram</a></p>
     </div>
+    <form class="own-f" id="own-f" novalidate>
+      <label for="o-task">Що потрібно зробити</label>
+      <textarea id="o-task" name="task" rows="4" maxlength="1000" required placeholder="Наприклад: запис на корти по 30 хвилин, оплата одразу, нагадування за годину"></textarea>
+      <div class="ex" aria-label="Приклади задач"><button type="button" data-ex="Розклад кабінетів для двох лікарів, щоб пацієнт бачив вільні години">Розклад кабінетів</button><button type="button" data-ex="Черга на переобування в сезон: клієнт записується на годину і бачить, коли його бокс">Черга в сезон</button><button type="button" data-ex="Запис на корти по 30 хвилин з оплатою онлайн">Запис на корти</button></div>
+      <fieldset><legend>Сфера</legend><div class="pills" data-name="sphere"><button type="button" aria-pressed="false">Краса</button><button type="button" aria-pressed="false">Авто</button><button type="button" aria-pressed="false">Здоров'я</button><button type="button" aria-pressed="false">Спорт</button><button type="button" aria-pressed="false">Тварини</button><button type="button" aria-pressed="false">Інше</button></div></fieldset>
+      <fieldset><legend>Бюджет на запуск</legend><div class="pills" data-name="budget"><button type="button" aria-pressed="false">до 2 000 грн</button><button type="button" aria-pressed="false">2–5 тис. грн</button><button type="button" aria-pressed="false">5–15 тис. грн</button><button type="button" aria-pressed="true">Ще не знаю</button></div></fieldset>
+      <label for="o-contact">Телефон або Telegram</label>
+      <input id="o-contact" name="contact" maxlength="80" autocomplete="tel" placeholder="+380… або @нік" required>
+      <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-acc" type="submit">Отримати оцінку за 24 години <span class="arr" aria-hidden="true">→</span></button>
+      <p class="msg" id="own-msg" role="status"></p>
+    </form>
   </div>
   </div>
 </section>
@@ -1041,6 +1069,37 @@ form.addEventListener("submit", function (e) {
     .catch(function () { msg.className = "msg err"; msg.textContent = "Не вдалося надіслати. Спробуйте ще раз або напишіть нам у Telegram @avenue_studio_ua."; })
     .finally(function () { btn.disabled = false; });
 });
+
+// ---------- Своя задача: опис, сфера, бюджет, контакт → zapys-lead з source=custom ----------
+// Поки zapys-lead не зберігає task і budget окремо, початок задачі їде в business, сфера й бюджет у niche.
+(function () {
+  var f = $("own-f"), m = $("own-msg"); if (!f) return;
+  function pick(name) { var b = f.querySelector('.pills[data-name="' + name + '"] [aria-pressed="true"]'); return b ? b.textContent : ""; }
+  f.addEventListener("click", function (e) {
+    var p = e.target.closest(".pills button");
+    if (p) { [].forEach.call(p.parentNode.children, function (x) { x.setAttribute("aria-pressed", x === p ? "true" : "false"); }); return; }
+    var ex = e.target.closest("[data-ex]");
+    if (ex) { f.task.value = ex.dataset.ex; f.task.focus(); }
+  });
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var task = f.task.value.trim(), contact = f.contact.value.trim(), sphere = pick("sphere"), budget = pick("budget");
+    m.className = "msg";
+    if (task.length < 10) { m.className = "msg err"; m.textContent = "Опишіть задачу хоча б одним реченням, щоб ми могли її оцінити."; f.task.focus(); return; }
+    if (contact.length < 5) { m.className = "msg err"; m.textContent = "Вкажіть телефон або Telegram, щоб ми надіслали оцінку."; f.contact.focus(); return; }
+    var btn = f.querySelector('[type="submit"]'); btn.disabled = true; m.textContent = "Надсилаємо…";
+    var body = { contact: contact, website: f.website.value, source: "custom", partner: P, task: task, budget: budget, sphere: sphere,
+      business: ("Задача: " + task).slice(0, 120), niche: ("Своя · " + (sphere || S[cur].short) + " · " + budget).slice(0, 40) };
+    fetch(LEAD_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function () {
+        f.reset(); [].forEach.call(f.querySelectorAll(".pills button"), function (b) { b.setAttribute("aria-pressed", b.textContent === "Ще не знаю" ? "true" : "false"); });
+        m.className = "msg ok"; m.textContent = "Дякуємо! Оцінимо задачу і напишемо вам з фіксованою ціною протягом 24 годин.";
+      })
+      .catch(function () { m.className = "msg err"; m.textContent = "Не вдалося надіслати. Спробуйте ще раз або напишіть нам у Telegram @avenue_studio_ua."; })
+      .finally(function () { btn.disabled = false; });
+  });
+})();
 
 // ---------- Поява під час прокрутки, пауза анімацій поза екраном ----------
 function placeCuts() {
