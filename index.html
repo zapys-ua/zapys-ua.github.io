@@ -483,7 +483,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <p class="sub">Оберіть послугу, день і вільний час у телефоні поруч. Так само це бачить ваш клієнт у Telegram або за посиланням з Instagram.</p>
       <ol class="points">
         <li data-n="01"><div><b>Зайнятий час не видно</b><p>Розклад один на бот, застосунок і сторінку. Подвійного запису не буде.</p></div></li>
-        <li data-n="02"><div><b>Квиток з нагадуванням</b><p>За 2 години до візиту клієнт отримує нагадування і може скасувати, щоб час дістався іншому.</p></div></li>
+        <li data-n="02"><div><b>Квиток з нагадуванням</b><p>За 2 години і ще раз за 15 хвилин. Клієнт тисне «буду вчасно» або «запізнююсь на 10 хв», і майстер одразу знає, чи чекати.</p></div></li>
         <li data-n="03"><div><b>Ваш бренд, а не наш</b><p>Назва, логотип і кольори вашого бізнесу. Клієнт бачить вас.</p></div></li>
       </ol>
       <div class="live">
@@ -536,7 +536,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       </div>
       <div class="stops" role="group" aria-label="Етапи петлі" id="stops">
         <button class="stop" type="button" aria-expanded="true" data-i="0"><span class="t"><span>01</span>Запис 24/7</span><span class="tx">Бот у Telegram, застосунок усередині Telegram і сторінка за посиланням для Instagram, Google Maps і Viber.<br><span class="tag ok">Працює</span></span></button>
-        <button class="stop" type="button" aria-expanded="false" data-i="1"><span class="t"><span>02</span>Нагадування</span><span class="tx">За 2 години до візиту. Клієнт може скасувати, і бот сам напише тим, хто чекав на цей час.<br><span class="tag ok">Працює</span></span></button>
+        <button class="stop" type="button" aria-expanded="false" data-i="1"><span class="t"><span>02</span>Нагадування</span><span class="tx">За 2 години і за 15 хвилин до візиту. Клієнт попереджає одним натиском, що запізнюється, або скасовує, і бот сам напише тим, хто чекав на цей час.<br><span class="tag ok">Працює</span></span></button>
         <button class="stop" type="button" aria-expanded="false" data-i="2"><span class="t"><span>03</span>Відгук</span><span class="tx">Після візиту бот просить оцінку. Задоволених веде на Google Maps, про незадоволених пише тільки вам.<br><span class="tag ok">Працює</span></span></button>
         <button class="stop" type="button" aria-expanded="false" data-i="3"><span class="t"><span>04</span>Повернення</span><span class="tx">Через 3–4 тижні бот кличе клієнта знову. Хто давно не приходив, отримує персональне запрошення зі старої бази.<br><span class="tag ok">Працює · база з грудня</span></span></button>
         <button class="stop" type="button" aria-expanded="false" data-i="4"><span class="t"><span>05</span>Сертифікати</span><span class="tx">Клієнт купує подарунок онлайн і приводить нового клієнта. Гасите одним натиском, двічі не вийде.<br><span class="tag ok">Працює</span></span></button>
@@ -951,7 +951,6 @@ function stopRing() { clearInterval(ring.timer); ring.timer = null; }
 // ---------- Лабораторія: продукти з дослідження болів (docs/research/sphere-pains.md) ----------
 // Список оновлює щотижнева рада. «Хочу першим» іде в zapys-lead у полі niche.
 var LAB = [
-  { f: "all", tag: "Усі сфери", t: "«Запізнююсь» одним натиском", key: "Запізнююсь", pain: "Клієнт запізнюється на 15 хвилин, а майстер не знає: чекати чи брати наступного.", get: "Фінальне нагадування за 15 хвилин з кнопками «буду вчасно», «запізнююсь на 10–20 хв» і «не встигаю». Майстер одразу бачить, а коли клієнт не встигає, бот пропонує найближче вікно і віддає звільнений час листу очікування.", when: "У розробці" },
   { f: "all", tag: "Усі сфери", t: "Запис у Viber та Instagram", key: "Viber та Instagram", pain: "Половина клієнтів не має Telegram і пише в Direct або Viber.", get: "Той самий запис і нагадування там, де клієнту зручно: Telegram, Viber або Instagram Direct. Клієнт сам обирає, куди слати нагадування.", when: "Збираємо голоси" },
   { f: "auto", tag: "СТО і шиномонтаж", t: "Шинний готель", key: "Шинний готель", pain: "Два сезони годують увесь рік, а між ними порожньо.", get: "Облік зберігання шин клієнтів, нагадування про сезон і оплата зберігання щомісяця.", when: "Збираємо голоси" },
   { f: "beauty", tag: "Салони і барбершопи", t: "Клієнти лишаються в салоні", key: "Клієнти лишаються", pain: "Майстер іде і забирає своїх клієнтів.", get: "Історія клієнта належить салону, бот сам пропонує іншого майстра з тим самим стилем.", when: "Збираємо голоси" },
