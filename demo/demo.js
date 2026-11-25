@@ -100,7 +100,9 @@
   function personalize() {
     var p = new URLSearchParams(location.search);
     var name = (p.get("name") || "").trim().slice(0, 40), city = (p.get("city") || "").trim();
-    var c = CITY[city];
+    var c = CITY[city], l = p.get("l") || "";
+    // Сигнал «лід відкрив демо»: лише код із посилання, без особистих даних.
+    if (/^[0-9a-f]{8}$/.test(l)) fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ a: "seen", l: l }), keepalive: true }).catch(function () {});
     if (!name && !c) return;
     var swap = function (s) {
       if (name) s = s.split(cfg.name).join(name);
