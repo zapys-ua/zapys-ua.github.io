@@ -89,7 +89,39 @@
     document.body.appendChild(a);
   }
 
-  var CSS = ".av-dlg{border:0;padding:0;margin:auto;width:min(500px,100vw);max-width:100vw;height:min(840px,100dvh);max-height:100dvh;border-radius:24px;background:#fff;color:#14120E;overflow:hidden;opacity:0;transform:translateY(24px) scale(.98);transition:opacity .28s cubic-bezier(.2,.8,.2,1),transform .34s cubic-bezier(.2,.8,.2,1)}" +
+  // Персональне демо для ліда: ?name=Назва&city=Львів підміняє назву і місто в тексті сторінки.
+  // Тільки текстові вузли, тому чужий текст із посилання не стане розміткою.
+  var CITY = {
+    "Дніпро": ["Дніпрі", "Дніпра"], "Київ": ["Києві", "Києва"], "Львів": ["Львові", "Львова"], "Вінниця": ["Вінниці", "Вінниці"],
+    "Одеса": ["Одесі", "Одеси"], "Харків": ["Харкові", "Харкова"], "Запоріжжя": ["Запоріжжі", "Запоріжжя"],
+    "Івано-Франківськ": ["Івано-Франківську", "Івано-Франківська"], "Тернопіль": ["Тернополі", "Тернополя"],
+    "Луцьк": ["Луцьку", "Луцька"], "Рівне": ["Рівному", "Рівного"], "Полтава": ["Полтаві", "Полтави"], "Черкаси": ["Черкасах", "Черкас"]
+  };
+  function personalize() {
+    var p = new URLSearchParams(location.search);
+    var name = (p.get("name") || "").trim().slice(0, 40), city = (p.get("city") || "").trim();
+    var c = CITY[city];
+    if (!name && !c) return;
+    var swap = function (s) {
+      if (name) s = s.split(cfg.name).join(name);
+      if (c) s = s.replace(/Дніпрі/g, c[0]).replace(/Дніпра/g, c[1]).replace(/Дніпро/g, city);
+      return s;
+    };
+    document.title = swap(document.title);
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
+    while ((n = w.nextNode())) { var t = swap(n.nodeValue); if (t !== n.nodeValue) n.nodeValue = t; }
+    if (name) {
+      cfg.name = name;
+      // Назва ліда буває довшою за демо-назву: зменшуємо заголовок, доки він не влізе в ширину.
+      [].forEach.call(document.querySelectorAll("h1"), function (h) {
+        var fs = parseFloat(getComputedStyle(h).fontSize), r = document.createRange(), maxR = document.documentElement.clientWidth - 16;
+        r.selectNodeContents(h);
+        for (var i = 0; i < 30 && r.getBoundingClientRect().right > maxR; i++) h.style.fontSize = (fs *= 0.92) + "px";
+      });
+    }
+  }
+
+  var CSS =".av-dlg{border:0;padding:0;margin:auto;width:min(500px,100vw);max-width:100vw;height:min(840px,100dvh);max-height:100dvh;border-radius:24px;background:#fff;color:#14120E;overflow:hidden;opacity:0;transform:translateY(24px) scale(.98);transition:opacity .28s cubic-bezier(.2,.8,.2,1),transform .34s cubic-bezier(.2,.8,.2,1)}" +
     ".av-dlg[open]{display:flex;flex-direction:column}.av-dlg.on{opacity:1;transform:none}" +
     ".av-dlg::backdrop{background:rgba(10,9,7,.62);backdrop-filter:blur(3px)}" +
     ".av-dlg-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 18px;border-bottom:1px solid rgba(20,18,14,.1);font:600 15px/1.2 'Golos Text',system-ui,sans-serif}" +
@@ -109,7 +141,7 @@
     init: function (o) {
       cfg = o;
       var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
-      dialog(); reveal(); credit(); fillFree();
+      personalize(); dialog(); reveal(); credit(); fillFree();
       requestAnimationFrame(function () { document.documentElement.classList.add("ready"); });
     }
   };
