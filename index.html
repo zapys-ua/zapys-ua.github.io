@@ -7,9 +7,9 @@
 <meta name="description" content="Бот запису в Telegram, сторінка запису за посиланням, сертифікати і повернення клієнтів для барбершопів, салонів, СТО і грумінгу. Налаштуємо за вас за один день, ціни відкриті.">
 <meta property="og:title" content="Avenue: клієнти записуються самі і повертаються">
 <meta property="og:description" content="Клієнти записуються 24/7, а бот кличе їх знову. Налаштуємо за вас за один день, ціни відкриті на сайті.">
-<meta property="og:image" content="https://zapys-ua.github.io/og.png">
+<meta property="og:image" content="https://avenuestudio.pp.ua/og.png">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://zapys-ua.github.io/">
+<meta property="og:url" content="https://avenuestudio.pp.ua/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F5F0E6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -458,7 +458,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
 
   <div class="show">
   <a class="browser" id="browser" href="demo/barber/">
-    <span class="bbar" aria-hidden="true"><i></i><i></i><i></i><span id="burl">zapys-ua.github.io/demo/barber</span></span>
+    <span class="bbar" aria-hidden="true"><i></i><i></i><i></i><span id="burl">avenuestudio.pp.ua/demo/barber</span></span>
     <span class="bimgs"><img data-s="barber" class="on" src="assets/sites/barber.jpg" alt="Демо-сайт Борода і Ко" width="960" height="600" fetchpriority="high"><img data-s="sto" class="" src="assets/sites/sto.jpg" alt="Демо-сайт Шина Плюс" width="960" height="600" loading="lazy"><img data-s="groom" class="" src="assets/sites/groom.jpg" alt="Демо-сайт Хвостик" width="960" height="600" loading="lazy"><img data-s="nails" class="" src="assets/sites/nails.jpg" alt="Демо-сайт Мигдаль" width="960" height="600" loading="lazy"><img data-s="massage" class="" src="assets/sites/massage.jpg" alt="Демо-сайт Тиша" width="960" height="600" loading="lazy"><img data-s="dental" class="" src="assets/sites/dental.jpg" alt="Демо-сайт Посмішка" width="960" height="600" loading="lazy"></span>
     <span class="bgo">Відкрити сайт <span aria-hidden="true">→</span></span>
   </a>
@@ -984,7 +984,7 @@ function setSphere(key, animate) {
     setTimeout(function () { sw.textContent = s.phrase; sw.classList.remove("out"); }, 160);
   } else sw.textContent = s.phrase;
   [].forEach.call(document.querySelectorAll(".bimgs img"), function (im) { im.classList.toggle("on", im.dataset.s === key); if (im.dataset.s === key) im.loading = "eager"; });
-  $("browser").href = "demo/" + key + "/"; $("burl").textContent = "zapys-ua.github.io/demo/" + key;
+  $("browser").href = "demo/" + key + "/"; $("burl").textContent = "avenuestudio.pp.ua/demo/" + key;
   [].forEach.call(document.querySelectorAll('[data-href="bot"]'), function (a) { a.href = "https://t.me/zapysua_demo_bot?start=" + key; });
   [].forEach.call(document.querySelectorAll('[data-href="book"]'), function (a) { a.href = "book/?v=" + key; });
   [].forEach.call(document.querySelectorAll('[data-href="gift"]'), function (a) { a.href = "gift/?v=" + key; });
