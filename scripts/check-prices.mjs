@@ -49,6 +49,9 @@ for (const n of names) {
   for (const v of [p.founder, p.month, Math.round(p.founder * 0.3), Math.round(p.month * 0.2)]) {
     if (!row.includes(spaced(v) + " грн")) { console.log(`✗ ${n}: на странице партнёров нет «${spaced(v)} грн» в строке пакета`); bad++; }
   }
+  // Калькулятор партнера на главной: data-launch и data-month кнопки пакета.
+  const chip = home.match(new RegExp(`data-pk="${n}" data-launch="([0-9]+)" data-month="([0-9]+)"`));
+  if (!chip || +chip[1] !== p.founder || +chip[2] !== p.month) { console.log(`✗ ${n}: калькулятор партнёра на главной ${chip ? chip[1] + "/" + chip[2] : "нет"}, нужно ${p.founder}/${p.month}`); bad++; }
   if (!bad) console.log(`✓ ${n}: ${p.founder} / ${p.launch} / ${p.month} грн совпадают`);
 }
 process.exit(bad ? 1 : 0);
