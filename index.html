@@ -240,9 +240,10 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 .loss p b{color:var(--text)}
 
 /* Ціни */
-.pp{display:grid;gap:var(--s-6);align-items:center}.pp .sub{margin-bottom:var(--s-5)}
-.pp-n{list-style:none;display:grid;gap:var(--s-3)}.pp-n li{display:grid;grid-template-columns:clamp(92px,9vw,124px) 1fr;gap:var(--s-3);align-items:baseline;padding:var(--s-4) var(--s-5);border-radius:var(--r-lg);background:#EFE6D6}
-.pp-n b{font:700 clamp(26px,3vw,36px)/1 var(--font-display);color:var(--acc);white-space:nowrap}.pp-n span{color:var(--mute)}
+.pp{display:grid;gap:var(--s-6);align-items:center}.pp .sub{margin-bottom:var(--s-4)}.pp-f{list-style:none;display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-5);margin-bottom:var(--s-6);color:var(--mute)}.pp-f b{color:var(--acc);font-family:var(--font-display)}
+.pp-calc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s-6) var(--s-5)}.pp-calc>small{display:block;color:var(--mute);font-size:var(--t-sm)}.pp-calc p{color:var(--mute);margin-bottom:var(--s-3)}.pp-packs{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-bottom:var(--s-5)}
+
+
 @media (min-width:980px){.pp{grid-template-columns:1.2fr 1fr}}
 .founder{display:grid;gap:var(--s-2);padding:var(--s-5);border-radius:var(--r-lg);background:#EFE6D6;margin-bottom:var(--s-6)}
 .seats{font:700 var(--t-sm) var(--font-display);color:var(--acc)}
@@ -718,13 +719,24 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <span class="kicker">Партнерська програма</span>
       <h2 class="h2">Знаєте майстрів чи салони? Отримуйте з кожного</h2>
       <p class="sub">Порекомендуйте Avenue бізнесу, який вам довіряє. Ми проведемо розмову, налаштуємо і підтримуємо, а ви отримуєте відсоток весь перший рік.</p>
+      <ul class="pp-f"><li><b>30%</b> від запуску</li><li><b>20%</b> від підписки щомісяця</li><li><b>1 хв</b> на посилання, без договору</li></ul>
       <div class="cta"><a class="btn btn-acc" href="partners/">Отримати партнерське посилання</a><a class="btn btn-line" href="partners/#earn">Скільки можна заробити</a></div>
     </div>
-    <ul class="pp-n">
-      <li><b>30%</b><span>від запуску, одразу після оплати клієнта</span></li>
-      <li><b>20%</b><span>від підписки щомісяця протягом року</span></li>
-      <li><b>1 хв</b><span>щоб отримати посилання, без договору і дзвінків</span></li>
-    </ul>
+    <div class="pp-calc rv" aria-live="polite">
+      <div class="field">
+        <label for="pp-n">Скільки бізнесів порекомендуєте за рік <output id="pp-o">5</output></label>
+        <input id="pp-n" type="range" min="1" max="30" step="1" value="5">
+      </div>
+      <div class="pp-packs" role="group" aria-label="Пакет, який обирають клієнти">
+        <button type="button" class="chip" data-pk="Старт" data-launch="950" data-month="390" aria-pressed="false">Старт</button>
+        <button type="button" class="chip" data-pk="Бізнес" data-launch="2950" data-month="790" aria-pressed="true">Бізнес</button>
+        <button type="button" class="chip" data-pk="Преміум" data-launch="6450" data-month="1490" aria-pressed="false">Преміум</button>
+      </div>
+      <small>Ваш дохід за рік</small>
+      <div class="loss-n" id="pp-year">13 115 <span>грн</span></div>
+      <p id="pp-split">4 425 грн одразу після оплат і 790 грн щомісяця, поки клієнти з нами перший рік.</p>
+      <small>Перший місяць підписки клієнт не платить, тому рахуємо 11 місяців. Ціни засновника.</small>
+    </div>
   </div>
 </section>
 
@@ -994,6 +1006,21 @@ function calc() {
 }
 ["c-noshow", "c-missed"].forEach(function (id) { $(id).addEventListener("input", calc); });
 $("c-check").addEventListener("input", function () { checkTouched = true; calc(); });
+
+// ---------- Калькулятор партнера: 30% запуску + 20% підписки за 11 оплачених місяців ----------
+function ppCalc() {
+  var n = +$("pp-n").value, b = document.querySelector(".pp-packs [aria-pressed=true]");
+  var now = n * Math.round(b.dataset.launch * 0.3), mo = n * Math.round(b.dataset.month * 0.2);
+  $("pp-o").textContent = n;
+  $("pp-year").innerHTML = fmt(now + mo * 11) + " <span>грн</span>";
+  $("pp-split").textContent = fmt(now) + " грн одразу після оплат і " + fmt(mo) + " грн щомісяця, поки клієнти з нами перший рік.";
+}
+$("pp-n").addEventListener("input", ppCalc);
+document.querySelector(".pp-packs").addEventListener("click", function (e) {
+  var b = e.target.closest("[data-pk]"); if (!b) return;
+  [].forEach.call(this.children, function (c) { c.setAttribute("aria-pressed", c === b ? "true" : "false"); });
+  ppCalc();
+});
 
 // Кнопки з data-interest заповнюють «Що цікавить» у заявці
 document.addEventListener("click", function (e) { var a = e.target.closest("[data-interest]"); if (a) $("f-interest").value = a.dataset.interest; });
