@@ -110,8 +110,16 @@
       return s;
     };
     document.title = swap(document.title);
+    // Назва, розбита на частини («Борода <em>і Ко</em>»): такий елемент цілком отримує нову назву. Від глибших до зовнішніх.
+    if (name) [].slice.call(document.querySelectorAll("body *")).reverse().forEach(function (el) {
+      if (el.children.length && el.textContent.replace(/\s+/g, " ").trim() === cfg.name) el.textContent = name;
+    });
     var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
     while ((n = w.nextNode())) { var t = swap(n.nodeValue); if (t !== n.nodeValue) n.nodeValue = t; }
+    // Заголовок вікна запису і підписи живуть в атрибутах, їх теж міняємо.
+    ["data-title", "aria-label", "alt", "title"].forEach(function (a) {
+      [].forEach.call(document.querySelectorAll("[" + a + "]"), function (el) { var v = el.getAttribute(a), t = swap(v); if (t !== v) el.setAttribute(a, t); });
+    });
     if (name) {
       cfg.name = name;
       // Назва ліда буває довшою за демо-назву: зменшуємо заголовок, доки він не влізе в ширину.
