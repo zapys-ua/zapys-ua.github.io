@@ -149,7 +149,8 @@ section{padding:clamp(64px,10vw,128px) 0}
 .live{display:flex;flex-wrap:wrap;gap:var(--s-2)}
 .stage{display:grid;justify-items:center;gap:var(--s-3)}
 .phone{--b:#1F4D3A;width:min(330px,100%);background:var(--av-ink);border-radius:44px;padding:10px;box-shadow:0 50px 80px -40px rgba(23,20,15,.55),0 0 0 1px rgba(23,20,15,.08)}
-.screen{position:relative;overflow:hidden;background:#FBF8F2;border-radius:35px;padding:18px 16px 16px;min-height:560px;color:var(--av-ink)}
+.screen{position:relative;overflow:hidden;background:#FBF8F2;border-radius:35px;padding:18px 0 0;color:var(--av-ink)}
+.ph-frame{display:block;width:100%;height:600px;border:0;background:#FBF8F2}
 .notch{width:90px;height:22px;border-radius:12px;background:var(--av-ink);margin:-8px auto 14px}
 .biz{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .mono{width:42px;height:42px;border-radius:12px;background:var(--b);color:#fff;display:grid;place-items:center;font:700 18px var(--font-display);transition:background var(--d-base)}
@@ -239,6 +240,10 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 .loss p b{color:var(--text)}
 
 /* Ціни */
+.pp{display:grid;gap:var(--s-6);align-items:center}.pp .sub{margin-bottom:var(--s-5)}
+.pp-n{list-style:none;display:grid;gap:var(--s-3)}.pp-n li{display:grid;grid-template-columns:clamp(92px,9vw,124px) 1fr;gap:var(--s-3);align-items:baseline;padding:var(--s-4) var(--s-5);border-radius:var(--r-lg);background:#EFE6D6}
+.pp-n b{font:700 clamp(26px,3vw,36px)/1 var(--font-display);color:var(--acc);white-space:nowrap}.pp-n span{color:var(--mute)}
+@media (min-width:980px){.pp{grid-template-columns:1.2fr 1fr}}
 .founder{display:grid;gap:var(--s-2);padding:var(--s-5);border-radius:var(--r-lg);background:#EFE6D6;margin-bottom:var(--s-6)}
 .seats{font:700 var(--t-sm) var(--font-display);color:var(--acc)}
 .plans{display:grid;gap:var(--s-4);align-items:stretch}
@@ -425,7 +430,7 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
   <div class="wrap">
     <a class="logo" href="./" aria-label="Avenue, на головну" translate="no">avenue<b>.</b></a>
     <nav class="nav" aria-label="Розділи">
-      <a href="#try">Спробувати</a><a href="#loop">Як працює</a><a href="#sites">Сайти</a><a href="#calc">Калькулятор</a><a href="#price">Ціни</a><a href="#faq">Питання</a>
+      <a href="#try">Спробувати</a><a href="#loop">Як працює</a><a href="#sites">Сайти</a><a href="#calc">Калькулятор</a><a href="#price">Ціни</a><a href="#partners">Партнерам</a><a href="#faq">Питання</a>
     </nav>
     <a class="btn btn-ink btn-sm" data-href="bot" href="https://t.me/zapysua_demo_bot?start=barber" target="_blank" rel="noopener">Демо в Telegram</a>
   </div>
@@ -498,23 +503,10 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
       <div class="phone" id="phone" aria-label="Приклад сторінки запису">
         <div class="screen">
           <div class="notch" aria-hidden="true"></div>
-          <div class="biz"><div class="mono" data-text="mono">Б</div><div><b data-text="biz">Борода і Ко</b><small data-text="addr">Дніпро, Центр</small></div></div>
-          <p class="ph-h">Послуга</p>
-          <div id="ph-svcs"></div>
-          <p class="ph-h">День</p>
-          <div class="days" id="ph-days"></div>
-          <p class="ph-h">Вільний час</p>
-          <div class="slots" id="ph-slots"></div>
-          <button class="book" id="ph-book" type="button" disabled>Оберіть час</button>
-          <div class="done av-ticket" id="ph-done" aria-live="polite">
-            <small>Ви записані</small>
-            <b id="ph-when">Сб, 14:30</b>
-            <p id="ph-what">Нагадаємо за 2 години до візиту.</p>
-            <button type="button" id="ph-again">Спробувати ще раз</button>
-          </div>
+          <iframe id="ph-frame" class="ph-frame" title="Сторінка запису барбершопу, демо" src="book/?v=barber&amp;embed=1" loading="lazy"></iframe>
         </div>
       </div>
-      <p class="stage-cap">Назви і ціни як у нашому демо.</p>
+      <p class="stage-cap">Це справжня сторінка запису: товари до візиту, оплата, вільний час наживо. Записи тестові.</p>
     </div>
   </div>
 </section>
@@ -720,6 +712,22 @@ footer{padding:var(--s-7) 0 var(--s-5);color:var(--mute);font-size:var(--t-sm);o
   </div>
 </section>
 
+<section id="partners">
+  <div class="wrap pp rv">
+    <div>
+      <span class="kicker">Партнерська програма</span>
+      <h2 class="h2">Знаєте майстрів чи салони? Отримуйте з кожного</h2>
+      <p class="sub">Порекомендуйте Avenue бізнесу, який вам довіряє. Ми проведемо розмову, налаштуємо і підтримуємо, а ви отримуєте відсоток весь перший рік.</p>
+      <div class="cta"><a class="btn btn-acc" href="partners/">Отримати партнерське посилання</a><a class="btn btn-line" href="partners/#earn">Скільки можна заробити</a></div>
+    </div>
+    <ul class="pp-n">
+      <li><b>30%</b><span>від запуску, одразу після оплати клієнта</span></li>
+      <li><b>20%</b><span>від підписки щомісяця протягом року</span></li>
+      <li><b>1 хв</b><span>щоб отримати посилання, без договору і дзвінків</span></li>
+    </ul>
+  </div>
+</section>
+
 <section id="lab" class="dark">
   <div class="wrap">
     <div class="rv">
@@ -835,47 +843,9 @@ var DAYS = [0, 1, 2, 3, 4, 5, 6].map(function (i) { var s = WD.format(new Date(2
 
 // ---------- Телефон: запис як клієнт ----------
 function renderPhone() {
-  var s = S[cur], phone = $("phone");
-  phone.style.setProperty("--b", s.color);
-  document.querySelector('[data-text="mono"]').textContent = s.biz.charAt(0);
-  document.querySelector('[data-text="biz"]').textContent = s.biz;
-  document.querySelector('[data-text="addr"]').textContent = s.addr;
-  $("ph-svcs").innerHTML = s.svcs.map(function (v, i) {
-    return '<button type="button" class="svc' + (i === svc ? " on" : "") + '" data-i="' + i + '" aria-pressed="' + (i === svc) + '"><div>' + esc(v[0]) + "<span>" + esc(v[1]) + "</span></div><em>" + fmt(v[2]) + " грн</em></button>";
-  }).join("");
-  var now = new Date(), d = "";
-  for (var i = 0; i < 4; i++) {
-    var x = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
-    d += '<button type="button" class="day' + (i === day ? " on" : "") + '" data-i="' + i + '" aria-pressed="' + (i === day) + '">' + (i === 0 ? "Сьогодні" : DAYS[x.getDay()]) + "<b>" + x.getDate() + "</b></button>";
-  }
-  $("ph-days").innerHTML = d;
-  // Частина вікон зайнята, щоб було видно: зайнятий час не показується для запису
-  var busy = { barber: [1, 4], nails: [0, 2], sto: [0, 3], groom: [2, 5], massage: [1, 3] }[cur];
-  $("ph-slots").innerHTML = TIMES.map(function (t, i) {
-    var off = busy.indexOf((i + day * 2) % 6) > -1;
-    return '<button type="button" class="slot" data-t="' + t + '"' + (off ? " disabled aria-label=\"" + t + ", зайнято\"" : ' aria-pressed="false"') + ">" + t + "</button>";
-  }).join("");
-  slot = null; updateBook(); $("ph-done").classList.remove("show");
+  var f = $("ph-frame"), src = "book/?v=" + cur + "&embed=1";
+  if (f.getAttribute("src") !== src) f.setAttribute("src", src);
 }
-function updateBook() {
-  var b = $("ph-book");
-  b.disabled = !slot;
-  b.textContent = slot ? "Записатися на " + slot : "Оберіть час";
-}
-$("ph-svcs").addEventListener("click", function (e) { var t = e.target.closest(".svc"); if (t) { svc = +t.dataset.i; renderPhone(); } });
-$("ph-days").addEventListener("click", function (e) { var t = e.target.closest(".day"); if (t) { day = +t.dataset.i; renderPhone(); } });
-$("ph-slots").addEventListener("click", function (e) {
-  var t = e.target.closest(".slot"); if (!t || t.disabled) return;
-  [].forEach.call(this.querySelectorAll(".slot:not(:disabled)"), function (b) { b.setAttribute("aria-pressed", b === t ? "true" : "false"); });
-  slot = t.dataset.t; updateBook();
-});
-$("ph-book").addEventListener("click", function () {
-  var s = S[cur], x = new Date(); x.setDate(x.getDate() + day);
-  $("ph-when").textContent = (day === 0 ? "Сьогодні" : DAYS[x.getDay()] + ", " + x.getDate()) + " о " + slot;
-  $("ph-what").textContent = s.svcs[svc][0] + ". Нагадаємо за 2 години до візиту.";
-  $("ph-done").classList.add("show"); placeCuts();
-});
-$("ph-again").addEventListener("click", renderPhone);
 
 // ---------- Потік квитків і нічний годинник у заголовку ----------
 var NIGHT = ["23:40", "06:55", "22:15", "00:30", "07:10", "21:50"], CLIENTS = ["Ірина К.", "Олег М.", "Наталя", "Артем С.", "Оксана", "Максим Д.", "Віра П."];
