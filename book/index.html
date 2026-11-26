@@ -27,6 +27,7 @@ h1{font:700 21px/1.15 var(--font-display);letter-spacing:-.01em}
 .meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--mute);font-size:13px;margin-top:6px}
 .meta span{display:inline-flex;align-items:center;gap:5px}
 .about{color:var(--mute);font-size:14px;margin:-6px 2px 14px}
+.note.gen{color:var(--text);border-style:solid;background:color-mix(in srgb,var(--acc) 10%,transparent)}.note.gen .i{color:var(--acc)}
 .note{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--mute);border:1px dashed var(--line);border-radius:14px;padding:10px 13px;margin-bottom:12px}
 
 /* Кроки */
@@ -351,6 +352,7 @@ function render() {
   var logo = c.brand && /^https:\/\//.test(c.brand.logo_url || '') ? '<img class="logo" src="' + esc(c.brand.logo_url) + '" alt="">' : '<div class="mono" aria-hidden="true">' + esc(nm.charAt(0)) + '</div>';
   if (!EMBED) h += '<header>' + logo + '<div><h1>' + esc(c.title) + '</h1><div class="meta">' + (c.address ? '<span>' + ic('pin') + esc(c.address) + '</span>' : '') +
     '<span>' + ic('clock') + esc(c.hours) + '</span></div></div></header>' + (c.about ? '<p class="about">' + esc(c.about) + '</p>' : '');
+  if (c.generator) h += '<div class="note gen" role="status">' + ic('bolt') + '<span><b>Працюємо з генератором.</b> Навіть коли вимикають світло, записи в силі.</span></div>';
   if (c.prepared) h += '<div class="note">' + ic('info') + '<span>Це демо-сторінка запису, яку ми підготували для «' + esc(c.title) + '». Записи тут тестові.</span></div>';
   else if (c.demo) h += '<div class="note">' + ic('info') + '<span>Демо онлайн-запису: записи й оплата тестові, гроші не списуються.</span></div>';
 
