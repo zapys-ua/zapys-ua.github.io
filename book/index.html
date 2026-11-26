@@ -257,6 +257,8 @@ function api(a, extra) {
   return fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
     .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'server'); return j; }); });
 }
+// 1 вікно, 2 вікна, 5 вікон, 21 вікно, 12 вікон.
+function wk(n) { var d = n % 10, h = n % 100; return n + (d === 1 && h !== 11 ? ' вікно' : d >= 2 && d <= 4 && (h < 12 || h > 14) ? ' вікна' : ' вікон'); }
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 function money(n) { return Math.round(Number(n)).toLocaleString('uk-UA') + ' ' + S.c.currency; }
 function fm(m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + m % 60).slice(-2); }
@@ -398,7 +400,7 @@ function render() {
           var f0 = S.days[0];
           dh += '<button class="near" data-a="near">' + ic('bolt') + '<span>Найближчий вільний час: <b>' + whenS(f0.d, f0.s[0]) + '</b></span></button>';
           dh += '<p class="month">' + dp(S.day || f0.d).mn + '</p><div class="days">' + S.days.map(function (x) { var p = dp(x.d), r = rel(x.d);
-            return '<button class="day' + (x.d === S.day ? ' on' : '') + '" data-a="day" data-v="' + x.d + '"><small>' + (r || p.w) + '</small><b>' + p.d + '</b><i>' + x.s.length + ' вікон</i></button>'; }).join('') + '</div>';
+            return '<button class="day' + (x.d === S.day ? ' on' : '') + '" data-a="day" data-v="' + x.d + '"><small>' + (r || p.w) + '</small><b>' + p.d + '</b><i>' + wk(x.s.length) + '</i></button>'; }).join('') + '</div>';
           var cur = S.days.filter(function (x) { return x.d === S.day; })[0], sl = cur ? cur.s : [];
           var parts = [['Ранок', 'sun', function (s) { return s < 720; }], ['День', 'sun', function (s) { return s >= 720 && s < 1020; }], ['Вечір', 'moon', function (s) { return s >= 1020; }]];
           dh += '<div id="st-t">' + parts.map(function (pt) { var xs = sl.filter(pt[2]); if (!xs.length) return '';
