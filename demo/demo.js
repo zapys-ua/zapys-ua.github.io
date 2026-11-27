@@ -101,8 +101,11 @@
     var p = new URLSearchParams(location.search);
     var name = (p.get("name") || "").trim().slice(0, 40), city = (p.get("city") || "").trim();
     var c = CITY[city], l = p.get("l") || "";
+    // Пристрій власника: один раз відкрити ?owner=1, далі його відкриття не рахуються як «лід відкрив демо». ?owner=0 знімає.
+    var o = p.get("owner"), mine = false;
+    try { if (o === "1") localStorage.setItem("av_owner", "1"); else if (o === "0") localStorage.removeItem("av_owner"); mine = !!localStorage.getItem("av_owner"); } catch (e) {}
     // Сигнал «лід відкрив демо»: лише код із посилання, без особистих даних.
-    if (/^[0-9a-f]{8}$/.test(l)) fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ a: "seen", l: l }), keepalive: true }).catch(function () {});
+    if (!mine && /^[0-9a-f]{8}$/.test(l)) fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ a: "seen", l: l }), keepalive: true }).catch(function () {});
     if (!name && !c) return;
     var swap = function (s) {
       if (name) s = s.split(cfg.name).join(name);
